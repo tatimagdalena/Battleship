@@ -1,0 +1,43 @@
+package board;
+
+import java.awt.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Board extends JPanel {
+	
+	//private Square boardSquares[][]; 
+	//private int size;
+	JPanel b = new JPanel();
+	
+	public Board() {
+		
+	}
+	
+	public Board(Point initialPosition, int size) {
+		
+		//boardSquares = new Square[size][size];
+		
+		
+		for (int line = 0; line < size; line++) {
+			for (int column = 0; column < size; column++) {
+				Square s = new Square(line, column, initialPosition);
+				//boardSquares[line][column] = s;
+				add(s);
+			}
+		}
+		
+		
+		setBackground(Color.black);
+//		Square s = new Square(0,0,initialPosition);
+//		this.add(s);
+		
+		
+	}
+	
+	
+	
+//	public Square[][] getBoardSquares() {
+//		return boardSquares;
+//	}
+}

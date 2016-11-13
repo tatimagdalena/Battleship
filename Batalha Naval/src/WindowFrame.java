@@ -1,19 +1,29 @@
-import javax.swing.*;  
+//View
 
+import java.awt.Dimension;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
 public class WindowFrame extends JFrame {
 	
-	public final int LARG_DEFAULT=940; 
-	public final int ALT_DEFAULT=600;
+	//public final int LARG_DEFAULT=940; 
+	//public final int ALT_DEFAULT=600;
 	private GameBoard panel = new GameBoard();
 	
 	public WindowFrame() {
-		setSize(LARG_DEFAULT,ALT_DEFAULT);
+		//setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+
+		setSize(screenWidth, screenHeight);
 		
 		getContentPane().add(panel);
 	}
 	
-	public GameBoard getPanel(){
+	public GameBoard getPanel() {
 		return panel;
 	}
 	

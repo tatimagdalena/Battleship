@@ -1,0 +1,30 @@
+package board;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Board extends JPanel {
+	
+	private Square b[][]; 
+	//private int size;
+	
+	public Board() {
+		
+	}
+	
+	public Board(Point initialPosition, int size) {
+		
+		b = new Square[size][size];
+		
+		for (int line = 0; line < b.length; line++) {
+			for (int column = 0; column < b[line].length; column++) {
+				Square s = new Square(line, column, initialPosition);
+				b[line][column] = s;
+			}
+		}
+	}
+	
+	
+}

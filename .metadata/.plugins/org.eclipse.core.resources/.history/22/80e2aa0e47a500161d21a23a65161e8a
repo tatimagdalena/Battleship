@@ -1,0 +1,49 @@
+package board;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Square extends JPanel {
+	
+	private boolean filled = false;
+	
+	private int xIndex;
+	private int yIndex;
+
+	private double xInitialPosition;
+	private double yInitialPosition;
+	
+	private double SIDE_SIZE = 25.0;
+	
+	protected Square(int xIndex, int yIndex, Point boardInitPosition) {
+		this.xIndex = xIndex;
+		this.yIndex = yIndex;
+		
+		this.xInitialPosition = boardInitPosition.getX() * (this.xIndex+1);
+		this.yInitialPosition = boardInitPosition.getY() * (this.yIndex+1);
+		
+		Dimension screenSize = WindowBase.getScreenSize();
+		double screenHeight = screenSize.getHeight();
+		SIDE_SIZE = (2*screenHeight/3)/15;
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Rectangle2D.Double rect = new Rectangle2D.Double(xInitialPosition, yInitialPosition, SIDE_SIZE, SIDE_SIZE);
+		
+		g2d.setColor(Color.WHITE);
+		g2d.fill(rect);
+		g2d.setColor(Color.BLACK);
+		g2d.draw(rect);
+	}
+	
+	public boolean isFilled() {
+		return filled;
+	}
+	
+}

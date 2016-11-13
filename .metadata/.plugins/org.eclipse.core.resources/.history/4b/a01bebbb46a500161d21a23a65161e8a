@@ -1,0 +1,45 @@
+package board;
+
+import java.awt.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class WindowBase extends JFrame {
+
+	public final int DEFAULT_WIDTH  = 400; 
+	public final int DEFAULT_HEIGHT = 300;
+	
+	Board board1;
+	
+	public WindowBase(String title) {
+		super(title);
+		
+		board1 = new Board(new Point(10,10), 15);
+		
+//		getContentPane().add(board1);
+		//setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		Dimension screenSize = WindowBase.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenSize.height / 2;
+		
+		setBackground(Color.DARK_GRAY);
+		setBounds(centerX - screenWidth/2, centerY - screenHeight/2, screenWidth, screenHeight);
+		
+		for (int i = 0; i < board1.getBoardSquares().length; i++) {
+			for (int j = 0; j < board1.getBoardSquares()[i].length; j++) {
+				getContentPane().add(board1.getBoardSquares()[i][j]);
+			}
+		}
+	}
+
+	public static Dimension getScreenSize() {
+		Toolkit tk = Toolkit.getDefaultToolkit(); 
+		Dimension screenSize = tk.getScreenSize(); 
+		return screenSize;
+	}
+	
+}

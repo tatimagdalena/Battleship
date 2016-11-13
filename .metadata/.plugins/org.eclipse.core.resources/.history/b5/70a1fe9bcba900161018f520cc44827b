@@ -1,0 +1,46 @@
+//View
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.TextField;
+
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class NamingFrame extends JFrame {
+	
+	private final int WIDTH = 400; 
+	private final int HEIGHT = 300;
+	
+	private TextField firstPlayerField = new TextField("Jogador 1");
+	private TextField secondPlayerField = new TextField("Jogador 2");
+	
+	public NamingFrame() {
+		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		
+		Label firstPlayerLabel = new Label("Jogador 1: ");
+		Label secondPlayerLabel = new Label("Jogador 2: ");
+		
+		getContentPane().add(firstPlayerLabel);
+		getContentPane().add(secondPlayerLabel);
+		getContentPane().add(firstPlayerField);
+		getContentPane().add(secondPlayerField);
+		
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenHeight / 2;
+		setSize(WIDTH, HEIGHT);
+		setBounds(centerX - WIDTH/2, centerY - HEIGHT/2, WIDTH, HEIGHT);
+		
+		firstPlayerLabel.setBounds(0, 0, WIDTH/2, HEIGHT/3);
+		//firstPlayerField.setBounds(WIDTH/2, 0, WIDTH/2, HEIGHT/3);
+		//secondPlayerLabel.setBounds(0, HEIGHT/3, WIDTH/2, HEIGHT/3);
+		//secondPlayerField.setBounds(WIDTH/2, HEIGHT/3, WIDTH/2, HEIGHT/3);
+		//secondPlayerField.setBounds(0, 0, WIDTH/2, HEIGHT/3);
+	}
+	
+}

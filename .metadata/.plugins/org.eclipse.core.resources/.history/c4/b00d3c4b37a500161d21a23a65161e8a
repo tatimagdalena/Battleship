@@ -1,0 +1,25 @@
+package board;
+
+import java.awt.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Board extends JPanel {
+	
+	private Square boardSquares[][]; 
+	//private int size;
+	
+	public Board(Point initialPosition, int size) {
+		
+		boardSquares = new Square[size][size];
+		
+		for (int line = 0; line < boardSquares.length; line++) {
+			for (int column = 0; column < boardSquares[line].length; column++) {
+				Square s = new Square(line, column, initialPosition);
+				boardSquares[line][column] = s;
+			}
+		}
+	}
+	
+	
+}

@@ -1,9 +1,8 @@
 import javax.swing.*; 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 
-
+@SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 
 	public void paintComponent(Graphics g) {
