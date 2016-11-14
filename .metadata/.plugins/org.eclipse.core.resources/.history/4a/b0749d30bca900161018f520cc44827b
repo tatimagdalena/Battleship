@@ -1,0 +1,25 @@
+import java.awt.Dimension;
+
+import javax.swing.*;
+
+public class NamingFrame extends JFrame {
+	
+	public final int LARG_DEFAULT=940; 
+	public final int ALT_DEFAULT=600;
+	
+	public NamingFrame() {
+		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenSize.height / 2;
+		
+	}
+	
+	public GameBoard getPanel(){
+		return panel;
+	}
+	
+}

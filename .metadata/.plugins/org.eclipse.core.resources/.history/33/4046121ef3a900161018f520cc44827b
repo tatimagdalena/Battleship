@@ -1,0 +1,63 @@
+//View
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class NamingFrame extends JFrame implements ActionListener {
+	
+	private final int FRAME_WIDTH = 400; 
+	private final int FRAME_HEIGHT = 300;
+	
+	private JTextField firstPlayerField = new JTextField("Jogador 1");
+	private JTextField secondPlayerField = new JTextField("Jogador 2");
+	private JButton startButton = new JButton("Começar");
+	
+	public NamingFrame() {
+		
+		JPanel firstPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
+		JPanel secondPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
+		Label firstPlayerLabel = new Label("Jogador 1: ");
+		Label secondPlayerLabel = new Label("Jogador 2: ");
+		
+		firstPlayerPanel.add(firstPlayerLabel);
+		firstPlayerPanel.add(firstPlayerField);
+		secondPlayerPanel.add(secondPlayerLabel);
+		secondPlayerPanel.add(secondPlayerField);
+		getContentPane().add(firstPlayerPanel);
+		getContentPane().add(secondPlayerPanel);
+		getContentPane().add(startButton);
+		
+		startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenHeight / 2;
+		
+		setBounds(centerX - FRAME_WIDTH/2, centerY - FRAME_HEIGHT/2, FRAME_WIDTH, FRAME_HEIGHT);
+		setResizable(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		startButton.addActionListener(this);
+	}
+
+	
+	//TODO: Trocar de classe
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		Game game = Game.getMainGame();
+		
+		game.setPlayer1(firstPlayerField.getText());
+		game.setPlayer2(secondPlayerField.getText());
+		
+		game.closeNaming();
+		game.showPositioning();
+	}
+	
+}

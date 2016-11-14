@@ -1,0 +1,64 @@
+//View
+
+import java.awt.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class NamingFrame extends JFrame {
+	
+	private final int FRAME_WIDTH = 400; 
+	private final int FRAME_HEIGHT = 300;
+	
+	private JTextField firstPlayerField = new JTextField("Jogador 1");
+	private JTextField secondPlayerField = new JTextField("Jogador 2");
+	private JButton startButton = new JButton("Começar");
+	
+	public NamingFrame() {
+		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		
+		Label firstPlayerLabel = new Label("Jogador 1: ");
+		Label secondPlayerLabel = new Label("Jogador 2: ");
+		
+		JPanel firstPlayerPanel = new JPanel(new FlowLayout());
+		JPanel secondPlayerPanel = new JPanel(new FlowLayout());
+		
+		firstPlayerPanel.add(firstPlayerLabel);
+		firstPlayerPanel.add(firstPlayerField);
+		
+		secondPlayerPanel.add(secondPlayerLabel);
+		secondPlayerPanel.add(secondPlayerField);
+		
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		
+		getContentPane().add(firstPlayerPanel);
+		getContentPane().add(secondPlayerPanel);
+		getContentPane().add(startButton);
+		
+//		getContentPane().add(firstPlayerLabel);
+//		getContentPane().add(secondPlayerLabel);
+//		getContentPane().add(firstPlayerField);
+//		getContentPane().add(secondPlayerField);
+//		getContentPane().add(startButton);
+		
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenHeight / 2;
+		
+		
+		
+		setResizable(false);
+		
+//		firstPlayerLabel.setBounds(0, 0, FRAME_WIDTH/2, FRAME_HEIGHT/3);
+//		firstPlayerField.setBounds(FRAME_WIDTH/2, 0, FRAME_WIDTH/2, FRAME_HEIGHT/3);
+//		secondPlayerLabel.setBounds(0, FRAME_HEIGHT/3, FRAME_WIDTH/2, FRAME_HEIGHT/3);
+//		secondPlayerField.setBounds(FRAME_WIDTH/2, FRAME_HEIGHT/3, FRAME_WIDTH/2, FRAME_HEIGHT/3);
+//		startButton.setBounds(0, FRAME_HEIGHT*2/3, FRAME_WIDTH, FRAME_HEIGHT/3);
+//		startButton.setSize(200, FRAME_HEIGHT/3);
+//		startButton.setLocation(centerX - 100, FRAME_HEIGHT*2/3);
+		
+		setBounds(centerX - FRAME_WIDTH/2, centerY - FRAME_HEIGHT/2, FRAME_WIDTH, FRAME_HEIGHT);
+	}
+	
+}

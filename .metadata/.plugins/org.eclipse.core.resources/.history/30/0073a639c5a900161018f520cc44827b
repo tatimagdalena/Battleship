@@ -1,0 +1,47 @@
+//Controller
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Game {
+
+	private static Game game = null;
+	
+	private WindowFrame playersNaming = new WindowFrame();
+	private WindowFrame positioning = new WindowFrame();
+	
+	private Game() {
+		
+	}
+	
+	public static Game getMainGame() {
+		if(game == null) {
+			game = new Game();
+		}
+		return game;
+	}
+	
+	public void initiateGame() { 
+		playersNaming.setTitle("Batalha Naval"); 
+		playersNaming.setVisible(true);
+	}
+	
+	public void showPositioning() {
+		WindowFrame f = new WindowFrame(); 
+		f.setTitle("Batalha Naval"); 
+		f.setVisible(true);
+		
+		f.getPanel().addMouseListener(new MouseAdapter() {// provides empty implementation of all
+            // MouseListener`s methods, allowing us to
+            // override only those which interests us
+			@Override //I override only one method for presentation
+			public void mousePressed(MouseEvent e) {
+			System.out.println(e.getX() + "," + e.getY());
+			int line = (e.getX() - 500)/25;
+			int column = (e.getY() - 100)/25;
+			System.out.println(line + "," + column);
+			}
+		});
+	}
+	
+}

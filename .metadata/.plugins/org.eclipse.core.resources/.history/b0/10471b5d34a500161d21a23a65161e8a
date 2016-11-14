@@ -1,0 +1,24 @@
+package board;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Board extends JPanel {
+	
+	private Square[][] b; 
+	
+	private double POSITION_SIDE_SIZE = 10.0;
+	
+	public Board() {
+		
+	}
+	
+	public Board(Point initialPosition) {
+		
+		
+	}
+	
+	
+}
