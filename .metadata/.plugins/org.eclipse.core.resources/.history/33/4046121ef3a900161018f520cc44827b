@@ -33,10 +33,13 @@ public class NamingFrame extends JFrame implements ActionListener {
 		
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
-		int initialX = (int) (screen.screenCenterX - FRAME_WIDTH/2);
-		int initialY = (int) (screen.screenCenterY - FRAME_HEIGHT/2);
-		setBounds(initialX, initialY, FRAME_WIDTH, FRAME_HEIGHT);
+		Dimension screenSize = Util.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		int centerX = screenWidth / 2;
+		int centerY = screenHeight / 2;
+		
+		setBounds(centerX - FRAME_WIDTH/2, centerY - FRAME_HEIGHT/2, FRAME_WIDTH, FRAME_HEIGHT);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		

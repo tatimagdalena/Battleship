@@ -12,7 +12,7 @@ public class GameBoard extends JPanel {
 		
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		double panelInitialX = screen.screenCenterX;
-		double panelInitialY = screen.screenCenterY - 15 * 25/2;
+		double panelInitialY = screen.screenMiddleY - 15 * 25/2;
 		
 		int line, column;
 		

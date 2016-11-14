@@ -11,8 +11,8 @@ public class GameBoard extends JPanel {
 		g.drawString("Vez do jogador 1, arraste os navios para o tabuleiro de jogo", 10, 10);
 		
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
-		double panelInitialX = screen.screenCenterX;
-		double panelInitialY = screen.screenCenterY - 15 * 25/2;
+		double panelInitialX = screen.screenMiddleX;
+		double panelInitialY = screen.screenMiddleY - 15 * 25/2;
 		
 		int line, column;
 		

@@ -7,8 +7,8 @@ public class Game {
 
 	private static Game game = null;
 	
-	private Player player1;
-	private Player player2;
+	private String player1;
+	private String player2;
 	
 	private NamingFrame playersNamingFrame = new NamingFrame();
 	private WindowFrame positioningFrame = new WindowFrame();
@@ -25,18 +25,18 @@ public class Game {
 	}
 	
 	public void setPlayer1(String name) {
-		this.player1 = new Player(name, PlayerTurn.first);
+		this.player1 = name;
 	}
 	
 	public void setPlayer2(String name) {
-		this.player2 = new Player(name, PlayerTurn.second);
+		this.player2 = name;
 	}
 	
-	public Player getPlayer1() {
+	public String getPlayer1() {
 		return player1;
 	}
 	
-	public Player getPlayer2() {
+	public String getPlayer2() {
 		return player2;
 	}
 	
@@ -66,7 +66,5 @@ public class Game {
 			}
 		});
 	}
-	
-	
 	
 }
