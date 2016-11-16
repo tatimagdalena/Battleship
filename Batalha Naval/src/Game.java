@@ -9,8 +9,6 @@ public class Game {
 
 	private static Game game = null;
 	
-	//public final int squareSize = 25;
-	
 	private Player player1;
 	private Player player2;
 	
@@ -18,6 +16,7 @@ public class Game {
 	
 	private NamingFrame playersNamingFrame = new NamingFrame();
 	private BuildFrame positioningFrame = new BuildFrame();
+	private BattleFrame battleFrame = new BattleFrame();
 	
 	
 	private Game() {
@@ -90,18 +89,16 @@ public class Game {
 			
 			}
 		});
-		
-		for (int i =0; i<4; i++){
-			int out = i;
-			positioningFrame.getBoat()[i].addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {
-					System.out.println(out);
-				}
-			});
-		}
 	}
 	
+	public void closePositioning() {
+		positioningFrame.setVisible(false);
+	}
+	
+	public void showBattle() {
+		battleFrame.setTitle("Batalha Naval");
+		battleFrame.setVisible(true);
+	}
 	
 	private void setActivePlayer(PlayerTurn player){
 		active = player;

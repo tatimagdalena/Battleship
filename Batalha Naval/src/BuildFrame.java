@@ -20,6 +20,7 @@ public class BuildFrame extends JFrame implements ActionListener{
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		
 		setLayout(null);
 		
 		//Panel de Intruções ao jogador
@@ -54,7 +55,25 @@ public class BuildFrame extends JFrame implements ActionListener{
 		
 		setInstruction("Player turn");
 		
+//		for (int i = 0 ; i < boardPanel.getNumLines(); i++ ){
+//			JPanel coordLine = new JPanel();
+//			Label lineLabel = new Label("" + i);
+//			coordLine.setSize(boardPanel.getSquareSize(), boardPanel.getSquareSize());
+//			coordLine.setLocation((int)boardPanel.getLocation().getX() - boardPanel.getSquareSize(), (int)boardPanel.getLocation().getY() + (i * boardPanel.getSquareSize()));
+//			coordLine.add(lineLabel);
+//			getContentPane().add(coordLine);
+//		}
+		getContentPane().add(boardPanel.associatedLineCoord());
 		
+//		for (int j = 0 ; j < boardPanel.getNumLines(); j++ ){
+//			JPanel coordColumn = new JPanel();
+//			Label lineLabel = new Label("" + (char)(j+'A'));
+//			coordColumn.setSize(boardPanel.getSquareSize(), boardPanel.getSquareSize());
+//			coordColumn.setLocation((int)boardPanel.getLocation().getX() + (j * boardPanel.getSquareSize()), (int)boardPanel.getLocation().getY() - boardPanel.getSquareSize());
+//			coordColumn.add(lineLabel);
+//			getContentPane().add(coordColumn);
+//		}
+		getContentPane().add(boardPanel.associatedColumnCoord());
 		
 	}
 	
@@ -80,6 +99,14 @@ public class BuildFrame extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Game game = Game.getMainGame();
-		game.changePlayerTurn();
+		Player activePlayer = game.getActivePlayer();
+		
+		if(activePlayer.turn == PlayerTurn.first) {
+			game.changePlayerTurn();
+		}
+		else {
+			game.closePositioning();
+			game.showBattle();
+		}
 	}
 }

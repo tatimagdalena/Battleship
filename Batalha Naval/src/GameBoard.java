@@ -58,4 +58,32 @@ public class GameBoard extends JPanel {
 		return numColumns;
 	}
 	
+	public JPanel associatedColumnCoord() {
+		JPanel coordColumn = new JPanel();
+		coordColumn.setLayout(new GridLayout(1, numColumns));
+		coordColumn.setSize(getSquareSize() * getNumColumns(), getSquareSize());
+		coordColumn.setLocation((int)getLocation().getX(), (int)getLocation().getY() - getSquareSize());
+		
+		for (int j = 0 ; j < getNumLines(); j++) {
+			Label columnLabel = new Label("" + (char)(j+'A'));
+			columnLabel.setAlignment(Label.CENTER);
+			coordColumn.add(columnLabel);
+		}
+		return coordColumn;
+	}
+	
+	public JPanel associatedLineCoord() {
+		JPanel coordLine = new JPanel();
+		coordLine.setLayout(new GridLayout(numLines, 1));
+		coordLine.setSize(getSquareSize(), getSquareSize() * getNumColumns());
+		coordLine.setLocation((int)getLocation().getX() - getSquareSize(), (int)getLocation().getY());
+		
+		for (int i = 1 ; i <= getNumLines(); i++) {
+			Label lineLabel = new Label("" + i);
+			lineLabel.setAlignment(Label.CENTER);
+			coordLine.add(lineLabel);
+		}
+		return coordLine;
+	}
+	
 }

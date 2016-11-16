@@ -7,8 +7,8 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class NamingFrame extends JFrame implements ActionListener {
 	
-	private final int FRAME_WIDTH = 400; 
-	private final int FRAME_HEIGHT = 300;
+	private final int FRAME_WIDTH = 300; 
+	private final int FRAME_HEIGHT = 200;
 	
 	private JTextField firstPlayerField = new JTextField("Jogador 1");
 	private JTextField secondPlayerField = new JTextField("Jogador 2");
@@ -16,8 +16,8 @@ public class NamingFrame extends JFrame implements ActionListener {
 	
 	public NamingFrame() {
 		
-		JPanel firstPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
-		JPanel secondPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
+		JPanel firstPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 25));
+		JPanel secondPlayerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		Label firstPlayerLabel = new Label("Jogador 1: ");
 		Label secondPlayerLabel = new Label("Jogador 2: ");
 		
