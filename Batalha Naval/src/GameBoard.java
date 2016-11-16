@@ -12,17 +12,16 @@ public class GameBoard extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
-		//double panelInitialX = screen.screenCenterX;
-		//double panelInitialY = screen.screenCenterY - 15 * 25/2;
-		
-		
+		Graphics2D g2d=(Graphics2D) g;
 		int line, column;
+		
 		
 		for (line=0; line<numLines; line++){
 			for (column=0; column<numColumns; column++){
-				Graphics2D g2d=(Graphics2D) g;
 				Rectangle2D rect = new Rectangle2D.Double(squareSize*column,squareSize*line, squareSize, squareSize);
+				g.setColor(Color.cyan);
+				g2d.fill(rect);
+				g.setColor(Color.black);
 				g2d.draw(rect);
 			}
 		}
