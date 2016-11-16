@@ -16,6 +16,7 @@ public class Game {
 	
 	private NamingFrame playersNamingFrame = new NamingFrame();
 	private BuildFrame positioningFrame = new BuildFrame();
+	private BattleFrame battleFrame = new BattleFrame();
 	
 	
 	private Game() {
@@ -88,6 +89,15 @@ public class Game {
 			
 			}
 		});
+	}
+	
+	public void closePositioning() {
+		positioningFrame.setVisible(false);
+	}
+	
+	public void showBattle() {
+		battleFrame.setTitle("Batalha Naval");
+		battleFrame.setVisible(true);
 	}
 	
 	private void setActivePlayer(PlayerTurn player){
