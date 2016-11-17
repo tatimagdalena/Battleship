@@ -14,8 +14,8 @@ public class BattleFrame extends JFrame {
 		
 		setLayout(null);
 		
-		int boardWidth = firstBoardPanel.getNumColumns() * firstBoardPanel.getSquareSize();
-		int boardHeight = firstBoardPanel.getNumLines() * firstBoardPanel.getSquareSize();
+		int boardWidth = (firstBoardPanel.getNumColumns() + 1) * firstBoardPanel.getSquareSize();
+		int boardHeight = (firstBoardPanel.getNumLines() + 1) * firstBoardPanel.getSquareSize();
 		int yBoardPosition = (int)(screen.screenIntHeight*1/2 - boardHeight/2);
 		int xFirstBoardPosition = (int)(screen.screenWidth/4 - boardWidth/2);
 		
@@ -34,11 +34,11 @@ public class BattleFrame extends JFrame {
 		//turnButton.addActionListener(this);
 		
 		getContentPane().add(firstBoardPanel);
-		getContentPane().add(firstBoardPanel.associatedLineCoord());
-		getContentPane().add(firstBoardPanel.associatedColumnCoord());
+		//getContentPane().add(firstBoardPanel.associatedLineCoord());
+		//getContentPane().add(firstBoardPanel.associatedColumnCoord());
 		getContentPane().add(secondBoardPanel);
-		getContentPane().add(secondBoardPanel.associatedLineCoord());
-		getContentPane().add(secondBoardPanel.associatedColumnCoord());
+		//getContentPane().add(secondBoardPanel.associatedLineCoord());
+		//getContentPane().add(secondBoardPanel.associatedColumnCoord());
 		getContentPane().add(turnButton);
 		
 		//repaint();

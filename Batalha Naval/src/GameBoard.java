@@ -26,8 +26,8 @@ public class GameBoard extends JPanel {
 			this.add(coordLine);
 		}
 		
-		for (line=1; line<=numLines; line++){
-			for (column=1; column<=numColumns; column++){
+		for (line=1; line <= numLines; line++){
+			for (column=1; column <= numColumns; column++){
 				Rectangle2D rect = new Rectangle2D.Double(squareSize*column,squareSize*line, squareSize, squareSize);
 				g.setColor(Color.cyan);
 				g2d.fill(rect);

@@ -1,5 +1,4 @@
 //View
-import java.awt.FlowLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +11,15 @@ public class BuildFrame extends JFrame implements ActionListener{
 	private GameBoard boardPanel = new GameBoard();
 	private JPanel instructionPanel = new JPanel();
 	private JButton turnButton = new JButton("Pronto!");
-	private JPanel hidroavioes = new JPanel();
-	private Boat[] hidroaviao = new Hidroaviao[4];
+	private Hidroaviao[] hidroaviao = new Hidroaviao[5];
+	private Destroyer[] destroyer = new Destroyer[3];
+	private Submarino[] submarino = new Submarino[4];
+	private Cruzador[] cruzador = new Cruzador[2];
+	private Couracado[] couracado = new Couracado[1];
+	private Boat[] boat = new Boat[15];
+	
+	private int baseX = 50;
+	
 	
 	public BuildFrame() {
 		//Gofigurações de Janela
@@ -26,21 +32,75 @@ public class BuildFrame extends JFrame implements ActionListener{
 		//Panel de Intruções ao jogador
 		instructionPanel.setSize(500, 40);
 		instructionPanel.setLocation((int)(screen.screenIntWidth*1/2 - instructionPanel.getSize().getWidth()/2), 
-				(int) 50);	
-		
-		//Hidroavioes
-		for (int i = 0; i< 4; i++){
-			hidroaviao[i] = new Hidroaviao(i);
-			hidroaviao[i].setSize(hidroaviao[i].getSquareSize() * 3, hidroaviao[i].getSquareSize() * 2);
-			hidroaviao[i].setLocation((int)(hidroaviao[i].getSize().getWidth() + 5) * i, 10);
-			getContentPane().add(hidroaviao[i]);
-		}
+				(int) 50);
 		
 		//Tabuleiro
 		boardPanel.setSize((boardPanel.getNumLines()+1)*boardPanel.getSquareSize(), 
-				(boardPanel.getNumColumns()+1)*boardPanel.getSquareSize());
+						(boardPanel.getNumColumns()+1)*boardPanel.getSquareSize());
 		boardPanel.setLocation((int)(screen.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2), 
-				(int)(screen.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2));
+						(int)(screen.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2));	
+		
+		int boatCounter = 0;
+		
+		//Hidroavioes
+		for (int i = 0; i< 5; i++){
+			hidroaviao[i] = new Hidroaviao(i);
+			hidroaviao[i].setSize(hidroaviao[i].getBoatWidth(), hidroaviao[i].getBoatHeight());
+			hidroaviao[i].setLocation(baseX + (int)(hidroaviao[i].getBoatWidth() + hidroaviao[i].getSquareSize()) * i, 
+					(int)boardPanel.getLocation().getY());
+			getContentPane().add(hidroaviao[i]);
+			boat[boatCounter] = hidroaviao[i];
+			boat[boatCounter].setTag(boatCounter);
+			boatCounter++;
+		}
+		
+		//Destroyers
+		for (int i = 0; i< 3; i++){
+			destroyer[i] = new Destroyer(i);
+			destroyer[i].setSize(destroyer[i].getBoatWidth(), destroyer[i].getBoatHeight());
+			destroyer[i].setLocation(baseX + (int)(destroyer[i].getBoatWidth() + destroyer[i].getSquareSize()) * i, 
+					(int)(hidroaviao[0].getLocation().getY()) + hidroaviao[0].getBoatHeight() + destroyer[i].getSquareSize());
+			getContentPane().add(destroyer[i]);
+			boat[boatCounter] = destroyer[i];
+			boat[boatCounter].setTag(boatCounter);
+			boatCounter++;
+		}
+		
+		//Submarinos
+		for (int i = 0; i< 4; i++){
+			submarino[i] = new Submarino(i);
+			submarino[i].setSize(submarino[i].getBoatWidth(), submarino[i].getBoatHeight());
+			submarino[i].setLocation(baseX + (int)(submarino[i].getBoatWidth() + submarino[i].getSquareSize()) * i, 
+					(int)(destroyer[0].getLocation().getY()) + destroyer[0].getBoatHeight() + submarino[i].getSquareSize());
+			getContentPane().add(submarino[i]);
+			boat[boatCounter] = submarino[i];
+			boat[boatCounter].setTag(boatCounter);
+			boatCounter++;
+		}
+		
+		//Cruzadores
+		for (int i = 0; i< 2; i++){
+			cruzador[i] = new Cruzador(i);
+			cruzador[i].setSize(cruzador[i].getBoatWidth(), cruzador[i].getBoatHeight());
+			cruzador[i].setLocation(baseX + (int)(cruzador[i].getBoatWidth() + cruzador[i].getSquareSize()) * i, 
+					(int)(submarino[0].getLocation().getY()) + submarino[0].getBoatHeight() + cruzador[i].getSquareSize());
+			getContentPane().add(cruzador[i]);
+			boat[boatCounter] = cruzador[i];
+			boat[boatCounter].setTag(boatCounter);
+			boatCounter++;
+		}
+		
+		//Couracados
+		for (int i = 0; i< 1; i++){
+			couracado[i] = new Couracado(i);
+			couracado[i].setSize(couracado[i].getBoatWidth(), couracado[i].getBoatHeight());
+			couracado[i].setLocation(baseX + (int)(couracado[i].getBoatWidth() + couracado[i].getSquareSize()) * i, 
+					(int)(cruzador[0].getLocation().getY()) + cruzador[0].getBoatHeight() + couracado[i].getSquareSize());
+			getContentPane().add(couracado[i]);
+			boat[boatCounter] = couracado[i];
+			boat[boatCounter].setTag(boatCounter);
+			boatCounter++;
+		}
 		
 		//Botao para finalizar
 		turnButton.setSize(100, 50);
@@ -51,30 +111,9 @@ public class BuildFrame extends JFrame implements ActionListener{
 		getContentPane().add(instructionPanel);
 		getContentPane().add(boardPanel);
 		getContentPane().add(turnButton);
-		getContentPane().add(hidroavioes);
 		
 		setInstruction("Player turn");
-		
-//		for (int i = 0 ; i < boardPanel.getNumLines(); i++ ){
-//			JPanel coordLine = new JPanel();
-//			Label lineLabel = new Label("" + i);
-//			coordLine.setSize(boardPanel.getSquareSize(), boardPanel.getSquareSize());
-//			coordLine.setLocation((int)boardPanel.getLocation().getX() - boardPanel.getSquareSize(), (int)boardPanel.getLocation().getY() + (i * boardPanel.getSquareSize()));
-//			coordLine.add(lineLabel);
-//			getContentPane().add(coordLine);
-//		}
-		getContentPane().add(boardPanel.associatedLineCoord());
-		
-//		for (int j = 0 ; j < boardPanel.getNumLines(); j++ ){
-//			JPanel coordColumn = new JPanel();
-//			Label lineLabel = new Label("" + (char)(j+'A'));
-//			coordColumn.setSize(boardPanel.getSquareSize(), boardPanel.getSquareSize());
-//			coordColumn.setLocation((int)boardPanel.getLocation().getX() + (j * boardPanel.getSquareSize()), (int)boardPanel.getLocation().getY() - boardPanel.getSquareSize());
-//			coordColumn.add(lineLabel);
-//			getContentPane().add(coordColumn);
-//		}
-		getContentPane().add(boardPanel.associatedColumnCoord());
-		
+
 	}
 	
 	public GameBoard getPanel() {
@@ -82,7 +121,7 @@ public class BuildFrame extends JFrame implements ActionListener{
 	}
 	
 	public Boat[] getBoat() {
-		return hidroaviao;
+		return boat;
 	}
 	
 	public JPanel getInstruction(){
