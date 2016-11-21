@@ -1,7 +1,8 @@
 //Controller
 
+import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*; 
+import javax.swing.*;
 
 
 public class Game {
@@ -16,7 +17,6 @@ public class Game {
 	private NamingFrame playersNamingFrame = new NamingFrame();
 	private BuildFrame positioningFrame = new BuildFrame();
 	private BattleFrame battleFrame = new BattleFrame();
-	
 	
 	private Game() {
 	}
@@ -80,44 +80,50 @@ public class Game {
 		positioningFrame.getPanel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-			
-			int line = (e.getX())/25;
-			int column = (e.getY())/25;
-			System.out.println(line + "," + column);
-			
+				int line = (e.getX())/25;
+				int column = (e.getY())/25;
+				System.out.println(line + "," + column);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(positioningFrame.getActiveBoat() != null) {
+				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(positioningFrame.getActiveBoat() != null) {
+				}
+			}
+		});
+		positioningFrame.getPanel().addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				super.mouseMoved(e);
+				
+				if(positioningFrame.getActiveBoat() != null) {
+					Point p = new Point(e.getX()/25, e.getY()/25);
+					if(!positioningFrame.getCurrentMousePosition().equals(p)) {
+						//Faz algo caso mude de quadrado
+						positioningFrame.setCurrentMousePosition(p);
+						System.out.println("mouse moved");
+						System.out.println(p.x + "," + p.y);
+					}
+				}
 			}
 		});
 		
 		for(int i = 0; i < 15; i++){
 			int out = i;
 			Boat boat = positioningFrame.getBoat()[i];
-			boat.setFocusable(true); //Para poder escutar eventos do teclado
+			//boat.setFocusable(true); //Para poder escutar eventos do teclado
 			positioningFrame.getBoat()[i].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					//Só permito escolher um navio se não há nenhum atualmente selecionado
 					if(positioningFrame.getActiveBoat() == null) {
 						positioningFrame.setActiveBoat(boat);
-						boat.requestFocusInWindow(); //O elemento que está em foco escuta eventos do teclado
 						boat.setVisible(false);
 						System.out.println(out);
-					}
-				}
-			});
-			positioningFrame.getBoat()[i].addKeyListener(new KeyListener() {
-				@Override
-				public void keyTyped(KeyEvent e) {
-				}
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-						if(positioningFrame.getActiveBoat() != null) {
-							positioningFrame.getActiveBoat().setVisible(true);
-							positioningFrame.setActiveBoat(null);
-						}
 					}
 				}
 			});

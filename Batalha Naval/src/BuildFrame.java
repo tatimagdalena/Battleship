@@ -17,6 +17,7 @@ public class BuildFrame extends JFrame implements ActionListener {
 	private Boat[] boat = new Boat[15];
 	
 	private Boat activeBoat = null;
+	private Point currentMousePosition = new Point(0,0);
 	
 	private int baseX = 50;
 	
@@ -27,6 +28,20 @@ public class BuildFrame extends JFrame implements ActionListener {
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
 		setLayout(null);
+		
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					if(activeBoat != null) {
+						activeBoat.setVisible(true);
+						activeBoat = null;
+					}
+				}
+			}
+		});
 		
 		//Panel de Intruções ao jogador
 		instructionPanel.setSize(500, 40);
@@ -127,6 +142,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 		this.activeBoat = activeBoat;
 	}
 	
+	public Point getCurrentMousePosition() {
+		return currentMousePosition;
+	}
+	
+	public void setCurrentMousePosition(Point p) {
+		this.currentMousePosition = p;
+	}
+	
 	public Boat[] getBoat() {
 		return boat;
 	}
@@ -155,5 +178,5 @@ public class BuildFrame extends JFrame implements ActionListener {
 			game.showBattle();
 		}
 	}
-	
+
 }
