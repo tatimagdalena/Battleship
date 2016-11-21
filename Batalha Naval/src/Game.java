@@ -1,7 +1,6 @@
 //Controller
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import javax.swing.*; 
 
 
@@ -20,7 +19,6 @@ public class Game {
 	
 	
 	private Game() {
-		
 	}
 	
 	public static Game getMainGame() {
@@ -93,11 +91,34 @@ public class Game {
 		for(int i = 0; i < 15; i++){
 			int out = i;
 			Boat boat = positioningFrame.getBoat()[i];
+			boat.setFocusable(true); //Para poder escutar eventos do teclado
 			positioningFrame.getBoat()[i].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					boat.setVisible(false);
-					System.out.println(out);
+					//Só permito escolher um navio se não há nenhum atualmente selecionado
+					if(positioningFrame.getActiveBoat() == null) {
+						positioningFrame.setActiveBoat(boat);
+						boat.requestFocusInWindow(); //O elemento que está em foco escuta eventos do teclado
+						boat.setVisible(false);
+						System.out.println(out);
+					}
+				}
+			});
+			positioningFrame.getBoat()[i].addKeyListener(new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+				}
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						if(positioningFrame.getActiveBoat() != null) {
+							positioningFrame.getActiveBoat().setVisible(true);
+							positioningFrame.setActiveBoat(null);
+						}
+					}
 				}
 			});
 		}

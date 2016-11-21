@@ -1,12 +1,10 @@
 //View
-import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class BuildFrame extends JFrame implements ActionListener{
+public class BuildFrame extends JFrame implements ActionListener {
 	
 	private GameBoard boardPanel = new GameBoard();
 	private JPanel instructionPanel = new JPanel();
@@ -18,6 +16,8 @@ public class BuildFrame extends JFrame implements ActionListener{
 	private Couracado[] couracado = new Couracado[1];
 	private Boat[] boat = new Boat[15];
 	
+	private Boat activeBoat = null;
+	
 	private int baseX = 50;
 	
 	
@@ -26,7 +26,6 @@ public class BuildFrame extends JFrame implements ActionListener{
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
-		
 		setLayout(null);
 		
 		//Panel de Intruções ao jogador
@@ -120,6 +119,14 @@ public class BuildFrame extends JFrame implements ActionListener{
 		return boardPanel;
 	}
 	
+	public Boat getActiveBoat() {
+		return activeBoat;
+	}
+	
+	public void setActiveBoat(Boat activeBoat) {
+		this.activeBoat = activeBoat;
+	}
+	
 	public Boat[] getBoat() {
 		return boat;
 	}
@@ -148,4 +155,5 @@ public class BuildFrame extends JFrame implements ActionListener{
 			game.showBattle();
 		}
 	}
+	
 }
