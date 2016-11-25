@@ -13,6 +13,11 @@ public class Cruzador extends Boat implements Shape {
 		
 	public Cruzador(int tag){
 		super(tag);
+		
+		setNumPositions(2);
+		setNumSquares(4);
+		setBoatWidth(4 * 25);
+		setBoatHeight(1 * 25);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -20,23 +25,35 @@ public class Cruzador extends Boat implements Shape {
 		
 		Graphics2D g2d=(Graphics2D) g;
 		
+		Coordinate[] coords = getBoatPositions(getPosition());
+		
 		for (int i = 0; i < 4; i++){
-			rect = new Rectangle2D.Double(i * getSquareSize(),0, getSquareSize(), getSquareSize());
+			rect = new Rectangle2D.Double(getSquareSize() * coords[i].getX(), getSquareSize() * coords[i].getY(), getSquareSize(), getSquareSize());
 			g.setColor(Color.red);
 			g2d.fill(rect);	
 		}
 		
 	}
-	
-	@Override
-	public int getBoatWidth() {
-		return width;
-	}
 
 	@Override
-	public int getBoatHeight() {
-		// TODO Auto-generated method stub
-		return height;
+	public Coordinate[] getBoatPositions(int pos) {
+		Coordinate[] coords = new Coordinate[4];
+		switch (pos){
+		case 0:
+			coords[0] = new Coordinate(0,0);
+			coords[1] = new Coordinate(1,0);
+			coords[2] = new Coordinate(2,0);
+			coords[3] = new Coordinate(3,0);
+			break;
+		case 1:
+			coords[0] = new Coordinate(0,0);
+			coords[1] = new Coordinate(0,1);
+			coords[2] = new Coordinate(0,2);
+			coords[3] = new Coordinate(0,3);
+			break;
+		}
+		
+		return coords;
 	}
 
 }

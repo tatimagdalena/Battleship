@@ -75,6 +75,9 @@ public class Game {
 		positioningFrame.setTitle("Batalha Naval"); 
 		positioningFrame.setVisible(true);
 		
+		int baseX = (int) positioningFrame.getPanel().getLocation().getX();
+		int baseY = (int) positioningFrame.getPanel().getLocation().getY();
+		
 		setActivePlayer(PlayerTurn.first);
 		
 		positioningFrame.getPanel().addMouseListener(new MouseAdapter() {
@@ -83,7 +86,9 @@ public class Game {
 				int line = (e.getX())/25;
 				int column = (e.getY())/25;
 				System.out.println(line + "," + column);
+				
 			}
+			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if(positioningFrame.getActiveBoat() != null) {
@@ -95,28 +100,32 @@ public class Game {
 				}
 			}
 		});
+		
 		positioningFrame.getPanel().addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				super.mouseMoved(e);
+				Boat boat = positioningFrame.getActiveBoat();
 				
 				if(positioningFrame.getActiveBoat() != null) {
 					Point p = new Point(e.getX()/25, e.getY()/25);
-					if(!positioningFrame.getCurrentMousePosition().equals(p)) {
+					if(!positioningFrame.getCurrentMousePosition().equals(p)) {			
 						//Faz algo caso mude de quadrado
 						positioningFrame.setCurrentMousePosition(p);
-						System.out.println("mouse moved");
-						System.out.println(p.x + "," + p.y);
+						boat.setVisible(true);
+						boat.setLocation(baseX + 25 * (p.x) ,  baseY + 25 * (p.y) - boat.getBoatHeight() + 25);
+						boat.repaint();		
 					}
 				}
 			}
 		});
 		
+		
 		for(int i = 0; i < 15; i++){
 			int out = i;
 			Boat boat = positioningFrame.getBoat()[i];
-			//boat.setFocusable(true); //Para poder escutar eventos do teclado
-			positioningFrame.getBoat()[i].addMouseListener(new MouseAdapter() {
+			boat.setFocusable(true); //Para poder escutar eventos do teclado
+			boat.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					//Só permito escolher um navio se não há nenhum atualmente selecionado
@@ -125,6 +134,17 @@ public class Game {
 						boat.setVisible(false);
 						System.out.println(out);
 					}
+					//Caso clique com botao esquerdo
+					if(SwingUtilities.isRightMouseButton(e)){
+						if (boat != null){
+							Point location = boat.getLocation();
+							location.setLocation(location.getX(), location.getY() + boat.getBoatHeight() - 25);
+							boat.nextPosition();
+							boat.setSize(boat.getBoatWidth(), boat.getBoatHeight());
+							boat.setLocation((int)location.getX(), (int)location.getY() - boat.getBoatHeight() + 25);
+							boat.repaint();
+						}
+				    }
 				}
 			});
 		}

@@ -5,15 +5,16 @@ import java.awt.geom.Rectangle2D;
 
 @SuppressWarnings("serial")
 public class Destroyer extends Boat implements Shape {
-
-	private int width = getSquareSize() * 2;
-	private int height = getSquareSize();
 	
-	private Rectangle2D rect1;
-	private Rectangle2D rect2;
+	private Rectangle2D rect;
 		
 	Destroyer(int tag){
 		super(tag);
+		
+		setNumPositions(2);
+		setNumSquares(2);
+		setBoatWidth(2 * 25);
+		setBoatHeight(1 * 25);
 	}
 	
 	
@@ -22,28 +23,30 @@ public class Destroyer extends Boat implements Shape {
 		
 		Graphics2D g2d=(Graphics2D) g;
 		
-		rect1 = new Rectangle2D.Double(0,0, getSquareSize(), getSquareSize());
-		rect2 = new Rectangle2D.Double(getSquareSize(),0, getSquareSize(), getSquareSize());
-				
-		g.setColor(Color.orange);
-		g2d.fill(rect1);
-		g2d.fill(rect2);
-
+		Coordinate[] coords = getBoatPositions(getPosition());
 		
+		for (int i = 0; i < 2; i++){
+			rect = new Rectangle2D.Double(coords[i].getX() * getSquareSize(), coords[i].getY() * getSquareSize(), getSquareSize(), getSquareSize());
+			g.setColor(Color.orange);
+			g2d.fill(rect);	
+		}
 	}
 
-
 	@Override
-	public int getBoatWidth() {
-		// TODO Auto-generated method stub
-		return width;
-	}
-
-
-	@Override
-	public int getBoatHeight() {
-		// TODO Auto-generated method stub
-		return height;
+	public Coordinate[] getBoatPositions(int pos) {
+		Coordinate[] coords = new Coordinate[2];
+		switch (pos){
+		case 0:
+			coords[0] = new Coordinate(0,0);
+			coords[1] = new Coordinate(1,0);
+			break;
+		case 1:
+			coords[0] = new Coordinate(0,0);
+			coords[1] = new Coordinate(0,1);
+			break;
+		}
+		
+		return coords;
 	}
 	
 
