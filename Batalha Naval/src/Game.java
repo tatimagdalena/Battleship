@@ -107,6 +107,12 @@ public class Game {
 				super.mouseMoved(e);
 				Boat boat = positioningFrame.getActiveBoat();
 				
+				/*
+				 * On moving mouse
+				 * Set the boat visible
+				 * Change it's location
+				 * repaint to redraw on correct position(the new one)
+				 */
 				if(positioningFrame.getActiveBoat() != null) {
 					Point p = new Point(e.getX()/25, e.getY()/25);
 					if(!positioningFrame.getCurrentMousePosition().equals(p)) {			
@@ -128,13 +134,23 @@ public class Game {
 			boat.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					//Só permito escolher um navio se não há nenhum atualmente selecionado
+					/*
+					 * RIGHT CLICK ON BOAT
+					 * Only allows one boat. Only set active if no other is selected
+					 */
 					if(positioningFrame.getActiveBoat() == null) {
 						positioningFrame.setActiveBoat(boat);
 						boat.setVisible(false);
 						System.out.println(out);
 					}
-					//Caso clique com botao esquerdo
+					/*
+					 * LEFT-CLICK
+					 * only happens if boat is selected
+					 * Hold currentLocation for persistence of variables
+					 * Change Position
+					 * Set new location so it will be placed where it should
+					 * repaint to redraw on correct position(the new one)
+					 */
 					if(SwingUtilities.isRightMouseButton(e)){
 						if (boat != null){
 							Point location = boat.getLocation();

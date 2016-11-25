@@ -56,7 +56,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 		
 		int boatCounter = 0;
 		
-		//Hidroavioes
+		/*
+		 * HIDROAVIOES
+		 * Create the class
+		 * setSizeBased on class variables
+		 * setLocation relative to the last boat placed
+		 * set Opaque Background
+		 * add to the screen and to the boat array
+		 */
 		for (int i = 0; i< 5; i++){
 			hidroaviao[i] = new Hidroaviao(i);
 			hidroaviao[i].setSize(hidroaviao[i].getBoatWidth(), hidroaviao[i].getBoatHeight());
@@ -70,7 +77,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 			hidroaviao[i].repaint();
 		}
 		
-		//Destroyers
+		/*
+		 * DESTROYERS
+		 * Create the class
+		 * setSizeBased on class variables
+		 * setLocation relative to the last boat placed
+		 * set Opaque Background
+		 * add to the screen and to the boat array
+		 */
 		for (int i = 0; i< 3; i++){
 			destroyer[i] = new Destroyer(i);
 			destroyer[i].setSize(destroyer[i].getBoatWidth(), destroyer[i].getBoatHeight());
@@ -83,7 +97,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 			boatCounter++;
 		}
 		
-		//Submarinos
+		/*
+		 * SUBMARINOS
+		 * Create the class
+		 * setSizeBased on class variables
+		 * setLocation relative to the last boat placed
+		 * set Opaque Background
+		 * add to the screen and to the boat array
+		 */
 		for (int i = 0; i< 4; i++){
 			submarino[i] = new Submarino(i);
 			submarino[i].setSize(submarino[i].getBoatWidth(), submarino[i].getBoatHeight());
@@ -96,7 +117,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 			boatCounter++;
 		}
 		
-		//Cruzadores
+		/*
+		 * CRUZADORES
+		 * Create the class
+		 * setSizeBased on class variables
+		 * setLocation relative to the last boat placed
+		 * set Opaque Background
+		 * add to the screen and to the boat array
+		 */
 		for (int i = 0; i< 2; i++){
 			cruzador[i] = new Cruzador(i);
 			cruzador[i].setSize(cruzador[i].getBoatWidth(), cruzador[i].getBoatHeight());
@@ -109,7 +137,14 @@ public class BuildFrame extends JFrame implements ActionListener {
 			boatCounter++;
 		}
 		
-		//Couracados
+		/*
+		 * COURACADOS
+		 * Create the class
+		 * setSizeBased on class variables
+		 * setLocation relative to the last boat placed
+		 * set Opaque Background
+		 * add to the screen and to the boat array
+		 */
 		for (int i = 0; i< 1; i++){
 			couracado[i] = new Couracado(i);
 			couracado[i].setSize(couracado[i].getBoatWidth(), couracado[i].getBoatHeight());

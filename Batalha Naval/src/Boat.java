@@ -2,14 +2,15 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Boat extends JPanel implements Shape {
-	private int squareSize = 25;
-	private int numPositions = 2;
-	private int position = 0;
-	private int numSquares;
-	private int width;
-	private int height;
-	private int tag;
 	
+	private int squareSize = 25;
+	private int numPositions = 2;	//Number of positions a boat has. Hidroavaio: 4, submarino: 1, others: 2
+	private int position = 0;   	//Current position a Boat is in
+	private int numSquares;			//Number of squares that draw a Boat
+	private int width;				//The width of the boat on it's current position
+	private int height;				//The height of the boat on it's current position
+	private int tag;				//THe tag to identify the Boat
+		
 	public Boat(int tag){
 		this.tag = tag;
 	}
@@ -18,26 +19,42 @@ public class Boat extends JPanel implements Shape {
 		return squareSize;
 	}
 	
-	public void setTag(int number) {
-		tag = number;
-	}
-	
 	public int getTag(){
 		return this.tag;
 	}
 	
+	public void setTag(int number) {
+		tag = number;
+	}
+	
+	/**
+	 * the possible number of positions a boat can be in
+	 * @return the number of positions the boat has
+	 */
 	public int getNumPositions() {
 		return numPositions;
 	}
 	
+	/**
+	 * Reestablish the number of positions
+	 * @param num the number of positions the boat can be in
+	 */
 	public void setNumPositions(int num) {
 		numPositions = num;
 	}
 	
+	/**
+	 * Varies for each boat
+	 * @return number of squares a boat has
+	 */
 	public int getNumSquares() {
 		return numSquares;
 	}
 	
+	/**
+	 * Varies for each boat
+	 * @param num set the number of squares a boat has
+	 */
 	public void setNumSquares(int num) {
 		numSquares = num;
 	}
@@ -46,6 +63,11 @@ public class Boat extends JPanel implements Shape {
 	public int getBoatWidth() {
 		return width;
 	}
+	
+	@Override
+	public void setBoatWidth(int width) {
+		this.width = width;
+	}
 
 	@Override
 	public int getBoatHeight() {
@@ -53,28 +75,40 @@ public class Boat extends JPanel implements Shape {
 	}
 	
 	@Override
-	public void setBoatWidth(int width) {
-		this.width = width;
-	}
-	
-	@Override
 	public void setBoatHeight(int height) {
 		this.height = height;
 	}
 
-	@Override
+	/**
+	 * Description: This function must always be overwritten.
+	 * @param pos the position the boat is in
+	 * @return: An array with the coordinate of each square relative to the mouse arrow
+	 * 
+	 */
+	@Override  
 	public Coordinate[] getBoatPositions(int pos) {
 		return null;
 	}
 	
+	/**
+	 * @return the current position of the boat(To be used in getBoatPositions)
+	 */
 	public int getPosition(){
 		return position;
 	}
 	
-	public void setPosition(int position){
+	/**
+	 * Set the position of the boat
+	 * @param position the position the boat will be in. Generaly 0 is horizontal and 1 is vertical.
+	 * for hidroplane 0 is basic and each +1 rotates 90 degrees
+	 */
+	private void setPosition(int position){
 		this.position = position;
 	}
 	
+	/**
+	 * set position to the next one and changes the Width and height
+	 */
 	public void nextPosition() {
 		position ++;
 		if(position == getNumPositions()){
