@@ -1,4 +1,5 @@
 import javax.swing.JPanel;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class Boat extends JPanel implements Shape {
@@ -9,6 +10,7 @@ public class Boat extends JPanel implements Shape {
 	private int numSquares;			//Number of squares that draw a Boat
 	private int width;				//The width of the boat on it's current position
 	private int height;				//The height of the boat on it's current position
+	private Color color;			//The boat color
 	private int tag;				//THe tag to identify the Boat
 		
 	public Boat(int tag){
@@ -120,6 +122,16 @@ public class Boat extends JPanel implements Shape {
 		setBoatWidth(temp);
 		
 		setPosition(position);
+	}
+
+	@Override
+	public Color getBoatColor() {
+		return color;
+	}
+
+	@Override
+	public void setBoatColor(Color color) {
+		this.color = color;		
 	}
 	
 }

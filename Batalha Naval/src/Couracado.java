@@ -15,6 +15,7 @@ public class Couracado extends Boat implements Shape {
 		setNumSquares(5);
 		setBoatWidth(5 * 25);
 		setBoatHeight(1 * 25);
+		setBoatColor(Color.yellow);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -26,7 +27,7 @@ public class Couracado extends Boat implements Shape {
 		
 		for (int i = 0; i < 5; i++){
 			rect = new Rectangle2D.Double(coords[i].getX() * getSquareSize(), coords[i].getY() * getSquareSize(), getSquareSize(), getSquareSize());
-			g.setColor(Color.yellow);
+			g.setColor(getBoatColor());
 			g2d.fill(rect);	
 		}
 		

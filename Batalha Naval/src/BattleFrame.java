@@ -3,8 +3,8 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class BattleFrame extends JFrame {
 
-	private GameBoard firstBoardPanel = new GameBoard();
-	private GameBoard secondBoardPanel = new GameBoard();
+	private GameBoard firstBoardPanel = Game.getMainGame().getPlayer1().getBoard();
+	private GameBoard secondBoardPanel = Game.getMainGame().getPlayer2().getBoard();
 	private JButton turnButton = new JButton("Começar Jogo!");
 	
 	public BattleFrame() {

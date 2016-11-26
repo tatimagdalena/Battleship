@@ -18,6 +18,7 @@ public class Hidroaviao extends Boat implements Shape {
 		setNumSquares(3);
 		setBoatWidth(3 * 25);
 		setBoatHeight(2 * 25);
+		setBoatColor(Color.green);
 	}
 	
 	
@@ -33,7 +34,7 @@ public class Hidroaviao extends Boat implements Shape {
 		rect3 = new Rectangle2D.Double(getSquareSize() * coords[2].getX(), getSquareSize() * coords[2].getY(), getSquareSize(), getSquareSize());
 	
 		
-		g.setColor(Color.green);
+		g.setColor(getBoatColor());
 		g2d.fill(rect1);
 		g2d.fill(rect2);
 		g2d.fill(rect3);

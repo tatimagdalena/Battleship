@@ -14,6 +14,7 @@ public class Submarino extends Boat implements Shape {
 		setNumSquares(1);
 		setBoatWidth(1 * 25);
 		setBoatHeight(1 * 25);
+		setBoatColor(Color.blue);
 	}
 	
 	
@@ -23,7 +24,7 @@ public class Submarino extends Boat implements Shape {
 		
 		rect = new Rectangle2D.Double(0,0, getSquareSize(), getSquareSize());
 				
-		g.setColor(Color.blue);
+		g.setColor(getBoatColor());
 		g2d.fill(rect);	
 		
 		super.paintComponent(g);

@@ -15,6 +15,7 @@ public class Destroyer extends Boat implements Shape {
 		setNumSquares(2);
 		setBoatWidth(2 * 25);
 		setBoatHeight(1 * 25);
+		setBoatColor(Color.orange);
 	}
 	
 	
@@ -27,7 +28,7 @@ public class Destroyer extends Boat implements Shape {
 		
 		for (int i = 0; i < 2; i++){
 			rect = new Rectangle2D.Double(coords[i].getX() * getSquareSize(), coords[i].getY() * getSquareSize(), getSquareSize(), getSquareSize());
-			g.setColor(Color.orange);
+			g.setColor(getBoatColor());
 			g2d.fill(rect);	
 		}
 	}

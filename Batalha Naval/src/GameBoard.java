@@ -8,6 +8,17 @@ public class GameBoard extends JPanel {
 	private int squareSize = 25;
 	private int numColumns = 15;
 	private int numLines = 15;
+	private Player player;
+	private Color[][] matrix = new Color[15][15];
+	
+	GameBoard() {
+		matrix = new Color[15][15];
+		for (int i = 0; i < this.getNumLines(); i++){
+			for (int j = 0 ; j < this.getNumColumns(); j++ ){
+				matrix[i][j] = Color.cyan;
+			}
+		}
+	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -29,7 +40,7 @@ public class GameBoard extends JPanel {
 		for (line=1; line <= numLines; line++){
 			for (column=1; column <= numColumns; column++){
 				Rectangle2D rect = new Rectangle2D.Double(squareSize*column,squareSize*line, squareSize, squareSize);
-				g.setColor(Color.cyan);
+				g.setColor(matrix[column-1][line-1]);
 				g2d.fill(rect);
 				g.setColor(Color.black);
 				g2d.draw(rect);
@@ -84,6 +95,15 @@ public class GameBoard extends JPanel {
 			coordLine.add(lineLabel);
 		}
 		return coordLine;
+	}
+	
+	public void setCoordColor(int i, int j, Color color){
+		matrix[i-1][j-1] = color;		
+	}
+	
+	
+	public Color[][] getMatrix() {
+		return matrix;
 	}
 	
 }

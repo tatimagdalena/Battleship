@@ -18,6 +18,7 @@ public class Cruzador extends Boat implements Shape {
 		setNumSquares(4);
 		setBoatWidth(4 * 25);
 		setBoatHeight(1 * 25);
+		setBoatColor(Color.gray);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -29,7 +30,7 @@ public class Cruzador extends Boat implements Shape {
 		
 		for (int i = 0; i < 4; i++){
 			rect = new Rectangle2D.Double(getSquareSize() * coords[i].getX(), getSquareSize() * coords[i].getY(), getSquareSize(), getSquareSize());
-			g.setColor(Color.red);
+			g.setColor(getBoatColor());
 			g2d.fill(rect);	
 		}
 		

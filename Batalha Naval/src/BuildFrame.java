@@ -6,7 +6,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class BuildFrame extends JFrame implements ActionListener {
 	
-	private GameBoard boardPanel = new GameBoard();
+	private GameBoard boardPanel;
 	private JPanel instructionPanel = new JPanel();
 	private JButton turnButton = new JButton("Pronto!");
 	private Hidroaviao[] hidroaviao = new Hidroaviao[5];
@@ -31,17 +31,7 @@ public class BuildFrame extends JFrame implements ActionListener {
 		
 		setFocusable(true);
 		requestFocusInWindow();
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					if(activeBoat != null) {
-						activeBoat.setVisible(true);
-						activeBoat = null;
-					}
-				}
-			}
-		});
+		
 		
 		//Panel de Intruções ao jogador
 		instructionPanel.setSize(500, 40);
@@ -49,6 +39,7 @@ public class BuildFrame extends JFrame implements ActionListener {
 				(int) 50);
 		
 		//Tabuleiro
+		boardPanel = new GameBoard();
 		boardPanel.setSize((boardPanel.getNumLines()+1)*boardPanel.getSquareSize(), 
 						(boardPanel.getNumColumns()+1)*boardPanel.getSquareSize());
 		boardPanel.setLocation((int)(screen.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2), 
