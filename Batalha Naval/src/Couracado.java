@@ -18,6 +18,7 @@ public class Couracado extends Boat implements Shape {
 		setBoatColor(Color.yellow);
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		

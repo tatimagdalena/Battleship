@@ -1,9 +1,7 @@
 import java.awt.Point;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
+import javax.swing.*;
+
 
 import javax.swing.SwingUtilities;
 
@@ -12,6 +10,7 @@ public class BuildController extends BuildFrame {
 	BuildController positioningFrame = this;
 	
 	Point boatOldPosition;
+	Point position;
 	
 	BuildController(){
 		
@@ -40,6 +39,10 @@ public class BuildController extends BuildFrame {
 			public void mousePressed(MouseEvent e) {
 				int line = (e.getX())/25;
 				int column = (e.getY())/25;
+				positioningFrame.getActiveBoat().setVisible(true);
+				drawBoatOnBoard(positioningFrame.getActiveBoat(), positioningFrame.getPanel(), line, column);
+				positioningFrame.getActiveBoat().setVisible(false);
+				setActiveBoat(null);
 			}
 			
 			@Override
@@ -54,29 +57,59 @@ public class BuildController extends BuildFrame {
 			}
 		});
 		
-		positioningFrame.getPanel().addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				super.mouseMoved(e);
-				Boat boat = positioningFrame.getActiveBoat();
-				
-				/*
-				 * On moving mouse
-				 * Set the boat visible
-				 * Change it's location
-				 * repaint to redraw on correct position(the new one)
-				 */
-				if(positioningFrame.getActiveBoat() != null) {
-					Point p = new Point(e.getX()/25, e.getY()/25);
-					if(!positioningFrame.getCurrentMousePosition().equals(p)) {			
-						positioningFrame.setCurrentMousePosition(p);
-						boat.setVisible(true);
-						boat.setLocation(baseX + 25 * (p.x) ,  baseY + 25 * (p.y) - boat.getBoatHeight() + 25);
-						boat.repaint();		
-					}
-				}
-			}
-		});
+		positioningFrame.getPanel().addMouseMotionListener(new CustomMotionListener());
+		
+//		positioningFrame.getPanel().addMouseMotionListener(new MouseMotionAdapter() {
+//			@Override
+//			public void mouseMoved(MouseEvent e) {
+//				/*
+//				 * On moving mouse
+//				 * Set the boat visible
+//				 * Change it's location
+//				 * repaint to redraw on correct position(the new one)
+//				 */
+//				if(positioningFrame.getActiveBoat() != null) {
+//					position = new Point(e.getX()/25, e.getY()/25);
+//					if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
+//						positioningFrame.getPanel().repaint();
+//						positioningFrame.setCurrentMousePosition(position);
+//						positioningFrame.getActiveBoat().setVisible(true);
+//						positioningFrame.getActiveBoat().setLocation(00 + 25 * (position.x) ,  
+//								00 + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
+//						
+//						//System.out.println(basePointX +" "+basePointY);
+//					}
+//				}
+//				/*
+//				Thread background = new Thread(
+//					new Runnable(){
+//						@Override
+//				        public void run() {
+//							if(positioningFrame.getActiveBoat() != null) {
+//								//Point p = new Point(e.getX()/25, e.getY()/25);
+//								position = new Point(e.getX()/25, e.getY()/25);
+//								if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
+//									positioningFrame.setCurrentMousePosition(position);
+//									
+//								}
+//							}
+//				        }
+//					});
+//		        //background.setDaemon(true);
+//		        background.start();
+//		        SwingUtilities.invokeLater(new Runnable(){
+//	        	    public void run() {
+//	        	    	positioningFrame.getActiveBoat().setVisible(true);
+//						positioningFrame.getActiveBoat().setLocation(baseX + 25 * (position.x) ,  
+//								baseY + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
+//							
+//	        	    }
+//		        });*/
+//		        
+//		        
+//			}
+//			
+//		});
 		
 		
 		for(int i = 0; i < 15; i++){
@@ -86,16 +119,21 @@ public class BuildController extends BuildFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {					
 					/*
-					 * RIGHT CLICK ON BOAT
+					 * LEFT-CLICK ON BOAT
 					 * Only allows one boat. Only set active if no other is selected
 					 * If one is already selected when placed over board it's set there
 					 * calls funciton drawonboard and then delete the boat
 					 * repaint the board
 					 */
 					if(positioningFrame.getActiveBoat() == null) {
-						positioningFrame.setActiveBoat(boat);
-						boat.setVisible(false);
-						boatOldPosition = boat.getLocation();
+						
+						if(SwingUtilities.isLeftMouseButton(e)){
+						
+							positioningFrame.setActiveBoat(boat);
+							boat.setVisible(false);
+							boatOldPosition = boat.getLocation();
+						
+						}
 					} else {
 					
 						if(SwingUtilities.isLeftMouseButton(e)){
@@ -111,10 +149,12 @@ public class BuildController extends BuildFrame {
 								}
 							}
 				    	}
+						
+						
 					}
 					
 					/*
-					 * LEFT-CLICK
+					 * RIGHT-CLICK
 					 * only happens if boat is selected
 					 * Hold currentLocation for persistence of variables
 					 * Change Position
@@ -137,6 +177,35 @@ public class BuildController extends BuildFrame {
 		}
 	}
 	
+	class CustomMotionListener implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			//moveBoat(e);
+		}
+		
+	}
+	
+	
+	private void moveBoat(MouseEvent e){
+		if(positioningFrame.getActiveBoat() != null) {
+			position = new Point(e.getX()/25, e.getY()/25);
+			if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
+				positioningFrame.setCurrentMousePosition(position);
+				positioningFrame.getActiveBoat().setVisible(true);
+				positioningFrame.getActiveBoat().setLocation(0 + 25 * (position.x) ,  
+						00 + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
+					
+			}
+		}
+	}
+	
 	private void drawBoatOnBoard(Boat boat, GameBoard board, int x, int y){
 		Coordinate[] coords = boat.getBoatPositions(boat.getPosition());
 		for (int i=0; i< coords.length; i++){
@@ -144,5 +213,8 @@ public class BuildController extends BuildFrame {
 		}
 		Game.getMainGame().getActivePlayer().setBoard(board);
 	}
+	
 }
+
+
 	

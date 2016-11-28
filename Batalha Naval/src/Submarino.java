@@ -17,8 +17,9 @@ public class Submarino extends Boat implements Shape {
 		setBoatColor(Color.blue);
 	}
 	
-	
+	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		
 		Graphics2D g2d=(Graphics2D) g;
 		
@@ -27,7 +28,6 @@ public class Submarino extends Boat implements Shape {
 		g.setColor(getBoatColor());
 		g2d.fill(rect);	
 		
-		super.paintComponent(g);
 	}
 
 	@Override

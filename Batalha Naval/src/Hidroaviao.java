@@ -21,7 +21,7 @@ public class Hidroaviao extends Boat implements Shape {
 		setBoatColor(Color.green);
 	}
 	
-	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		

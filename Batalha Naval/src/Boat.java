@@ -15,6 +15,7 @@ public class Boat extends JPanel implements Shape {
 		
 	public Boat(int tag){
 		this.tag = tag;
+		this.setDoubleBuffered(true);
 	}
 	
 	public int getSquareSize() {

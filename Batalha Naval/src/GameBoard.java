@@ -18,6 +18,7 @@ public class GameBoard extends JPanel {
 				matrix[i][j] = Color.cyan;
 			}
 		}
+		this.setDoubleBuffered(true);
 	}
 	
 	public void paintComponent(Graphics g) {

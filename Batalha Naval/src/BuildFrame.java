@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class BuildFrame extends JFrame implements ActionListener {
+public class BuildFrame extends JFrame implements ActionListener  {
 	
 	private GameBoard boardPanel;
 	private JPanel instructionPanel = new JPanel();
@@ -21,10 +21,12 @@ public class BuildFrame extends JFrame implements ActionListener {
 	
 	private int baseX = 50;
 	
+	public int basePointX;
+	public int basePointY;
 	
 	public BuildFrame() {
 		//Gofigurações de Janela
-		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
+		final ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
 		setLayout(null);
@@ -42,8 +44,13 @@ public class BuildFrame extends JFrame implements ActionListener {
 		boardPanel = new GameBoard();
 		boardPanel.setSize((boardPanel.getNumLines()+1)*boardPanel.getSquareSize(), 
 						(boardPanel.getNumColumns()+1)*boardPanel.getSquareSize());
-		boardPanel.setLocation((int)(screen.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2), 
-						(int)(screen.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2));	
+		
+		basePointX = (int)(screen.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
+		basePointY = (int)(screen.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
+		
+		boardPanel.setLocation(basePointX, basePointY);	
+		
+		
 		
 		int boatCounter = 0;
 		
@@ -210,5 +217,8 @@ public class BuildFrame extends JFrame implements ActionListener {
 			game.showBattle();
 		}
 	}
-
+	
+	public Point getPanelPoint(){
+		return boardPanel.getLocation();
+	}
 }

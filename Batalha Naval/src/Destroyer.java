@@ -18,7 +18,7 @@ public class Destroyer extends Boat implements Shape {
 		setBoatColor(Color.orange);
 	}
 	
-	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		

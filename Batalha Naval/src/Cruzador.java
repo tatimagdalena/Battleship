@@ -21,6 +21,7 @@ public class Cruzador extends Boat implements Shape {
 		setBoatColor(Color.gray);
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		

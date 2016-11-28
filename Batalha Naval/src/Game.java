@@ -79,6 +79,10 @@ public class Game {
 		positioningFrame.setVisible(false);
 	}
 	
+	public BuildFrame getPositioningFrame() {
+		return positioningFrame;
+	}
+	
 	public void showBattle() {
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
