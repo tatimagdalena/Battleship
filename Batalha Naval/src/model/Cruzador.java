@@ -1,21 +1,25 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+package model;
+import java.awt.*;
+import java.awt.geom.*;
+
+import utils.*;
 
 @SuppressWarnings("serial")
-public class Couracado extends Boat implements Shape {
+public class Cruzador extends Boat implements Shape {
+	
+	//private int width = getSquareSize() * 4;
+	//private int height = getSquareSize();
 	
 	private Rectangle2D rect;
-	
-	public Couracado(int tag){
+		
+	public Cruzador(int tag){
 		super(tag);
 		
 		setNumPositions(2);
-		setNumSquares(5);
-		setBoatWidth(5 * 25);
+		setNumSquares(4);
+		setBoatWidth(4 * 25);
 		setBoatHeight(1 * 25);
-		setBoatColor(Color.yellow);
+		setBoatColor(Color.gray);
 	}
 	
 	@Override
@@ -26,8 +30,8 @@ public class Couracado extends Boat implements Shape {
 		
 		Coordinate[] coords = getBoatPositions(getPosition());
 		
-		for (int i = 0; i < 5; i++){
-			rect = new Rectangle2D.Double(coords[i].getX() * getSquareSize(), coords[i].getY() * getSquareSize(), getSquareSize(), getSquareSize());
+		for (int i = 0; i < 4; i++){
+			rect = new Rectangle2D.Double(getSquareSize() * coords[i].getX(), getSquareSize() * coords[i].getY(), getSquareSize(), getSquareSize());
 			g.setColor(getBoatColor());
 			g2d.fill(rect);	
 		}
@@ -36,21 +40,19 @@ public class Couracado extends Boat implements Shape {
 
 	@Override
 	public Coordinate[] getBoatPositions(int pos) {
-		Coordinate[] coords = new Coordinate[5];
+		Coordinate[] coords = new Coordinate[4];
 		switch (pos){
 		case 0:
 			coords[0] = new Coordinate(0,0);
 			coords[1] = new Coordinate(1,0);
 			coords[2] = new Coordinate(2,0);
 			coords[3] = new Coordinate(3,0);
-			coords[4] = new Coordinate(4,0);
 			break;
 		case 1:
 			coords[0] = new Coordinate(0,0);
 			coords[1] = new Coordinate(0,1);
 			coords[2] = new Coordinate(0,2);
 			coords[3] = new Coordinate(0,3);
-			coords[4] = new Coordinate(0,4);
 			break;
 		}
 		

@@ -1,14 +1,17 @@
+package model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+
+import utils.Coordinate;
 
 @SuppressWarnings("serial")
 public class Destroyer extends Boat implements Shape {
 	
 	private Rectangle2D rect;
 		
-	Destroyer(int tag){
+	public Destroyer(int tag){
 		super(tag);
 		
 		setNumPositions(2);

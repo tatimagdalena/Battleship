@@ -1,9 +1,7 @@
-//Controller
+package controller;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
+import model.*;
+import view.*;
 
 public class Game {
 
@@ -91,9 +89,9 @@ public class Game {
 	private void setActivePlayer(PlayerTurn player){
 		active = player;
 		if(active == PlayerTurn.first){
-			positioningFrame.setInstruction("Vez do Jogador " + player1.name + ", arraste as peças para o tabuleiro");
+			positioningFrame.setInstruction("Vez do Jogador " + player1.getName() + ", arraste as peças para o tabuleiro");
 		} else {
-			positioningFrame.setInstruction("Vez do Jogador " + player2.name + ", arraste as peças para o tabuleiro");
+			positioningFrame.setInstruction("Vez do Jogador " + player2.getName() + ", arraste as peças para o tabuleiro");
 		}
 	}
 	

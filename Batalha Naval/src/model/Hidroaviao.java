@@ -1,8 +1,11 @@
+package model;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import javax.swing.JPanel;
+
+import utils.Coordinate;
 
 @SuppressWarnings("serial")
 public class Hidroaviao extends Boat implements Shape {
@@ -11,7 +14,7 @@ public class Hidroaviao extends Boat implements Shape {
 	private Rectangle2D rect2;
 	private Rectangle2D rect3;
 	
-	Hidroaviao(int tag){
+	public Hidroaviao(int tag){
 		super(tag);
 		
 		setNumPositions(4);

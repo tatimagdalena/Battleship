@@ -1,4 +1,6 @@
-import javax.swing.*; 
+package view;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 
@@ -8,10 +10,10 @@ public class GameBoard extends JPanel {
 	private int squareSize = 25;
 	private int numColumns = 15;
 	private int numLines = 15;
-	private Player player;
+	//private Player player;
 	private Color[][] matrix = new Color[15][15];
 	
-	GameBoard() {
+	public GameBoard() {
 		matrix = new Color[15][15];
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){

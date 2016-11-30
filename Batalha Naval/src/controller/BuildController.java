@@ -1,10 +1,14 @@
+package controller;
+
 import java.awt.Point;
 import java.awt.event.*;
-import javax.swing.*;
-
-
 import javax.swing.SwingUtilities;
 
+import model.*;
+import utils.*;
+import view.*;
+
+@SuppressWarnings("serial")
 public class BuildController extends BuildFrame {
 	
 	BuildController positioningFrame = this;
@@ -17,8 +21,8 @@ public class BuildController extends BuildFrame {
 		positioningFrame.setTitle("Batalha Naval"); 
 		positioningFrame.setVisible(true);
 		
-		int baseX = (int) positioningFrame.getPanel().getLocation().getX();
-		int baseY = (int) positioningFrame.getPanel().getLocation().getY();
+		//int baseX = (int) positioningFrame.getPanel().getLocation().getX();
+		//int baseY = (int) positioningFrame.getPanel().getLocation().getY();
 		
 		addKeyListener(new KeyAdapter() {
 			@Override

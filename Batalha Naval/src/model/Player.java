@@ -1,4 +1,6 @@
-import java.awt.Color;
+package model;
+
+import view.GameBoard;
 
 public class Player {
 
@@ -9,7 +11,14 @@ public class Player {
 	public Player(String name, PlayerTurn turn) {
 		this.turn = turn;
 		this.name = name;
-
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public PlayerTurn getTurn() {
+		return turn;
 	}
 	
 	public GameBoard getBoard(){

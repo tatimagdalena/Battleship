@@ -1,8 +1,12 @@
+package view;
 //View
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import controller.Game;
+import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
 public class NamingFrame extends JFrame implements ActionListener {

@@ -1,4 +1,8 @@
+package model;
 import javax.swing.JPanel;
+
+import utils.Coordinate;
+
 import java.awt.*;
 
 @SuppressWarnings("serial")

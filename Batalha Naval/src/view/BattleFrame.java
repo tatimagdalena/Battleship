@@ -1,4 +1,8 @@
+package view;
 import javax.swing.*;
+
+import controller.Game;
+import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
 public class BattleFrame extends JFrame {

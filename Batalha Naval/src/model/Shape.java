@@ -1,4 +1,7 @@
+package model;
 import java.awt.*;
+
+import utils.Coordinate;
 
 public interface Shape {
 	

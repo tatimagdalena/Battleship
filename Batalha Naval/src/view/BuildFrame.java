@@ -1,7 +1,12 @@
-//View
+package view;
+//
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import controller.*;
+import model.*;
+import utils.*;
 
 @SuppressWarnings("serial")
 public class BuildFrame extends JFrame implements ActionListener  {
@@ -209,7 +214,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		Game game = Game.getMainGame();
 		Player activePlayer = game.getActivePlayer();
 		
-		if(activePlayer.turn == PlayerTurn.first) {
+		if(activePlayer.getTurn() == PlayerTurn.first) {
 			game.changePlayerTurn();
 		}
 		else {
