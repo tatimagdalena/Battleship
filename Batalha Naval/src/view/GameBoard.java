@@ -1,6 +1,11 @@
 package view;
 
 import javax.swing.*;
+
+import model.Player;
+import model.Weapon;
+import utils.Coordinate;
+
 import java.awt.*;
 import java.awt.geom.*;
 
@@ -20,7 +25,6 @@ public class GameBoard extends JPanel {
 				matrix[i][j] = Color.cyan;
 			}
 		}
-		this.setDoubleBuffered(true);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -30,6 +34,8 @@ public class GameBoard extends JPanel {
 		int line, column;
 		
 		setLayout(null);
+		
+		
 		
 		for (int i = 1 ; i <= this.getNumLines(); i++ ){
 			JPanel coordLine = new JPanel();
@@ -104,6 +110,40 @@ public class GameBoard extends JPanel {
 		matrix[i-1][j-1] = color;		
 	}
 	
+	public void updateBoardForPlayer(Player player){
+		for (int i = 0; i < this.getNumLines(); i++){
+			for (int j = 0 ; j < this.getNumColumns(); j++ ){
+				matrix[i][j] = Color.cyan;
+			}
+		}
+		
+		for (int i = 0; i < player.getWeapons().length; i++){
+			if(player.getWeapons()[i] != null){
+				Weapon weapon = player.getWeapons()[i];
+				int tag = weapon.getTag();
+				Color color;
+				if (tag > 0 && tag < 5){
+					color = Color.green;
+				} else if (tag > 4 && tag < 8){
+					color = Color.magenta;
+				} else if (tag > 7 && tag < 12){
+					color = Color.blue;
+				} else if (tag > 11 && tag < 14){
+					color = Color.orange;
+				} else {
+					color = Color.pink;
+				}
+				
+				Coordinate[] coords = weapon.getBoatPositions(weapon.getPosition());
+				for(int j = 0; j < coords.length; j++){
+					setCoordColor(weapon.getInitialCoordinate().getX() + coords[j].getX(), 
+							weapon.getInitialCoordinate().getY() - coords[j].getY(), 
+							color);
+				}
+			}
+		}
+		this.repaint();
+	}
 	
 	public Color[][] getMatrix() {
 		return matrix;

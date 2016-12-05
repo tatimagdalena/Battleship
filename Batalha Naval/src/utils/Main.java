@@ -1,9 +1,9 @@
 package utils;
-import controller.Game;
+import controller.GameController;
 
 public class Main {
 	public static void main(String[] args) {
-		Game newGame = Game.getMainGame();
+		GameController newGame = GameController.getMainGameManager();
 		newGame.initiateGame();
 	}
 }

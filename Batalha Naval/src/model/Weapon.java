@@ -1,29 +1,28 @@
 package model;
-import javax.swing.JPanel;
 
 import utils.Coordinate;
 
-import java.awt.*;
-
-@SuppressWarnings("serial")
-public class Boat extends JPanel implements Shape {
+public class Weapon {
 	
-	private int squareSize = 25;
 	private int numPositions = 2;	//Number of positions a boat has. Hidroavaio: 4, submarino: 1, others: 2
 	private int position = 0;   	//Current position a Boat is in
 	private int numSquares;			//Number of squares that draw a Boat
-	private int width;				//The width of the boat on it's current position
-	private int height;				//The height of the boat on it's current position
-	private Color color;			//The boat color
 	private int tag;				//THe tag to identify the Boat
-		
-	public Boat(int tag){
+	private int width;
+	private int height;
+	
+	private Coordinate initialCoordinate = new Coordinate(-1,-1); //The initial coordinate of this weapon when positioned on the game board.
+	
+	public Weapon(int tag){
 		this.tag = tag;
-		this.setDoubleBuffered(true);
 	}
 	
-	public int getSquareSize() {
-		return squareSize;
+	public void setInitialCoordinate(Coordinate coord) {
+		initialCoordinate = coord;
+	}
+	
+	public Coordinate getInitialCoordinate() {
+		return initialCoordinate;
 	}
 	
 	public int getTag(){
@@ -66,33 +65,12 @@ public class Boat extends JPanel implements Shape {
 		numSquares = num;
 	}
 
-	@Override
-	public int getBoatWidth() {
-		return width;
-	}
-	
-	@Override
-	public void setBoatWidth(int width) {
-		this.width = width;
-	}
-
-	@Override
-	public int getBoatHeight() {
-		return height;
-	}
-	
-	@Override
-	public void setBoatHeight(int height) {
-		this.height = height;
-	}
-
 	/**
 	 * Description: This function must always be overwritten.
 	 * @param pos the position the boat is in
 	 * @return: An array with the coordinate of each square relative to the mouse arrow
 	 * 
 	 */
-	@Override  
 	public Coordinate[] getBoatPositions(int pos) {
 		return null;
 	}
@@ -122,21 +100,26 @@ public class Boat extends JPanel implements Shape {
 			position = 0;
 		}
 		
-		int temp = getBoatHeight();
-		setBoatHeight(getBoatWidth());
-		setBoatWidth(temp);
+		int temp = getMatricialHeight();
+		setMatricialHeight(getMatricialWidth());
+		setMatricialWidth(temp);
 		
 		setPosition(position);
 	}
-
-	@Override
-	public Color getBoatColor() {
-		return color;
-	}
-
-	@Override
-	public void setBoatColor(Color color) {
-		this.color = color;		
+	
+	public void setMatricialWidth(int num){
+		width = num;
 	}
 	
+	public int getMatricialWidth(){
+		return width;
+	}
+	
+	public void setMatricialHeight(int num){
+		height = num;
+	}
+	
+	public int getMatricialHeight(){
+		return height;
+	}
 }

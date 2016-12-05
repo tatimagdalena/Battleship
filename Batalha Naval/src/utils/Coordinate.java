@@ -25,4 +25,10 @@ public class Coordinate {
 	public int getY(){
 		return y;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Coordinate other = (Coordinate)obj;
+		return this.x == other.x && this.y == other.y;
+	}
 }

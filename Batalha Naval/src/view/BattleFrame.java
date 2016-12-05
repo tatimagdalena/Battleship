@@ -1,14 +1,14 @@
 package view;
 import javax.swing.*;
 
-import controller.Game;
+import controller.GameController;
 import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
 public class BattleFrame extends JFrame {
 
-	private GameBoard firstBoardPanel = Game.getMainGame().getPlayer1().getBoard();
-	private GameBoard secondBoardPanel = Game.getMainGame().getPlayer2().getBoard();
+	private GameBoard firstBoardPanel = new GameBoard(); 
+	private GameBoard secondBoardPanel = new GameBoard(); 
 	private JButton turnButton = new JButton("Começar Jogo!");
 	
 	public BattleFrame() {

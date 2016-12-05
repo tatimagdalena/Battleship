@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import controller.Game;
+import controller.GameController;
 import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
@@ -52,8 +52,9 @@ public class NamingFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		Game game = Game.getMainGame();
+		GameController game = GameController.getMainGameManager();
 		
+		System.out.println(firstPlayerField.getText());
 		game.setPlayer1(firstPlayerField.getText());
 		game.setPlayer2(secondPlayerField.getText());
 		

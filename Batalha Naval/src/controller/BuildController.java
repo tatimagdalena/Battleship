@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.SwingUtilities;
@@ -29,9 +30,8 @@ public class BuildController extends BuildFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					if(getActiveBoat() != null) {
-						getActiveBoat().setVisible(true);
-						getActiveBoat().setLocation(boatOldPosition);
-						getActiveBoat().repaint();
+						int tag = getActiveBoat().getTag();
+						getWeaponView(tag).setVisible(true);;
 						setActiveBoat(null);
 					}
 				}
@@ -43,10 +43,50 @@ public class BuildController extends BuildFrame {
 			public void mousePressed(MouseEvent e) {
 				int line = (e.getX())/25;
 				int column = (e.getY())/25;
-				positioningFrame.getActiveBoat().setVisible(true);
-				drawBoatOnBoard(positioningFrame.getActiveBoat(), positioningFrame.getPanel(), line, column);
-				positioningFrame.getActiveBoat().setVisible(false);
-				setActiveBoat(null);
+				Coordinate selectedCoord = new Coordinate(line, column);
+				System.out.println("line "+line+"column "+column);
+				GameController gameManager = GameController.getMainGameManager();
+				Player currentPlayer = gameManager.getActivePlayer();
+				
+				if(positioningFrame.getActiveBoat() != null) {
+					
+					//TODO: TREAT HERE FOR INVALID POSITION****
+					
+					
+					
+					if (currentPlayer.checkValidPosition(positioningFrame.getActiveBoat(), selectedCoord)){
+						positioningFrame.getActiveBoat().setInitialCoordinate(selectedCoord);
+						currentPlayer.addWeapon(positioningFrame.getActiveBoat());
+					
+					
+						setActiveBoat(null);
+						positioningFrame.getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+					}
+				}
+				else {
+					for(Weapon weapon: currentPlayer.getWeapons()) {
+						if(weapon != null) {
+							Coordinate[] coordinates = weapon.getBoatPositions(weapon.getPosition());
+							for(Coordinate coord: coordinates) {
+								int relativeX = weapon.getInitialCoordinate().getX() + coord.getX();
+								int relativeY = weapon.getInitialCoordinate().getY() - coord.getY();
+								Coordinate relativeCoord = new Coordinate(relativeX, relativeY);
+								if(relativeCoord.equals(selectedCoord)) {
+									currentPlayer.removeWeapon(weapon);
+									
+									System.out.printf("Removeu peca (tag = %d)\n", weapon.getTag());
+									getWeaponView(weapon.getTag()).setVisible(true);
+									positioningFrame.getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+									break;
+								}
+							}
+						}
+						
+					}
+					
+					
+				}
+				
 			}
 			
 			@Override
@@ -60,66 +100,13 @@ public class BuildController extends BuildFrame {
 				}
 			}
 		});
-		
-		positioningFrame.getPanel().addMouseMotionListener(new CustomMotionListener());
-		
-//		positioningFrame.getPanel().addMouseMotionListener(new MouseMotionAdapter() {
-//			@Override
-//			public void mouseMoved(MouseEvent e) {
-//				/*
-//				 * On moving mouse
-//				 * Set the boat visible
-//				 * Change it's location
-//				 * repaint to redraw on correct position(the new one)
-//				 */
-//				if(positioningFrame.getActiveBoat() != null) {
-//					position = new Point(e.getX()/25, e.getY()/25);
-//					if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
-//						positioningFrame.getPanel().repaint();
-//						positioningFrame.setCurrentMousePosition(position);
-//						positioningFrame.getActiveBoat().setVisible(true);
-//						positioningFrame.getActiveBoat().setLocation(00 + 25 * (position.x) ,  
-//								00 + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
-//						
-//						//System.out.println(basePointX +" "+basePointY);
-//					}
-//				}
-//				/*
-//				Thread background = new Thread(
-//					new Runnable(){
-//						@Override
-//				        public void run() {
-//							if(positioningFrame.getActiveBoat() != null) {
-//								//Point p = new Point(e.getX()/25, e.getY()/25);
-//								position = new Point(e.getX()/25, e.getY()/25);
-//								if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
-//									positioningFrame.setCurrentMousePosition(position);
-//									
-//								}
-//							}
-//				        }
-//					});
-//		        //background.setDaemon(true);
-//		        background.start();
-//		        SwingUtilities.invokeLater(new Runnable(){
-//	        	    public void run() {
-//	        	    	positioningFrame.getActiveBoat().setVisible(true);
-//						positioningFrame.getActiveBoat().setLocation(baseX + 25 * (position.x) ,  
-//								baseY + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
-//							
-//	        	    }
-//		        });*/
-//		        
-//		        
-//			}
-//			
-//		});
-		
-		
-		for(int i = 0; i < 15; i++){
-			Boat boat = positioningFrame.getBoat()[i];
-			boat.setFocusable(true); //Para poder escutar eventos do teclado
-			boat.addMouseListener(new MouseAdapter() {
+
+		for(int i = 0; i < getBoat().length; i++){
+			WeaponView boatView = getWeaponView(i);
+			Weapon boat = getBoat()[i];
+			int boatNumber = boat.getTag();
+			boatView.setFocusable(true); //Para poder escutar eventos do teclado
+			boatView.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {					
 					/*
@@ -134,8 +121,8 @@ public class BuildController extends BuildFrame {
 						if(SwingUtilities.isLeftMouseButton(e)){
 						
 							positioningFrame.setActiveBoat(boat);
-							boat.setVisible(false);
-							boatOldPosition = boat.getLocation();
+							boatView.setVisible(false);
+							boatOldPosition = boatView.getLocation();
 						
 						}
 					} else {
@@ -146,8 +133,7 @@ public class BuildController extends BuildFrame {
 								if(pos.getX() != 0 && pos.getY() != 0){
 									GameBoard board = positioningFrame.getPanel();
 									drawBoatOnBoard(boat, board, (int)pos.getX(), (int)pos.getY());
-									boat.setVisible(false);
-									positioningFrame.remove(boat);
+									boatView.setVisible(false);
 									positioningFrame.setActiveBoat(null);
 									board.repaint();
 								}
@@ -167,12 +153,12 @@ public class BuildController extends BuildFrame {
 					 */
 					if(SwingUtilities.isRightMouseButton(e)){
 						if (boat != null){
-							Point location = boat.getLocation();
-							location.setLocation(location.getX(), location.getY() + boat.getBoatHeight() - 25);
+							Point location = boatView.getLocation();
+							location.setLocation(location.getX(), location.getY() + boat.getMatricialHeight()*25 - 25);
 							boat.nextPosition();
-							boat.setSize(boat.getBoatWidth(), boat.getBoatHeight());
-							boat.setLocation((int)location.getX(), (int)location.getY() - boat.getBoatHeight() + 25);
-							boat.repaint();
+							boatView.setSize(boat.getMatricialWidth()*25, boat.getMatricialHeight()*25);
+							boatView.setLocation((int)location.getX(), (int)location.getY() - boat.getMatricialHeight()*25 + 25);
+							boatView.repaint();
 						}
 				    }
 					
@@ -181,41 +167,12 @@ public class BuildController extends BuildFrame {
 		}
 	}
 	
-	class CustomMotionListener implements MouseMotionListener {
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			//moveBoat(e);
-		}
-		
-	}
-	
-	
-	private void moveBoat(MouseEvent e){
-		if(positioningFrame.getActiveBoat() != null) {
-			position = new Point(e.getX()/25, e.getY()/25);
-			if(!positioningFrame.getCurrentMousePosition().equals(position)) {			
-				positioningFrame.setCurrentMousePosition(position);
-				positioningFrame.getActiveBoat().setVisible(true);
-				positioningFrame.getActiveBoat().setLocation(0 + 25 * (position.x) ,  
-						00 + 25 * (position.y) - positioningFrame.getActiveBoat().getBoatHeight() + 25);
-					
-			}
-		}
-	}
-	
-	private void drawBoatOnBoard(Boat boat, GameBoard board, int x, int y){
+	private void drawBoatOnBoard(Weapon boat, GameBoard board, int x, int y){
 		Coordinate[] coords = boat.getBoatPositions(boat.getPosition());
 		for (int i=0; i< coords.length; i++){
-			board.setCoordColor(x + coords[i].getX(), y + coords[i].getY() - (boat.getBoatHeight()-1)/25 , boat.getBoatColor());
+			board.setCoordColor(x + coords[i].getX(), y + coords[i].getY() /*- (boat.getBoatHeight()-1)/25*/ , Color.green);
 		}
-		Game.getMainGame().getActivePlayer().setBoard(board);
+		//GameController.getMainGameManager().getActivePlayer().setBoard(board);
 	}
 	
 }

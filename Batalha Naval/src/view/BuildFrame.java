@@ -1,3 +1,4 @@
+
 package view;
 //
 import java.awt.*;
@@ -6,6 +7,11 @@ import javax.swing.*;
 
 import controller.*;
 import model.*;
+import model.weapons.Couracado;
+import model.weapons.Cruzador;
+import model.weapons.Destroyer;
+import model.weapons.Hidroaviao;
+import model.weapons.Submarino;
 import utils.*;
 
 @SuppressWarnings("serial")
@@ -19,9 +25,10 @@ public class BuildFrame extends JFrame implements ActionListener  {
 	private Submarino[] submarino = new Submarino[4];
 	private Cruzador[] cruzador = new Cruzador[2];
 	private Couracado[] couracado = new Couracado[1];
-	private Boat[] boat = new Boat[15];
+	private Weapon[] boat = new Weapon[15];
+	private WeaponView[] boatView = new WeaponView[15];
 	
-	private Boat activeBoat = null;
+	private Weapon activeBoat = null;
 	private Point currentMousePosition = new Point(0,0);
 	
 	private int baseX = 50;
@@ -68,16 +75,24 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		 * add to the screen and to the boat array
 		 */
 		for (int i = 0; i< 5; i++){
+			
 			hidroaviao[i] = new Hidroaviao(i);
-			hidroaviao[i].setSize(hidroaviao[i].getBoatWidth(), hidroaviao[i].getBoatHeight());
-			hidroaviao[i].setLocation(baseX + (int)(hidroaviao[i].getBoatWidth() + hidroaviao[i].getSquareSize()) * i, 
+			WeaponView weaponView = new WeaponView(hidroaviao[i], Color.green);
+			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
+					weaponView.getWeapon().getMatricialHeight()*25);
+			weaponView.setLocation(baseX + (int)(weaponView.getWeapon().getMatricialWidth()*25 + 25) * i,
 					(int)boardPanel.getLocation().getY());
-			hidroaviao[i].setOpaque(false);
-			getContentPane().add(hidroaviao[i]);
-			boat[boatCounter] = hidroaviao[i];
+			weaponView.setOpaque(false);
+			
+			boat[boatCounter] = weaponView.getWeapon();
 			boat[boatCounter].setTag(boatCounter);
+			
+			boatView[boatCounter] = weaponView;
+			getContentPane().add(boatView[boatCounter]);
+			
+			boatView[boatCounter].repaint();
+			
 			boatCounter++;
-			hidroaviao[i].repaint();
 		}
 		
 		/*
@@ -88,15 +103,23 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		 * set Opaque Background
 		 * add to the screen and to the boat array
 		 */
-		for (int i = 0; i< 3; i++){
+		for (int i = 0; i< 3; i++){			
 			destroyer[i] = new Destroyer(i);
-			destroyer[i].setSize(destroyer[i].getBoatWidth(), destroyer[i].getBoatHeight());
-			destroyer[i].setLocation(baseX + (int)(destroyer[i].getBoatWidth() + destroyer[i].getSquareSize()) * i, 
-					(int)(hidroaviao[0].getLocation().getY()) + hidroaviao[0].getBoatHeight() + destroyer[i].getSquareSize());
-			destroyer[i].setOpaque(false);;
-			getContentPane().add(destroyer[i]);
-			boat[boatCounter] = destroyer[i];
+			WeaponView weaponView = new WeaponView(destroyer[i], Color.magenta);
+			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
+					weaponView.getWeapon().getMatricialHeight()*25);
+			weaponView.setLocation(baseX + (int)(weaponView.getWeapon().getMatricialWidth()*25 + 25) * i,
+					(int)(boatView[0].getLocation().getY()) + destroyer[i].getMatricialWidth()*25 + 50);
+			weaponView.setOpaque(false);
+			
+			boat[boatCounter] = weaponView.getWeapon();
 			boat[boatCounter].setTag(boatCounter);
+			
+			boatView[boatCounter] = weaponView;
+			getContentPane().add(boatView[boatCounter]);
+			
+			boatView[boatCounter].repaint();
+			
 			boatCounter++;
 		}
 		
@@ -109,14 +132,23 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		 * add to the screen and to the boat array
 		 */
 		for (int i = 0; i< 4; i++){
+			
 			submarino[i] = new Submarino(i);
-			submarino[i].setSize(submarino[i].getBoatWidth(), submarino[i].getBoatHeight());
-			submarino[i].setLocation(baseX + (int)(submarino[i].getBoatWidth() + submarino[i].getSquareSize()) * i, 
-					(int)(destroyer[0].getLocation().getY()) + destroyer[0].getBoatHeight() + submarino[i].getSquareSize());
-			submarino[i].setOpaque(false);
-			getContentPane().add(submarino[i]);
-			boat[boatCounter] = submarino[i];
+			WeaponView weaponView = new WeaponView(submarino[i], Color.blue);
+			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
+					weaponView.getWeapon().getMatricialHeight()*25);
+			weaponView.setLocation(baseX + (int)(weaponView.getWeapon().getMatricialWidth()*25 + 25) * i,
+					(int)(boatView[5].getLocation().getY()) + submarino[i].getMatricialWidth()*25 + 25);
+			weaponView.setOpaque(false);
+			
+			boat[boatCounter] = weaponView.getWeapon();
 			boat[boatCounter].setTag(boatCounter);
+			
+			boatView[boatCounter] = weaponView;
+			getContentPane().add(boatView[boatCounter]);
+			
+			boatView[boatCounter].repaint();
+			
 			boatCounter++;
 		}
 		
@@ -129,14 +161,23 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		 * add to the screen and to the boat array
 		 */
 		for (int i = 0; i< 2; i++){
+			
 			cruzador[i] = new Cruzador(i);
-			cruzador[i].setSize(cruzador[i].getBoatWidth(), cruzador[i].getBoatHeight());
-			cruzador[i].setLocation(baseX + (int)(cruzador[i].getBoatWidth() + cruzador[i].getSquareSize()) * i, 
-					(int)(submarino[0].getLocation().getY()) + submarino[0].getBoatHeight() + cruzador[i].getSquareSize());
-			cruzador[i].setOpaque(false);
-			getContentPane().add(cruzador[i]);
-			boat[boatCounter] = cruzador[i];
+			WeaponView weaponView = new WeaponView(cruzador[i], Color.orange);
+			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
+					weaponView.getWeapon().getMatricialHeight()*25);
+			weaponView.setLocation(baseX + (int)(weaponView.getWeapon().getMatricialWidth()*25 + 25) * i,
+					(int)(boatView[8].getLocation().getY()) + cruzador[i].getMatricialWidth()*25 + 25);
+			weaponView.setOpaque(false);
+			
+			boat[boatCounter] = weaponView.getWeapon();
 			boat[boatCounter].setTag(boatCounter);
+			
+			boatView[boatCounter] = weaponView;
+			getContentPane().add(boatView[boatCounter]);
+			
+			boatView[boatCounter].repaint();
+			
 			boatCounter++;
 		}
 		
@@ -150,13 +191,21 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		 */
 		for (int i = 0; i< 1; i++){
 			couracado[i] = new Couracado(i);
-			couracado[i].setSize(couracado[i].getBoatWidth(), couracado[i].getBoatHeight());
-			couracado[i].setLocation(baseX + (int)(couracado[i].getBoatWidth() + couracado[i].getSquareSize()) * i, 
-					(int)(cruzador[0].getLocation().getY()) + cruzador[0].getBoatHeight() + couracado[i].getSquareSize());
-			couracado[i].setOpaque(false);
-			getContentPane().add(couracado[i]);
-			boat[boatCounter] = couracado[i];
+			WeaponView weaponView = new WeaponView(couracado[i], Color.pink);
+			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
+					weaponView.getWeapon().getMatricialHeight()*25);
+			weaponView.setLocation((int)boatView[13].getLocation().getX() + (int)(boatView[13].getSize().getWidth() + 25),
+					(int)(boatView[8].getLocation().getY()) + cruzador[i].getMatricialWidth()*25 + 25);
+			weaponView.setOpaque(false);
+			
+			boat[boatCounter] = weaponView.getWeapon();
 			boat[boatCounter].setTag(boatCounter);
+			
+			boatView[boatCounter] = weaponView;
+			getContentPane().add(boatView[boatCounter]);
+			
+			boatView[boatCounter].repaint();
+			
 			boatCounter++;
 		}
 		
@@ -178,11 +227,11 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		return boardPanel;
 	}
 	
-	public Boat getActiveBoat() {
+	public Weapon getActiveBoat() {
 		return activeBoat;
 	}
 	
-	public void setActiveBoat(Boat activeBoat) {
+	public void setActiveBoat(Weapon activeBoat) {
 		this.activeBoat = activeBoat;
 	}
 	
@@ -194,8 +243,12 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		this.currentMousePosition = p;
 	}
 	
-	public Boat[] getBoat() {
+	public Weapon[] getBoat() {
 		return boat;
+	}
+	
+	public WeaponView getWeaponView(int i) {
+		return boatView[i];
 	}
 	
 	public JPanel getInstruction(){
@@ -211,7 +264,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Game game = Game.getMainGame();
+		GameController game = GameController.getMainGameManager();
 		Player activePlayer = game.getActivePlayer();
 		
 		if(activePlayer.getTurn() == PlayerTurn.first) {

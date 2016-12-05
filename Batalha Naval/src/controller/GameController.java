@@ -3,50 +3,57 @@ package controller;
 import model.*;
 import view.*;
 
-public class Game {
+public class GameController {
 
-	private static Game game = null;
+	private static GameController gameManager = null;
 	
-	private Player player1;
-	private Player player2;
+//	private Player player1;
+//	private Player player2;
+//	
+//	private PlayerTurn active;
 	
-	private PlayerTurn active;
+	private Game game = new Game();
 	
 	private NamingFrame playersNamingFrame = new NamingFrame();
 	private BuildFrame positioningFrame; //= new BuildFrame();
 	private BattleFrame battleFrame; //= new BattleFrame();
 	
-	private Game() {
+	private GameController() {
 	}
 	
-	public static Game getMainGame() {
-		if(game == null) {
-			game = new Game();
+	public static GameController getMainGameManager() {
+		if(gameManager == null) {
+			gameManager = new GameController();
 		}
-		return game;
+		return gameManager;
 	}
 	
 	public void setPlayer1(String name) {
-		this.player1 = new Player(name, PlayerTurn.first);
+//		this.player1 = new Player(name, PlayerTurn.first);
+		game.setPlayer1(name);
 	}
 	
 	public void setPlayer2(String name) {
-		this.player2 = new Player(name, PlayerTurn.second);
+//		this.player2 = new Player(name, PlayerTurn.second);
+		game.setPlayer2(name);
 	}
 	
 	public Player getPlayer1() {
-		return player1;
+//		return player1;
+		return game.getPlayer1();
 	}
 	
 	public Player getPlayer2() {
-		return player2;
+//		return player2;
+		return game.getPlayer2();
 	}
 	
 	public Player getActivePlayer(){
-		if(active == PlayerTurn.first){
-			return player1;
+//		if(active == PlayerTurn.first){
+		if(game.getActiveTurn() == PlayerTurn.first){
+			return game.getPlayer1();
 		} else {
-			return player2;
+			return game.getPlayer2();
 		}
 	}
 	
@@ -56,7 +63,8 @@ public class Game {
 	}
 	
 	public void changePlayerTurn(){
-		if(active == PlayerTurn.first){
+//		if(active == PlayerTurn.first){
+		if(game.getActiveTurn() == PlayerTurn.first) {
 			setActivePlayer(PlayerTurn.second);
 		} else {
 			setActivePlayer(PlayerTurn.first);
@@ -87,14 +95,12 @@ public class Game {
 	}
 	
 	private void setActivePlayer(PlayerTurn player){
-		active = player;
-		if(active == PlayerTurn.first){
-			positioningFrame.setInstruction("Vez do Jogador " + player1.getName() + ", arraste as peças para o tabuleiro");
+		game.setActiveTurn(player);
+		if(game.getActiveTurn() == PlayerTurn.first){
+			positioningFrame.setInstruction("Vez do Jogador " + game.getPlayer1().getName() + ", arraste as peças para o tabuleiro");
 		} else {
-			positioningFrame.setInstruction("Vez do Jogador " + player2.getName() + ", arraste as peças para o tabuleiro");
+			positioningFrame.setInstruction("Vez do Jogador " + game.getPlayer2().getName() + ", arraste as peças para o tabuleiro");
 		}
 	}
-	
-
 	
 }
