@@ -1,8 +1,6 @@
 package model;
 
-import controller.GameController;
 import utils.Coordinate;
-import view.GameBoard;
 
 public class Player {
 
@@ -62,12 +60,9 @@ public class Player {
 					existsWeapon(relativeX-1, relativeY-1)    //north right
 					){
 				return false;
-			}
-			
+			}	
 		}
-		
 		return true;
-		
 	}
 	
 	private Boolean existsWeapon(int i, int j){
@@ -88,7 +83,4 @@ public class Player {
 		return false;
 	}
 	
-//	public void updateWeapon(Weapon weapon) {
-//		weapons[weapon.getTag()] = weapon;
-//	}
 }

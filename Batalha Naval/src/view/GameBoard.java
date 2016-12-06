@@ -15,7 +15,6 @@ public class GameBoard extends JPanel {
 	private int squareSize = 25;
 	private int numColumns = 15;
 	private int numLines = 15;
-	//private Player player;
 	private Color[][] matrix = new Color[15][15];
 	
 	public GameBoard() {

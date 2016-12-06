@@ -7,11 +7,6 @@ public class GameController {
 
 	private static GameController gameManager = null;
 	
-//	private Player player1;
-//	private Player player2;
-//	
-//	private PlayerTurn active;
-	
 	private Game game = new Game();
 	
 	private NamingFrame playersNamingFrame = new NamingFrame();
@@ -29,17 +24,14 @@ public class GameController {
 	}
 	
 	public void setPlayer1(String name) {
-//		this.player1 = new Player(name, PlayerTurn.first);
 		game.setPlayer1(name);
 	}
 	
 	public void setPlayer2(String name) {
-//		this.player2 = new Player(name, PlayerTurn.second);
 		game.setPlayer2(name);
 	}
 	
 	public Player getPlayer1() {
-//		return player1;
 		return game.getPlayer1();
 	}
 	
@@ -49,7 +41,6 @@ public class GameController {
 	}
 	
 	public Player getActivePlayer(){
-//		if(active == PlayerTurn.first){
 		if(game.getActiveTurn() == PlayerTurn.first){
 			return game.getPlayer1();
 		} else {
@@ -63,7 +54,6 @@ public class GameController {
 	}
 	
 	public void changePlayerTurn(){
-//		if(active == PlayerTurn.first){
 		if(game.getActiveTurn() == PlayerTurn.first) {
 			setActivePlayer(PlayerTurn.second);
 		} else {
@@ -90,6 +80,7 @@ public class GameController {
 	}
 	
 	public void showBattle() {
+		battleFrame = new BattleFrame();
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
 	}

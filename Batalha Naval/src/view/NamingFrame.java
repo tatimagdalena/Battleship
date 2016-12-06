@@ -52,14 +52,14 @@ public class NamingFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		GameController game = GameController.getMainGameManager();
+		GameController gameManager = GameController.getMainGameManager();
 		
-		System.out.println(firstPlayerField.getText());
-		game.setPlayer1(firstPlayerField.getText());
-		game.setPlayer2(secondPlayerField.getText());
+		gameManager.setPlayer1(firstPlayerField.getText());
+		gameManager.setPlayer2(secondPlayerField.getText());
 		
-		game.closeNaming();
-		game.showPositioning();
+		//TODO: verificar se faz sentido ser aqui
+		gameManager.closeNaming();
+		gameManager.showPositioning();
 	}
 	
 }

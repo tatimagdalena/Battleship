@@ -7,11 +7,7 @@ import javax.swing.*;
 
 import controller.*;
 import model.*;
-import model.weapons.Couracado;
-import model.weapons.Cruzador;
-import model.weapons.Destroyer;
-import model.weapons.Hidroaviao;
-import model.weapons.Submarino;
+import model.weapons.*;
 import utils.*;
 
 @SuppressWarnings("serial")
@@ -19,7 +15,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 	
 	private GameBoard boardPanel;
 	private JPanel instructionPanel = new JPanel();
-	private JButton turnButton = new JButton("Pronto!");
+	protected JButton turnButton = new JButton("Pronto!");
 	private Hidroaviao[] hidroaviao = new Hidroaviao[5];
 	private Destroyer[] destroyer = new Destroyer[3];
 	private Submarino[] submarino = new Submarino[4];
@@ -27,6 +23,8 @@ public class BuildFrame extends JFrame implements ActionListener  {
 	private Couracado[] couracado = new Couracado[1];
 	private Weapon[] boat = new Weapon[15];
 	private WeaponView[] boatView = new WeaponView[15];
+	
+	private int setWeaponsAmount = 0;
 	
 	private Weapon activeBoat = null;
 	private Point currentMousePosition = new Point(0,0);
@@ -37,33 +35,102 @@ public class BuildFrame extends JFrame implements ActionListener  {
 	public int basePointY;
 	
 	public BuildFrame() {
-		//Gofigurações de Janela
+		//Window configuration
 		final ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
 		setLayout(null);
-		
 		setFocusable(true);
 		requestFocusInWindow();
-		
 		
 		//Panel de Intruções ao jogador
 		instructionPanel.setSize(500, 40);
 		instructionPanel.setLocation((int)(screen.screenIntWidth*1/2 - instructionPanel.getSize().getWidth()/2), 
 				(int) 50);
+		setInstruction("Player turn");
 		
-		//Tabuleiro
+		//Board
 		boardPanel = new GameBoard();
 		boardPanel.setSize((boardPanel.getNumLines()+1)*boardPanel.getSquareSize(), 
 						(boardPanel.getNumColumns()+1)*boardPanel.getSquareSize());
-		
 		basePointX = (int)(screen.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
 		basePointY = (int)(screen.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
 		
 		boardPanel.setLocation(basePointX, basePointY);	
 		
+		//Weapons
+		drawWeaponsInitialList();
 		
+		//Done button
+		turnButton.setSize(100, 50);
+		turnButton.setLocation((int)(screen.screenIntWidth*1/2 - turnButton.getSize().getWidth()/2), 
+				(int)(boardPanel.getLocation().getY() + boardPanel.getSize().getHeight() + 30));
+		turnButton.addActionListener(this);
+		turnButton.setEnabled(false);
 		
+		getContentPane().add(instructionPanel);
+		getContentPane().add(boardPanel);
+		getContentPane().add(turnButton);
+	}
+	
+	public GameBoard getPanel() {
+		return boardPanel;
+	}
+	
+	public Weapon getActiveBoat() {
+		return activeBoat;
+	}
+	
+	public void setActiveBoat(Weapon activeBoat) {
+		this.activeBoat = activeBoat;
+	}
+	
+	public Point getCurrentMousePosition() {
+		return currentMousePosition;
+	}
+	
+	public void setCurrentMousePosition(Point p) {
+		this.currentMousePosition = p;
+	}
+	
+	public Weapon[] getBoat() {
+		return boat;
+	}
+	
+	public WeaponView getWeaponView(int i) {
+		return boatView[i];
+	}
+	
+	public JPanel getInstruction(){
+		return instructionPanel;
+	}
+	
+	public void setInstruction (String text){
+		instructionPanel.removeAll();
+		instructionPanel.revalidate();
+		Label instructionLabel = new Label(text);
+		instructionPanel.add(instructionLabel);
+	}
+	
+	public void incrementSetWeaponsAmount() {
+		setWeaponsAmount++;
+	}
+	
+	public void decrementSetWeaponsAmount() {
+		setWeaponsAmount--;
+	}
+	
+	public int getSetWeaponsAmount() {
+		return setWeaponsAmount;
+	}
+	
+	public void clearSetWeaponsAmount() {
+		setWeaponsAmount = 0;
+	}
+	
+	private void drawWeaponsInitialList() {
+		boat = new Weapon[15];
+		clearSetWeaponsAmount();
 		int boatCounter = 0;
 		
 		/*
@@ -208,71 +275,23 @@ public class BuildFrame extends JFrame implements ActionListener  {
 			
 			boatCounter++;
 		}
-		
-		//Botao para finalizar
-		turnButton.setSize(100, 50);
-		turnButton.setLocation((int)(screen.screenIntWidth*1/2 - turnButton.getSize().getWidth()/2), 
-				(int)(boardPanel.getLocation().getY() + boardPanel.getSize().getHeight() + 30));
-		turnButton.addActionListener(this);
-		
-		getContentPane().add(instructionPanel);
-		getContentPane().add(boardPanel);
-		getContentPane().add(turnButton);
-		
-		setInstruction("Player turn");
-
-	}
-	
-	public GameBoard getPanel() {
-		return boardPanel;
-	}
-	
-	public Weapon getActiveBoat() {
-		return activeBoat;
-	}
-	
-	public void setActiveBoat(Weapon activeBoat) {
-		this.activeBoat = activeBoat;
-	}
-	
-	public Point getCurrentMousePosition() {
-		return currentMousePosition;
-	}
-	
-	public void setCurrentMousePosition(Point p) {
-		this.currentMousePosition = p;
-	}
-	
-	public Weapon[] getBoat() {
-		return boat;
-	}
-	
-	public WeaponView getWeaponView(int i) {
-		return boatView[i];
-	}
-	
-	public JPanel getInstruction(){
-		return instructionPanel;
-	}
-	
-	public void setInstruction (String text){
-		instructionPanel.removeAll();
-		instructionPanel.revalidate();
-		Label instructionLabel = new Label(text);
-		instructionPanel.add(instructionLabel);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		GameController game = GameController.getMainGameManager();
-		Player activePlayer = game.getActivePlayer();
+		GameController gameManager = GameController.getMainGameManager();
+		Player activePlayer = gameManager.getActivePlayer();
 		
 		if(activePlayer.getTurn() == PlayerTurn.first) {
-			game.changePlayerTurn();
+			gameManager.changePlayerTurn();
+			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			drawWeaponsInitialList();
+			BuildController buildController = (BuildController) gameManager.getPositioningFrame();
+			buildController.setWeaponsListeners();
 		}
 		else {
-			game.closePositioning();
-			game.showBattle();
+			gameManager.closePositioning();
+			gameManager.showBattle();
 		}
 	}
 	

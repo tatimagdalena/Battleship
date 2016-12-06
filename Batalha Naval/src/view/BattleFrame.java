@@ -23,12 +23,16 @@ public class BattleFrame extends JFrame {
 		int yBoardPosition = (int)(screen.screenIntHeight*1/2 - boardHeight/2);
 		int xFirstBoardPosition = (int)(screen.screenWidth/4 - boardWidth/2);
 		
+		GameController gameManager = GameController.getMainGameManager();
+		
 		firstBoardPanel.setSize(boardWidth, boardHeight);
 		firstBoardPanel.setLocation(xFirstBoardPosition, yBoardPosition);
+		firstBoardPanel.updateBoardForPlayer(gameManager.getPlayer1());
 		
 		secondBoardPanel.setSize(boardWidth, boardHeight);
 		secondBoardPanel.setLocation((int)(screen.screenIntWidth*3/4 - secondBoardPanel.getSize().getWidth()/2), 
 				yBoardPosition);
+		secondBoardPanel.updateBoardForPlayer(gameManager.getPlayer2());
 		
 		int buttonWidth = 150;
 		int buttonHeight = 50;

@@ -5,7 +5,7 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	
-	private PlayerTurn active;
+	private PlayerTurn activePlayer;
 	
 	public void setPlayer1(String name) {
 		this.player1 = new Player(name, PlayerTurn.first);
@@ -24,7 +24,7 @@ public class Game {
 	}
 	
 	public Player getActivePlayer(){
-		if(active == PlayerTurn.first){
+		if(activePlayer == PlayerTurn.first){
 			return player1;
 		} else {
 			return player2;
@@ -32,11 +32,11 @@ public class Game {
 	}
 	
 	public PlayerTurn getActiveTurn() {
-		return active;
+		return activePlayer;
 	}
 	
 	public void setActiveTurn(PlayerTurn turn) {
-		active = turn;
+		activePlayer = turn;
 	}
 	
 }
