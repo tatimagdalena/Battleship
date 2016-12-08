@@ -26,16 +26,6 @@ public class BuildController extends BuildFrame {
 		setWeaponsListeners();
 	}
 	
-	//TODO: it is a "view" method
-	private void drawBoatOnBoard(Weapon boat, GameBoard board, int x, int y){
-		Coordinate[] coords = boat.getBoatPositions(boat.getPosition());
-		for (int i=0; i< coords.length; i++){
-			board.setCoordColor(x + coords[i].getX(), y + coords[i].getY() /*- (boat.getBoatHeight()-1)/25*/ , Color.green);
-		}
-		//GameController.getMainGameManager().getActivePlayer().setBoard(board);
-	}
-	
-	
 	// Mouse handler when clicking on game board
 	private void boardMousePressedHandler(int x, int y) {
 		int line = x/25;
@@ -97,7 +87,6 @@ public class BuildController extends BuildFrame {
 		for(int i = 0; i < getBoat().length; i++){
 			WeaponView boatView = getWeaponView(i);
 			Weapon boat = getBoat()[i];
-//			int boatNumber = boat.getTag();
 			boatView.setFocusable(true); //Para poder escutar eventos do teclado
 			boatView.addMouseListener(new MouseAdapter() {
 				@Override
@@ -118,23 +107,7 @@ public class BuildController extends BuildFrame {
 							boatOldPosition = boatView.getLocation();
 						
 						}
-					} else {
-					
-						if(SwingUtilities.isLeftMouseButton(e)){
-							if (boat != null){
-								Point pos = positioningFrame.getCurrentMousePosition();
-								if(pos.getX() != 0 && pos.getY() != 0){
-									GameBoard board = positioningFrame.getPanel();
-									drawBoatOnBoard(boat, board, (int)pos.getX(), (int)pos.getY());
-									boatView.setVisible(false);
-									positioningFrame.setActiveBoat(null);
-									board.repaint();
-								}
-							}
-				    	}
-						
-						
-					}
+					} 
 					
 					/*
 					 * RIGHT-CLICK

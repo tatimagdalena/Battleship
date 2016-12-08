@@ -121,7 +121,7 @@ public class GameBoard extends JPanel {
 				Weapon weapon = player.getWeapons()[i];
 				int tag = weapon.getTag();
 				Color color;
-				if (tag > 0 && tag < 5){
+				if (tag < 5){
 					color = Color.green;
 				} else if (tag > 4 && tag < 8){
 					color = Color.magenta;

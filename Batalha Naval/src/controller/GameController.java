@@ -9,9 +9,9 @@ public class GameController {
 	
 	private Game game = new Game();
 	
-	private NamingFrame playersNamingFrame = new NamingFrame();
-	private BuildFrame positioningFrame; //= new BuildFrame();
-	private BattleFrame battleFrame; //= new BattleFrame();
+	private NamingFrame playersNamingFrame;
+	private BuildFrame positioningFrame;
+	private BattleFrame battleFrame;
 	
 	private GameController() {
 	}
@@ -49,6 +49,7 @@ public class GameController {
 	}
 	
 	public void initiateGame() { 
+		playersNamingFrame = new NamingFrame();
 		playersNamingFrame.setTitle("Batalha Naval"); 
 		playersNamingFrame.setVisible(true);
 	}
@@ -80,7 +81,7 @@ public class GameController {
 	}
 	
 	public void showBattle() {
-		battleFrame = new BattleFrame();
+		battleFrame = new BattleController();
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
 	}

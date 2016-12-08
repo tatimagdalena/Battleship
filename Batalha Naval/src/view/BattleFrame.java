@@ -1,4 +1,7 @@
 package view;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
 import controller.GameController;
@@ -42,13 +45,27 @@ public class BattleFrame extends JFrame {
 		//turnButton.addActionListener(this);
 		
 		getContentPane().add(firstBoardPanel);
-		//getContentPane().add(firstBoardPanel.associatedLineCoord());
-		//getContentPane().add(firstBoardPanel.associatedColumnCoord());
+
 		getContentPane().add(secondBoardPanel);
-		//getContentPane().add(secondBoardPanel.associatedLineCoord());
-		//getContentPane().add(secondBoardPanel.associatedColumnCoord());
+
 		getContentPane().add(turnButton);
 		
-		//repaint();
+		
+		secondBoardPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println(e.getX()/25 +", "+ e.getY()/25);
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+		});
 	}
 }

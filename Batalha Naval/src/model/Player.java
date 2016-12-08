@@ -8,6 +8,7 @@ public class Player {
 	final String name;
 	
 	private Weapon[] weapons = new Weapon[15]; // total of 15 weapons
+	private int shots = 3;	//Number os shots to be made;
 	
 	
 	public Player(String name, PlayerTurn turn) {
@@ -33,6 +34,18 @@ public class Player {
 	
 	public Weapon[] getWeapons() {
 		return weapons;
+	}
+	
+	public int getShots() {
+		return shots;
+	}
+	
+	public void shootCoordinate(int i, int j) {
+		shots--;
+	}
+	
+	public void refreshShots() {
+		shots = 3;
 	}
 	
 	public Boolean checkValidPosition(Weapon weapon, Coordinate position) {

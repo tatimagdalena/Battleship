@@ -288,6 +288,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 			drawWeaponsInitialList();
 			BuildController buildController = (BuildController) gameManager.getPositioningFrame();
 			buildController.setWeaponsListeners();
+			turnButton.setEnabled(false);
 		}
 		else {
 			gameManager.closePositioning();
