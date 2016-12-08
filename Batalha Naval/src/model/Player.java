@@ -1,6 +1,6 @@
 package model;
 
-import utils.Coordinate;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -8,7 +8,7 @@ public class Player {
 	final String name;
 	
 	private Weapon[] weapons = new Weapon[15]; // total of 15 weapons
-	
+	private ArrayList<Coordinate> atacks = new ArrayList<Coordinate>();
 	
 	public Player(String name, PlayerTurn turn) {
 		this.turn = turn;
@@ -33,6 +33,14 @@ public class Player {
 	
 	public Weapon[] getWeapons() {
 		return weapons;
+	}
+	
+	public ArrayList<Coordinate> getAtacks() {
+		return atacks;
+	}
+	
+	public void setNewAtack(Coordinate atack) {
+		atacks.add(atack);
 	}
 	
 	public Boolean checkValidPosition(Weapon weapon, Coordinate position) {
@@ -65,7 +73,7 @@ public class Player {
 		return true;
 	}
 	
-	private Boolean existsWeapon(int i, int j){
+	public Boolean existsWeapon(int i, int j) {
 		Coordinate selectedCoord = new Coordinate(i, j);
 		for(Weapon weapon: weapons) {
 			if(weapon != null) {
@@ -83,4 +91,22 @@ public class Player {
 		return false;
 	}
 	
+	
+	// returns the weapon, if it was a hit, or null if hit the water
+	public Weapon getHitWeapon(Coordinate selectedCoord) {
+		for(Weapon weapon: weapons) {
+			if(weapon != null) {
+				Coordinate[] coordinates = weapon.getBoatPositions(weapon.getPosition());
+				for(Coordinate coord: coordinates) {
+					int relativeX = weapon.getInitialCoordinate().getX() + coord.getX();
+					int relativeY = weapon.getInitialCoordinate().getY() - coord.getY();
+					Coordinate relativeCoord = new Coordinate(relativeX, relativeY);
+					if(relativeCoord.equals(selectedCoord)) {
+						return weapon;
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

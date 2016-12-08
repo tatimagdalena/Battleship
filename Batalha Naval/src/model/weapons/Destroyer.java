@@ -1,12 +1,13 @@
 package model.weapons;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.Coordinate;
+import model.WeaponType;
 
 public class Destroyer extends Weapon  {
 		
 	public Destroyer(int tag){
-		super(tag);
+		super(tag, WeaponType.destroyer);
 		
 		setNumPositions(2);
 		setNumSquares(2);

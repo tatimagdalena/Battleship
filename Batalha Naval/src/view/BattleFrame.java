@@ -1,7 +1,14 @@
 package view;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
 import controller.GameController;
+import model.Coordinate;
+import model.Player;
+import model.PlayerTurn;
 import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
@@ -23,16 +30,16 @@ public class BattleFrame extends JFrame {
 		int yBoardPosition = (int)(screen.screenIntHeight*1/2 - boardHeight/2);
 		int xFirstBoardPosition = (int)(screen.screenWidth/4 - boardWidth/2);
 		
-		GameController gameManager = GameController.getMainGameManager();
-		
 		firstBoardPanel.setSize(boardWidth, boardHeight);
 		firstBoardPanel.setLocation(xFirstBoardPosition, yBoardPosition);
-		firstBoardPanel.updateBoardForPlayer(gameManager.getPlayer1());
+		//firstBoardPanel.updateBoardForPlayer(gameManager.getPlayer1());
+		setFirstBoardListener();
 		
 		secondBoardPanel.setSize(boardWidth, boardHeight);
 		secondBoardPanel.setLocation((int)(screen.screenIntWidth*3/4 - secondBoardPanel.getSize().getWidth()/2), 
 				yBoardPosition);
-		secondBoardPanel.updateBoardForPlayer(gameManager.getPlayer2());
+		//secondBoardPanel.updateBoardForPlayer(gameManager.getPlayer2());
+		setSecondBoardListener();
 		
 		int buttonWidth = 150;
 		int buttonHeight = 50;
@@ -42,13 +49,67 @@ public class BattleFrame extends JFrame {
 		//turnButton.addActionListener(this);
 		
 		getContentPane().add(firstBoardPanel);
-		//getContentPane().add(firstBoardPanel.associatedLineCoord());
-		//getContentPane().add(firstBoardPanel.associatedColumnCoord());
 		getContentPane().add(secondBoardPanel);
-		//getContentPane().add(secondBoardPanel.associatedLineCoord());
-		//getContentPane().add(secondBoardPanel.associatedColumnCoord());
 		getContentPane().add(turnButton);
 		
 		//repaint();
+	}
+	
+	public void setFirstBoardListener() {
+		firstBoardPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				firstBoardMousePressedHandler(e.getX(), e.getY());
+			}
+		});
+	}
+	
+	private void firstBoardMousePressedHandler(int x, int y) {
+		
+		GameController gameManager = GameController.getMainGameManager();
+		
+		if(gameManager.getActivePlayer().getTurn() == PlayerTurn.second) {
+			int line = x/25;
+			int column = y/25;
+			Coordinate selectedCoord = new Coordinate(line, column);
+			System.out.println("line "+line+"column "+column);
+			Player currentPlayer = gameManager.getActivePlayer();
+			currentPlayer.setNewAtack(selectedCoord);
+			
+			Player opponentPlayer = gameManager.getWaitingPlayer();
+			
+			firstBoardPanel.updateAtackBoardForPlayer(currentPlayer, opponentPlayer);
+		}
+		//else: player clicking on his own board: do nothing.
+		
+	}
+	
+	public void setSecondBoardListener() {
+		secondBoardPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				secondBoardMousePressedHandler(e.getX(), e.getY());
+			}
+		});
+	}
+	
+	private void secondBoardMousePressedHandler(int x, int y) {
+		
+		GameController gameManager = GameController.getMainGameManager();
+		
+		if(gameManager.getActivePlayer().getTurn() == PlayerTurn.first) {
+			int line = x/25;
+			int column = y/25;
+			Coordinate selectedCoord = new Coordinate(line, column);
+			System.out.println("line "+line+"column "+column);
+			Player currentPlayer = gameManager.getActivePlayer();
+			currentPlayer.setNewAtack(selectedCoord);
+			
+			Player opponentPlayer = gameManager.getWaitingPlayer();
+			
+			secondBoardPanel.updateAtackBoardForPlayer(currentPlayer, opponentPlayer);
+		}
+		//else: player clicking on his own board: do nothing.
+		
 	}
 }

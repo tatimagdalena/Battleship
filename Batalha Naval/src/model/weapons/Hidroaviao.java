@@ -1,13 +1,14 @@
 package model.weapons;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.Coordinate;
+import model.WeaponType;
 
 public class Hidroaviao extends Weapon {
 	
 	
 	public Hidroaviao(int tag){
-		super(tag);
+		super(tag, WeaponType.hidroaviao);
 		
 		setNumPositions(4);
 		setNumSquares(3);

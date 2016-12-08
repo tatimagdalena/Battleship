@@ -41,11 +41,11 @@ public class GameController {
 	}
 	
 	public Player getActivePlayer(){
-		if(game.getActiveTurn() == PlayerTurn.first){
-			return game.getPlayer1();
-		} else {
-			return game.getPlayer2();
-		}
+		return game.getActivePlayer();
+	}
+	
+	public Player getWaitingPlayer() {
+		return game.getWaitingPlayer();
 	}
 	
 	public void initiateGame() { 
@@ -83,6 +83,7 @@ public class GameController {
 		battleFrame = new BattleFrame();
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
+		game.setActiveTurn(PlayerTurn.first);
 	}
 	
 	private void setActivePlayer(PlayerTurn player){
@@ -92,6 +93,10 @@ public class GameController {
 		} else {
 			positioningFrame.setInstruction("Vez do Jogador " + game.getPlayer2().getName() + ", arraste as peças para o tabuleiro");
 		}
+	}
+	
+	public void checkEndOfGame(Game game) {
+		
 	}
 	
 }

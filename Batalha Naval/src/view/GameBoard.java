@@ -2,12 +2,13 @@ package view;
 
 import javax.swing.*;
 
+import model.Coordinate;
 import model.Player;
 import model.Weapon;
-import utils.Coordinate;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
@@ -34,8 +35,7 @@ public class GameBoard extends JPanel {
 		
 		setLayout(null);
 		
-		
-		
+		// coordinates line labels (A - B - C - D ...)
 		for (int i = 1 ; i <= this.getNumLines(); i++ ){
 			JPanel coordLine = new JPanel();
 			Label lineLabel = new Label("" + (char)(i+'A'-1));
@@ -45,6 +45,7 @@ public class GameBoard extends JPanel {
 			this.add(coordLine);
 		}
 		
+		// board matrix
 		for (line=1; line <= numLines; line++){
 			for (column=1; column <= numColumns; column++){
 				Rectangle2D rect = new Rectangle2D.Double(squareSize*column,squareSize*line, squareSize, squareSize);
@@ -55,6 +56,7 @@ public class GameBoard extends JPanel {
 			}
 		}
 		
+		// coordinates column labels (1 - 2 - 3 - ... - 15)
 		for (int j = 1 ; j <= this.getNumLines(); j++ ){
 			JPanel coordColumn = new JPanel();
 			Label lineLabel = new Label("" + j);
@@ -77,34 +79,6 @@ public class GameBoard extends JPanel {
 		return numColumns;
 	}
 	
-	public JPanel associatedColumnCoord() {
-		JPanel coordColumn = new JPanel();
-		coordColumn.setLayout(new GridLayout(1, numColumns));
-		coordColumn.setSize(getSquareSize() * getNumColumns(), getSquareSize());
-		coordColumn.setLocation((int)getLocation().getX(), (int)getLocation().getY() - getSquareSize());
-		
-		for (int j = 0 ; j < getNumLines(); j++) {
-			Label columnLabel = new Label("" + (char)(j+'A'));
-			columnLabel.setAlignment(Label.CENTER);
-			coordColumn.add(columnLabel);
-		}
-		return coordColumn;
-	}
-	
-	public JPanel associatedLineCoord() {
-		JPanel coordLine = new JPanel();
-		coordLine.setLayout(new GridLayout(numLines, 1));
-		coordLine.setSize(getSquareSize(), getSquareSize() * getNumColumns());
-		coordLine.setLocation((int)getLocation().getX() - getSquareSize(), (int)getLocation().getY());
-		
-		for (int i = 1 ; i <= getNumLines(); i++) {
-			Label lineLabel = new Label("" + i);
-			lineLabel.setAlignment(Label.CENTER);
-			coordLine.add(lineLabel);
-		}
-		return coordLine;
-	}
-	
 	public void setCoordColor(int i, int j, Color color){
 		matrix[i-1][j-1] = color;		
 	}
@@ -121,7 +95,7 @@ public class GameBoard extends JPanel {
 				Weapon weapon = player.getWeapons()[i];
 				int tag = weapon.getTag();
 				Color color;
-				if (tag > 0 && tag < 5){
+				if (tag >= 0 && tag < 5){
 					color = Color.green;
 				} else if (tag > 4 && tag < 8){
 					color = Color.magenta;
@@ -143,6 +117,33 @@ public class GameBoard extends JPanel {
 		}
 		this.repaint();
 	}
+	
+	
+	//TODO: move the checking for a controller, passing here only the coordinates and it's colors.
+	public void updateAtackBoardForPlayer(Player player, Player opponent){
+		for (int i = 0; i < this.getNumLines(); i++){
+			for (int j = 0 ; j < this.getNumColumns(); j++ ){
+				matrix[i][j] = Color.cyan;
+			}
+		}
+		
+		ArrayList<Coordinate> atacks = player.getAtacks();
+		
+		for(Coordinate atack: atacks) {
+			Weapon hitWeapon = opponent.getHitWeapon(atack);
+			if(hitWeapon != null) {
+				setCoordColor(atack.getX(), atack.getY(), Color.red);
+				//System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
+			}
+			else {
+				setCoordColor(atack.getX(), atack.getY(), Color.blue);
+				//System.out.printf("\nAgua!\n");
+			}
+		}
+		
+		this.repaint();
+	}
+	
 	
 	public Color[][] getMatrix() {
 		return matrix;
