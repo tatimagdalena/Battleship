@@ -1,12 +1,13 @@
 package model.weapons;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.Coordinate;
+import model.WeaponType;
 
 public class Submarino extends Weapon {
 		
 	public Submarino(int tag){
-		super(tag);
+		super(tag, WeaponType.submarino);
 		setNumPositions(1);
 		setNumSquares(1);
 		setMatricialWidth(1);

@@ -1,20 +1,28 @@
 package model;
 
-import utils.Coordinate;
-
 public class Weapon {
+	
+	private WeaponType type = WeaponType.generico;
 	
 	private int numPositions = 2;	//Number of positions a boat has. Hidroavaio: 4, submarino: 1, others: 2
 	private int position = 0;   	//Current position a Boat is in
 	private int numSquares;			//Number of squares that draw a Boat
 	private int tag;				//THe tag to identify the Boat
-	private int width;
-	private int height;
+	private int width;				//Matrix width
+	private int height;				//Matrix height
+	
+	private Boolean sunk = false;
+	private int numHitSquares = 0;  //Number of squares that has already been hit by opponent
 	
 	private Coordinate initialCoordinate = new Coordinate(-1,-1); //The initial coordinate of this weapon when positioned on the game board.
 	
-	public Weapon(int tag){
+	public Weapon(int tag, WeaponType type){
 		this.tag = tag;
+		this.type = type;
+	}
+	
+	public WeaponType getWeaponType() {
+		return type;
 	}
 	
 	public void setInitialCoordinate(Coordinate coord) {
@@ -121,5 +129,21 @@ public class Weapon {
 	
 	public int getMatricialHeight(){
 		return height;
+	}
+	
+	public Boolean isSunk() {
+		return sunk;
+	}
+	
+	public void setSunk(Boolean sunkStatus) {
+		sunk = sunkStatus;
+	}
+	
+	public int getNumHitSquares() {
+		return numHitSquares;
+	}
+	
+	public void incrementHitSquares() {
+		numHitSquares++;
 	}
 }

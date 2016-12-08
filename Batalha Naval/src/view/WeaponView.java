@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.Coordinate;
 
 @SuppressWarnings("serial")
 public class WeaponView extends JPanel {

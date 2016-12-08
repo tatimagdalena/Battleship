@@ -1,12 +1,13 @@
 package model.weapons;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.*;
+import model.WeaponType;
 
 public class Cruzador extends Weapon {
 		
 	public Cruzador(int tag){
-		super(tag);
+		super(tag, WeaponType.cruzador);
 		
 		setNumPositions(2);
 		setNumSquares(4);

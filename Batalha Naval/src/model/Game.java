@@ -26,9 +26,15 @@ public class Game {
 	public Player getActivePlayer(){
 		if(activePlayer == PlayerTurn.first){
 			return player1;
-		} else {
+		}
+		return player2;
+	}
+	
+	public Player getWaitingPlayer(){
+		if(activePlayer == PlayerTurn.first){
 			return player2;
 		}
+		return player1;
 	}
 	
 	public PlayerTurn getActiveTurn() {

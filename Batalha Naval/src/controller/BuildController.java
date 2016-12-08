@@ -1,12 +1,10 @@
 package controller;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.SwingUtilities;
 
 import model.*;
-import utils.*;
 import view.*;
 
 @SuppressWarnings("serial")

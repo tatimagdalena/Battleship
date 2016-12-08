@@ -1,12 +1,13 @@
 package model.weapons;
 
+import model.Coordinate;
 import model.Weapon;
-import utils.*;
+import model.WeaponType;
 
 public class Couracado extends Weapon {
 	
 	public Couracado(int tag){
-		super(tag);
+		super(tag, WeaponType.couracado);
 		
 		setNumPositions(2);
 		setNumSquares(5);
