@@ -11,11 +11,11 @@ import model.weapons.*;
 import utils.*;
 
 @SuppressWarnings("serial")
-public class BuildFrame extends JFrame implements ActionListener  {
+public class BuildFrame extends JFrame  {
 	
 	private GameBoard boardPanel;
 	private JPanel instructionPanel = new JPanel();
-	protected JButton turnButton = new JButton("Pronto!");
+	private JButton turnButton = new JButton("Pronto!");
 	private Hidroaviao[] hidroaviao = new Hidroaviao[5];
 	private Destroyer[] destroyer = new Destroyer[3];
 	private Submarino[] submarino = new Submarino[4];
@@ -68,12 +68,15 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		turnButton.setSize(100, 50);
 		turnButton.setLocation((int)(screen.screenIntWidth*1/2 - turnButton.getSize().getWidth()/2), 
 				(int)(boardPanel.getLocation().getY() + boardPanel.getSize().getHeight() + 30));
-		turnButton.addActionListener(this);
 		turnButton.setEnabled(false);
 		
 		getContentPane().add(instructionPanel);
 		getContentPane().add(boardPanel);
 		getContentPane().add(turnButton);
+	}
+	
+	public JButton getTurnButton() {
+		return turnButton;
 	}
 	
 	public GameBoard getPanel() {
@@ -131,7 +134,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		setWeaponsAmount = 0;
 	}
 	
-	private void drawWeaponsInitialList() {
+	public void drawWeaponsInitialList() {
 		boat = new Weapon[15];
 		clearSetWeaponsAmount();
 		int boatCounter = 0;
@@ -280,29 +283,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		}
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		GameController gameManager = GameController.getMainGameManager();
-		Player activePlayer = gameManager.getActivePlayer();
-		
-		if(activePlayer.getTurn() == PlayerTurn.first) {
-			gameManager.changePlayerTurn();
-			this.setInstruction("<html>Vez de " + gameManager.getPlayer2().getName() +
-					": <br> Botão direito do mouse gira a peça, esquerdo seleciona. <br> Clique no tabuleiro para colocar no local desejado. </html>");
-			
-			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
-			drawWeaponsInitialList();
-			BuildController buildController = (BuildController) gameManager.getPositioningFrame();
-			buildController.setWeaponsListeners();
-			setWeaponsAmount = 0;
-			turnButton.setEnabled(false);
-		}
-		else {
-			gameManager.changePlayerTurn();
-			gameManager.closePositioning();
-			gameManager.showBattle();
-		}
-	}
+	
 	
 	public Point getPanelPoint(){
 		return boardPanel.getLocation();

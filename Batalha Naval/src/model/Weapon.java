@@ -115,34 +115,65 @@ public class Weapon {
 		setPosition(position);
 	}
 	
+	/**
+	 * Setter for the matricial width for the boat
+	 * @param num how many squares it ocupies on the horizontal
+	 */
 	public void setMatricialWidth(int num){
 		width = num;
 	}
 	
+	/**
+	 * Getter for the matricial width for the boat
+	 * @return num how many squares it ocupies on the horizontal
+	 */
 	public int getMatricialWidth(){
 		return width;
 	}
 	
+	/**
+	 * Setter for the matricial height for the boat
+	 * @param num how many squares it ocupies on the vertical
+	 */
 	public void setMatricialHeight(int num){
 		height = num;
 	}
 	
+	/**
+	 * Getter for the matricial height for the boat
+	 * @return num how many squares it ocupies on the vertical
+	 */
 	public int getMatricialHeight(){
 		return height;
 	}
 	
+	/**
+	 * Check if the boat is sunk
+	 * @return true if it's sunk, false if it's alive
+	 */
 	public Boolean isSunk() {
 		return sunk;
 	}
 	
+	/**
+	 * Set Boat sunk status
+	 * @param sunkStatus true if it's sunk, false if it's alive
+	 */
 	public void setSunk(Boolean sunkStatus) {
 		sunk = sunkStatus;
 	}
 	
+	/**
+	 * Getter for how many squares were hit
+	 * @return int number of hits taken
+	 */
 	public int getNumHitSquares() {
 		return numHitSquares;
 	}
 	
+	/**
+	 * Increments number of hits taken
+	 */
 	public void incrementHitSquares() {
 		numHitSquares++;
 	}

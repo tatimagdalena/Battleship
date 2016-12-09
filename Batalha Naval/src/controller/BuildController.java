@@ -8,32 +8,42 @@ import model.*;
 import view.*;
 
 @SuppressWarnings("serial")
-public class BuildController extends BuildFrame {
+public class BuildController extends BuildFrame implements ActionListener {
 	
-	BuildController positioningFrame = this;
+	//BuildController positioningFrame = this;
 	
 	Point boatOldPosition;
 	Point position;
 	
+	/**
+	 * Init the Controller to set the listeners and frame info
+	 */
 	BuildController(){
-		positioningFrame.setTitle("Batalha Naval"); 
-		positioningFrame.setVisible(true);
+		super();
+		this.setTitle("Batalha Naval"); 
+		this.setVisible(true);
 		
 		setKeyListener();
 		setBoardListeners();
 		setWeaponsListeners();
+		getTurnButton().addActionListener(this);
 	}
 	
-	// Mouse handler when clicking on game board
+	/**
+	 * Transforms absolute coordinate in matricial coordinate
+	 * Place the active boat if there is one.
+	 * Remove the placed boat if there is some.
+	 * @param x x absolute coordinate
+	 * @param y y absolute coordinate
+	 */
 	private void boardMousePressedHandler(int x, int y) {
 		int line = x/25;
 		int column = y/25;
 		Coordinate selectedCoord = new Coordinate(line, column);
-		System.out.println("line "+line+"column "+column);
 		GameController gameManager = GameController.getMainGameManager();
 		Player currentPlayer = gameManager.getActivePlayer();
 		
-		if(positioningFrame.getActiveBoat() != null) {
+		if(getActiveBoat() != null) {
 			//TODO: TREAT HERE FOR INVALID POSITION****
 			onPositioningNewWeapon(currentPlayer, selectedCoord);
 		}
@@ -42,21 +52,31 @@ public class BuildController extends BuildFrame {
 		}
 	}
 	
+	/**
+	 * Add the boat to the player weapon array and if all of them are used enables the button to be done.
+	 * @param currentPlayer the player who is positioning boats
+	 * @param selectedCoord the coordinate where the boat will be placed
+	 */
 	private void onPositioningNewWeapon(Player currentPlayer, Coordinate selectedCoord) {
-		if (currentPlayer.checkValidPosition(positioningFrame.getActiveBoat(), selectedCoord)){
+		if (currentPlayer.checkValidPosition(getActiveBoat(), selectedCoord)){
 			incrementSetWeaponsAmount();
 			if(getSetWeaponsAmount() == 15) {
-				turnButton.setEnabled(true);
+				getTurnButton().setEnabled(true);
 			}
 			
-			positioningFrame.getActiveBoat().setInitialCoordinate(selectedCoord);
-			currentPlayer.addWeapon(positioningFrame.getActiveBoat());
+			getActiveBoat().setInitialCoordinate(selectedCoord);
+			currentPlayer.addWeapon(getActiveBoat());
 			
 			setActiveBoat(null);
-			positioningFrame.getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
 		}
 	}
 	
+	/**
+	 * when click on a boat it's removed form player array and put back on the pile to be selected
+	 * @param currentPlayer the player positioning boats
+	 * @param selectedCoord the coord where the boat was clicked to be removed from
+	 */
 	private void onUndoWeaponPosition(Player currentPlayer, Coordinate selectedCoord) {
 		for(Weapon weapon: currentPlayer.getWeapons()) {
 			if(weapon != null) {
@@ -68,11 +88,11 @@ public class BuildController extends BuildFrame {
 					if(relativeCoord.equals(selectedCoord)) {
 						currentPlayer.removeWeapon(weapon);
 						decrementSetWeaponsAmount();
-						turnButton.setEnabled(false);
+						getTurnButton().setEnabled(false);
 						
 						System.out.printf("Removeu peca (tag = %d)\n", weapon.getTag());
 						getWeaponView(weapon.getTag()).setVisible(true);
-						positioningFrame.getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+						getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
 						break;
 					}
 				}
@@ -80,7 +100,13 @@ public class BuildController extends BuildFrame {
 		}
 	}
 	
-	//
+	/**
+	 * LEFT-CLICK ON BOAT
+	 * Hide Selected Boat and sets it as active boat for latter interaction with board.
+	 * 
+	 * RIGHT-CLICK
+	 * Right click on a boat flips it
+	 */
 	public void setWeaponsListeners() {
 		for(int i = 0; i < getBoat().length; i++){
 			WeaponView boatView = getWeaponView(i);
@@ -89,32 +115,19 @@ public class BuildController extends BuildFrame {
 			boatView.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {					
-					/*
-					 * LEFT-CLICK ON BOAT
-					 * Only allows one boat. Only set active if no other is selected
-					 * If one is already selected when placed over board it's set there
-					 * calls funciton drawonboard and then delete the boat
-					 * repaint the board
-					 */
-					if(positioningFrame.getActiveBoat() == null) {
+					
+					if(getActiveBoat() == null) {
 						
 						if(SwingUtilities.isLeftMouseButton(e)){
 						
-							positioningFrame.setActiveBoat(boat);
+							setActiveBoat(boat);
 							boatView.setVisible(false);
 							boatOldPosition = boatView.getLocation();
 						
 						}
 					} 
 					
-					/*
-					 * RIGHT-CLICK
-					 * only happens if boat is selected
-					 * Hold currentLocation for persistence of variables
-					 * Change Position
-					 * Set new location so it will be placed where it should
-					 * repaint to redraw on correct position(the new one)
-					 */
+					
 					if(SwingUtilities.isRightMouseButton(e)){
 						if (boat != null){
 							Point location = boatView.getLocation();
@@ -131,9 +144,8 @@ public class BuildController extends BuildFrame {
 		}
 	}
 	
-	//
 	public void setBoardListeners() {
-		positioningFrame.getPanel().addMouseListener(new MouseAdapter() {
+		getPanel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				boardMousePressedHandler(e.getX(), e.getY());
@@ -141,15 +153,40 @@ public class BuildController extends BuildFrame {
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(positioningFrame.getActiveBoat() != null) {
+				if(getActiveBoat() != null) {
 				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				if(positioningFrame.getActiveBoat() != null) {
+				if(getActiveBoat() != null) {
 				}
 			}
 		});
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		GameController gameManager = GameController.getMainGameManager();
+		GamePresenter facade =  GamePresenter.getMainGamePresenter();
+		Player activePlayer = gameManager.getActivePlayer();
+		
+		if(activePlayer.getTurn() == PlayerTurn.first) {
+			gameManager.changePlayerTurn();
+			this.setInstruction("<html>Vez de " + gameManager.getPlayer2().getName() +
+					": <br> Botão direito do mouse gira a peça, esquerdo seleciona. <br> Clique no tabuleiro para colocar no local desejado. </html>");
+			
+			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			drawWeaponsInitialList();
+			BuildController buildController = (BuildController) facade.getPositioningFrame();
+			buildController.setWeaponsListeners();
+			clearSetWeaponsAmount();
+			getTurnButton().setEnabled(false);
+		}
+		else {
+			gameManager.changePlayerTurn();
+			facade.closePositioning();
+			facade.showBattle();
+		}
 	}
 	
 	public void setKeyListener() {
