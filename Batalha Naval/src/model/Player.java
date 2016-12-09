@@ -54,9 +54,11 @@ public class Player {
 	}
 	
 	public void setNewAtack(Coordinate atack) {
+		if (existsAttack(atack.getX(), atack.getY())) {
+			return;
+		}
 		atacks.add(atack);
 		shots--;
-		System.out.println("shots left : "+ shots);
 	}
 	
 	public Boolean checkValidPosition(Weapon weapon, Coordinate position) {
@@ -99,6 +101,21 @@ public class Player {
 						return true;
 					}
 				}
+			}
+		}
+		return false;
+	}
+	
+	private Boolean existsAttack(int i, int j) {
+		Coordinate selectedCoord = new Coordinate(i, j);
+		
+		ArrayList<Coordinate> coordinates = this.getAtacks();
+		for(Coordinate coord: coordinates) {
+			int relativeX = coord.getX();
+			int relativeY = coord.getY();
+			Coordinate relativeCoord = new Coordinate(relativeX, relativeY);
+			if(relativeCoord.equals(selectedCoord)) {
+				return true;
 			}
 		}
 		return false;

@@ -21,9 +21,12 @@ public class BattleFrame extends JFrame implements ActionListener {
 	private GameBoard firstBoardPanel = new GameBoard(); 
 	private GameBoard secondBoardPanel = new GameBoard(); 
 	private JButton turnButton = new JButton("Proximo jogador!");
-	private JPanel instructionPanel = new JPanel();
+	private JLabel instructionPanel = new JLabel();
+	private Boolean viewBoard = false;
 	
 	public BattleFrame() {
+		
+		
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -39,7 +42,10 @@ public class BattleFrame extends JFrame implements ActionListener {
 		Player activePlayer = GameController.getMainGameManager().getActivePlayer();
 		instructionPanel.setSize(500, 100);
 		instructionPanel.setLocation((int)(screen.screenIntWidth*1/2 - instructionPanel.getSize().getWidth()/2), (int) 50);
-		setInstruction("<html>Vez de " + activePlayer.getName() + ": " + activePlayer.getShotsLeft() + " tiros restantes</html>");
+		instructionPanel.setText("Vez de " + activePlayer.getName() + ": " + activePlayer.getShotsLeft() + " tiros restantes");
+		
+		//setInstruction("Vez de " + activePlayer.getName() + ": " + activePlayer.getShotsLeft() + " tiros restantes");
+		instructionPanel.setDoubleBuffered(true);
 		
 		firstBoardPanel.setSize(boardWidth, boardHeight);
 		firstBoardPanel.setLocation(xFirstBoardPosition, yBoardPosition);
@@ -78,16 +84,20 @@ public class BattleFrame extends JFrame implements ActionListener {
 		Player activePlayer = gameManager.getActivePlayer();
 		
 		activePlayer.refreshShots();
-		this.setInstruction("<html>Vez de " + activePlayer.getName() + ": " + activePlayer.getShotsLeft() + " tiros restantes</html>");
+		this.setInstruction("Vez de " + activePlayer.getName() + ": " + activePlayer.getShotsLeft() + " tiros restantes");
 		turnButton.setEnabled(false);
 		
 		Player currentPlayer = gameManager.getActivePlayer();
 		Player opponentPlayer = gameManager.getWaitingPlayer();
 	
+		
 		firstBoardPanel.updateAtackBoardForPlayer(opponentPlayer, currentPlayer);
 		secondBoardPanel.updateAtackBoardForPlayer(currentPlayer, opponentPlayer);
-		//firstBoardPanel.repaint();
-		//secondBoardPanel.repaint();
+		//firstBoardPanel.revalidate();
+		//secondBoardPanel.revalidate();
+		
+		
+		getContentPane().revalidate();
 	}
 	
 	public void setFirstBoardListener() {
@@ -96,7 +106,16 @@ public class BattleFrame extends JFrame implements ActionListener {
 			public void mousePressed(MouseEvent e) {
 				//firstBoardMousePressedHandler(e.getX(), e.getY());
 			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				firstBoardPanel.updateAtackBoardForPlayer(GameController.getMainGameManager().getWaitingPlayer(), GameController.getMainGameManager().getActivePlayer());
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				firstBoardPanel.updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			}
 		});
+		
 	}
 	
 	private void firstBoardMousePressedHandler(int x, int y) {
@@ -107,7 +126,7 @@ public class BattleFrame extends JFrame implements ActionListener {
 				int line = x/25;
 				int column = y/25;
 				Coordinate selectedCoord = new Coordinate(line, column);
-				System.out.println("this line "+line+" column "+column);
+				//System.out.println("this line "+line+" column "+column);
 				Player currentPlayer = gameManager.getActivePlayer();
 				currentPlayer.setNewAtack(selectedCoord);
 			
@@ -141,12 +160,11 @@ public class BattleFrame extends JFrame implements ActionListener {
 			int line = x/25;
 			int column = y/25;
 			Coordinate selectedCoord = new Coordinate(line, column);
-			System.out.println("line "+line+" column "+column);
 			Player currentPlayer = gameManager.getActivePlayer();
 			Player opponentPlayer = gameManager.getWaitingPlayer();
 			
 			currentPlayer.setNewAtack(selectedCoord);
-			setInstruction("<html>Vez de " + currentPlayer.getName() + ": " + currentPlayer.getShotsLeft() + " tiros restantes</html>");
+			setInstruction("Vez de " + currentPlayer.getName() + ": " + currentPlayer.getShotsLeft() + " tiros restantes");
 					
 			secondBoardPanel.updateAtackBoardForPlayer(currentPlayer, opponentPlayer);
 			
@@ -159,9 +177,6 @@ public class BattleFrame extends JFrame implements ActionListener {
 	}
 	
 	public void setInstruction (String text){
-		instructionPanel.removeAll();
-		instructionPanel.revalidate();
-		Label instructionLabel = new Label(text);
-		instructionPanel.add(instructionLabel);
+		instructionPanel.setText(text);
 	}
 }

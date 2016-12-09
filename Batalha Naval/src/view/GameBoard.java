@@ -19,31 +19,51 @@ public class GameBoard extends JPanel {
 	private Color[][] matrix = new Color[15][15];
 	
 	public GameBoard() {
+		this.setLayout(null);
+		
 		matrix = new Color[15][15];
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
 				matrix[i][j] = Color.cyan;
 			}
 		}
+		this.setDoubleBuffered(true);
+		
+		// coordinates line labels (A - B - C - D ...)
+				for (int i = 1 ; i <= 15; i++ ){
+					JPanel coordLine = new JPanel();
+					Label lineLabel = new Label("" + (char)(i+'A'-1));
+					coordLine.setSize(squareSize, squareSize);
+					coordLine.setLocation(0, i * squareSize);
+					coordLine.add(lineLabel);
+					this.add(coordLine);
+				}
+				
+				// coordinates column labels (1 - 2 - 3 - ... - 15)
+				for (int j = 1 ; j <= 15; j++ ){
+					JPanel coordColumn = new JPanel();
+					Label lineLabel = new Label("" + j);
+					coordColumn.setSize(squareSize, squareSize);
+					coordColumn.setLocation(j * squareSize, 0);
+					coordColumn.add(lineLabel);
+					this.add(coordColumn);
+				}
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		//this.removeAll();
+		//this.revalidate();
+		
+		//g.clearRect(0,0,getWidth(),getHeight());
+		
 		Graphics2D g2d=(Graphics2D) g;
 		int line, column;
 		
-		setLayout(null);
 		
-		// coordinates line labels (A - B - C - D ...)
-		for (int i = 1 ; i <= this.getNumLines(); i++ ){
-			JPanel coordLine = new JPanel();
-			Label lineLabel = new Label("" + (char)(i+'A'-1));
-			coordLine.setSize(squareSize, squareSize);
-			coordLine.setLocation(0, i * squareSize);
-			coordLine.add(lineLabel);
-			this.add(coordLine);
-		}
+		
+		
 		
 		// board matrix
 		for (line=1; line <= numLines; line++){
@@ -56,15 +76,7 @@ public class GameBoard extends JPanel {
 			}
 		}
 		
-		// coordinates column labels (1 - 2 - 3 - ... - 15)
-		for (int j = 1 ; j <= this.getNumLines(); j++ ){
-			JPanel coordColumn = new JPanel();
-			Label lineLabel = new Label("" + j);
-			coordColumn.setSize(squareSize, squareSize);
-			coordColumn.setLocation(j * squareSize, 0);
-			coordColumn.add(lineLabel);
-			this.add(coordColumn);
-		}
+		
 	}
 	
 	public int getSquareSize(){
@@ -133,14 +145,13 @@ public class GameBoard extends JPanel {
 			Weapon hitWeapon = opponent.getHitWeapon(atack);
 			if(hitWeapon != null) {
 				setCoordColor(atack.getX(), atack.getY(), Color.red);
-				System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
+				//System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
 			}
 			else {
 				setCoordColor(atack.getX(), atack.getY(), Color.blue);
 				//System.out.printf("\nAgua!\n");
 			}
 		}
-		
 		this.repaint();
 	}
 	
