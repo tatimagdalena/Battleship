@@ -44,10 +44,13 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		requestFocusInWindow();
 		
 		//Panel de Intruções ao jogador
-		instructionPanel.setSize(500, 40);
+		instructionPanel.setSize(500, 100);
+		//instructionPanel.lines
 		instructionPanel.setLocation((int)(screen.screenIntWidth*1/2 - instructionPanel.getSize().getWidth()/2), 
 				(int) 50);
-		setInstruction("Player turn");
+		this.setInstruction("<html>Vez de " + GameController.getMainGameManager().getPlayer1().getName() +
+				": <br> Botão direito do mouse gira a peça, esquerdo seleciona. <br> Clique no tabuleiro para colocar no local desejado. </html>");
+		
 		
 		//Board
 		boardPanel = new GameBoard();
@@ -284,6 +287,9 @@ public class BuildFrame extends JFrame implements ActionListener  {
 		
 		if(activePlayer.getTurn() == PlayerTurn.first) {
 			gameManager.changePlayerTurn();
+			this.setInstruction("<html>Vez de " + gameManager.getPlayer2().getName() +
+					": <br> Botão direito do mouse gira a peça, esquerdo seleciona. <br> Clique no tabuleiro para colocar no local desejado. </html>");
+			
 			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
 			drawWeaponsInitialList();
 			BuildController buildController = (BuildController) gameManager.getPositioningFrame();
@@ -292,6 +298,7 @@ public class BuildFrame extends JFrame implements ActionListener  {
 			turnButton.setEnabled(false);
 		}
 		else {
+			gameManager.changePlayerTurn();
 			gameManager.closePositioning();
 			gameManager.showBattle();
 		}

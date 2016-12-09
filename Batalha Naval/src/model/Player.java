@@ -10,6 +10,8 @@ public class Player {
 	private Weapon[] weapons = new Weapon[15]; // total of 15 weapons
 	private ArrayList<Coordinate> atacks = new ArrayList<Coordinate>();
 	
+	private int shots = 3;
+	
 	public Player(String name, PlayerTurn turn) {
 		this.turn = turn;
 		this.name = name;
@@ -21,6 +23,18 @@ public class Player {
 	
 	public PlayerTurn getTurn() {
 		return turn;
+	}
+	
+	public int getShotsLeft() {
+		return shots;
+	}
+	
+	public void refreshShots() {
+		shots = 3;
+	}
+	
+	public void setShots(int num) {
+		shots = num;
 	}
 	
 	public void addWeapon(Weapon weapon) {
@@ -41,6 +55,8 @@ public class Player {
 	
 	public void setNewAtack(Coordinate atack) {
 		atacks.add(atack);
+		shots--;
+		System.out.println("shots left : "+ shots);
 	}
 	
 	public Boolean checkValidPosition(Weapon weapon, Coordinate position) {
@@ -49,23 +65,20 @@ public class Player {
 		for(Coordinate coord: coordinates) {
 			int relativeX = position.getX() + coord.getX();
 			int relativeY = position.getY() - coord.getY();
-			
-			System.out.println("col" + relativeX + "line" + relativeY);
-			
+						
 			if(relativeX < 1 || relativeX > 15 || relativeY < 1 || relativeY > 15){
 				return false;
 			}
-			
-			if(		//Check if exists boat on coordinate
-					existsWeapon(relativeX, relativeY) || //Position
-					existsWeapon(relativeX-1, relativeY) || //to the left
-					existsWeapon(relativeX+1, relativeY) || //to the right
-					existsWeapon(relativeX, relativeY+1) || //south
-					existsWeapon(relativeX, relativeY-1) || //north
-					existsWeapon(relativeX+1, relativeY+1) || //south right
-					existsWeapon(relativeX+1, relativeY-1) || //north right
-					existsWeapon(relativeX-1, relativeY+1) || //south left
-					existsWeapon(relativeX-1, relativeY-1)    //north right
+			//Check if exists boat on coordinate
+			if(	existsWeapon(relativeX, relativeY) ||		//Position
+				existsWeapon(relativeX-1, relativeY) || 	//to the left
+				existsWeapon(relativeX+1, relativeY) || 	//to the right
+				existsWeapon(relativeX, relativeY+1) || 	//south
+				existsWeapon(relativeX, relativeY-1) || 	//north
+				existsWeapon(relativeX+1, relativeY+1) || 	//south right
+				existsWeapon(relativeX+1, relativeY-1) || 	//north right
+				existsWeapon(relativeX-1, relativeY+1) || 	//south left
+				existsWeapon(relativeX-1, relativeY-1)    	//north right
 					){
 				return false;
 			}	

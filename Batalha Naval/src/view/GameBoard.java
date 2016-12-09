@@ -133,7 +133,7 @@ public class GameBoard extends JPanel {
 			Weapon hitWeapon = opponent.getHitWeapon(atack);
 			if(hitWeapon != null) {
 				setCoordColor(atack.getX(), atack.getY(), Color.red);
-				//System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
+				System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
 			}
 			else {
 				setCoordColor(atack.getX(), atack.getY(), Color.blue);

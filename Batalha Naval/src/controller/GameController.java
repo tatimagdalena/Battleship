@@ -89,11 +89,7 @@ public class GameController {
 	
 	private void setActivePlayer(PlayerTurn player){
 		game.setActiveTurn(player);
-		if(game.getActiveTurn() == PlayerTurn.first){
-			positioningFrame.setInstruction("Vez do Jogador " + game.getPlayer1().getName() + ", arraste as peças para o tabuleiro");
-		} else {
-			positioningFrame.setInstruction("Vez do Jogador " + game.getPlayer2().getName() + ", arraste as peças para o tabuleiro");
-		}
+		
 	}
 	
 	public void checkEndOfGame(Game game) {
