@@ -1,8 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Player {
+public class Player extends Observable{
 
 	final PlayerTurn turn;
 	final String name;
@@ -105,6 +106,8 @@ public class Player {
 		}
 		atacks.add(atack);
 		shots--;
+		this.setChanged();
+		this.notifyObservers(atack);
 	}
 	
 	/**
