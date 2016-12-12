@@ -206,7 +206,7 @@ public class BuildFrame extends JFrame  {
 		for (int i = 0; i< 4; i++){
 			
 			submarino[i] = new Submarino(i);
-			WeaponView weaponView = new WeaponView(submarino[i], Color.blue);
+			WeaponView weaponView = new WeaponView(submarino[i], Color.gray);
 			weaponView.setSize(weaponView.getWeapon().getMatricialWidth()*25,
 					weaponView.getWeapon().getMatricialHeight()*25);
 			weaponView.setLocation(baseX + (int)(weaponView.getWeapon().getMatricialWidth()*25 + 25) * i,

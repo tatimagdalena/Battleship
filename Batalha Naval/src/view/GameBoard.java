@@ -14,38 +14,38 @@ public class GameBoard extends JPanel {
 	private int squareSize = 25;
 	private int numColumns = 15;
 	private int numLines = 15;
-	private Color[][] matrix = new Color[15][15];
+	private Color[][] colorMatrix = new Color[15][15];
 	
 	public GameBoard() {
 		this.setLayout(null);
 		
-		matrix = new Color[15][15];
+		colorMatrix = new Color[15][15];
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
-				matrix[i][j] = Color.cyan;
+				colorMatrix[i][j] = Color.cyan;
 			}
 		}
 		this.setDoubleBuffered(true);
 		
 		// coordinates line labels (A - B - C - D ...)
-				for (int i = 1 ; i <= 15; i++ ){
-					JPanel coordLine = new JPanel();
-					Label lineLabel = new Label("" + (char)(i+'A'-1));
-					coordLine.setSize(squareSize, squareSize);
-					coordLine.setLocation(0, i * squareSize);
-					coordLine.add(lineLabel);
-					this.add(coordLine);
-				}
-				
-				// coordinates column labels (1 - 2 - 3 - ... - 15)
-				for (int j = 1 ; j <= 15; j++ ){
-					JPanel coordColumn = new JPanel();
-					Label lineLabel = new Label("" + j);
-					coordColumn.setSize(squareSize, squareSize);
-					coordColumn.setLocation(j * squareSize, 0);
-					coordColumn.add(lineLabel);
-					this.add(coordColumn);
-				}
+		for (int i = 1 ; i <= 15; i++ ){
+			JPanel coordLine = new JPanel();
+			Label lineLabel = new Label("" + (char)(i+'A'-1));
+			coordLine.setSize(squareSize, squareSize);
+			coordLine.setLocation(0, i * squareSize);
+			coordLine.add(lineLabel);
+			this.add(coordLine);
+		}
+
+		// coordinates column labels (1 - 2 - 3 - ... - 15)
+		for (int j = 1 ; j <= 15; j++ ){
+			JPanel coordColumn = new JPanel();
+			Label lineLabel = new Label("" + j);
+			coordColumn.setSize(squareSize, squareSize);
+			coordColumn.setLocation(j * squareSize, 0);
+			coordColumn.add(lineLabel);
+			this.add(coordColumn);
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -63,7 +63,7 @@ public class GameBoard extends JPanel {
 		for (line=1; line <= numLines; line++){
 			for (column=1; column <= numColumns; column++){
 				Rectangle2D rect = new Rectangle2D.Double(squareSize*column,squareSize*line, squareSize, squareSize);
-				g.setColor(matrix[column-1][line-1]);
+				g.setColor(colorMatrix[column-1][line-1]);
 				g2d.fill(rect);
 				g.setColor(Color.black);
 				g2d.draw(rect);
@@ -83,14 +83,14 @@ public class GameBoard extends JPanel {
 		return numColumns;
 	}
 	
-	public void setCoordColor(int i, int j, Color color){
-		matrix[i-1][j-1] = color;		
-	}
+//	public void setCoordColor(int i, int j, Color color){
+//		colorMatrix[i-1][j-1] = color;		
+//	}
 	
 	public void updatePlayerBoard(WeaponType[][] weaponMatrix) {
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
-				matrix[i][j] = Color.cyan;
+				colorMatrix[i][j] = Color.cyan;
 			}
 		}
 		
@@ -109,7 +109,7 @@ public class GameBoard extends JPanel {
 
 					default: color = Color.cyan; break;
 					}
-					matrix[i][j] = color;
+					colorMatrix[i][j] = color;
 				}
 			}
 		}
@@ -121,20 +121,20 @@ public class GameBoard extends JPanel {
 
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
-				matrix[i][j] = Color.cyan;
+				colorMatrix[i][j] = Color.cyan;
 			}
 		}
 		
 		for (int i = 0; i < this.getNumLines(); i++) {
 			for (int j = 0 ; j < this.getNumColumns(); j++) {
 				if(atackMatrix[i][j] == AtackType.empty) {
-					matrix[i][j] = Color.cyan;
+					colorMatrix[i][j] = Color.cyan;
 				}
 				if(atackMatrix[i][j] == AtackType.hit) {
-					matrix[i][j] = Color.red;
+					colorMatrix[i][j] = Color.red;
 				}
 				if(atackMatrix[i][j] == AtackType.water) {
-					matrix[i][j] = Color.blue;
+					colorMatrix[i][j] = Color.blue;
 				}
 			}
 		}
@@ -142,8 +142,8 @@ public class GameBoard extends JPanel {
 	}
 	
 	
-	public Color[][] getMatrix() {
-		return matrix;
+	public Color[][] getColorMatrix() {
+		return colorMatrix;
 	}
 	
 }
