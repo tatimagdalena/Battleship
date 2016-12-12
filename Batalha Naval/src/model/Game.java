@@ -77,4 +77,20 @@ public class Game {
 		return activePlayer;
 	}
 	
+	@Override
+	public String toString() {
+		
+		String s;
+		
+		s = "JOGADOR ATIVO:"
+				+ "\n"
+				+ getActivePlayer().toString()
+				+ "\n" //blank line between players
+				+ "JOGADOR EM ESPERA:"
+				+ "\n"
+				+ getWaitingPlayer().toString();
+		
+		return s;
+	}
+	
 }

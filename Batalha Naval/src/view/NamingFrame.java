@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import controller.GameController;
 import controller.GamePresenter;
+import controller.MenuController;
 import utils.ScreenDimensions;
 
 @SuppressWarnings("serial")
@@ -46,6 +47,8 @@ public class NamingFrame extends JFrame implements ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		startButton.addActionListener(this);
+		
+		MenuController.getMenuController().createAndShowGUI(this);
 	}
 
 	

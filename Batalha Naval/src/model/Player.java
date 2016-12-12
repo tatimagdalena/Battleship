@@ -208,4 +208,36 @@ public class Player {
 		}
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		String s;
+		
+		s = turn.name()
+			+ "\n"
+			+ name
+			+ "\n"
+			+ "ARMAS:";
+		
+		for(Weapon weapon: weapons) {
+			s = s
+				+ "\n"
+				+ weapon.toString();
+		}
+				
+		s = s
+			+ "\n"
+			+ "ATAQUES"
+			+ "\n";
+			
+		for(Coordinate atack: atacks) {
+			s = s
+				+ atack.toString()
+				+ " ";
+		}
+		
+		s = s + "\n";
+		
+		return s;
+	}
 }

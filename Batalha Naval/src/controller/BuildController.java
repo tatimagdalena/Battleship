@@ -15,6 +15,8 @@ public class BuildController extends BuildFrame implements ActionListener {
 	Point boatOldPosition;
 	Point position;
 	
+	private MenuController menuController = MenuController.getMenuController();
+	
 	/**
 	 * Init the Controller to set the listeners and frame info
 	 */
@@ -27,6 +29,10 @@ public class BuildController extends BuildFrame implements ActionListener {
 		setBoardListeners();
 		setWeaponsListeners();
 		getTurnButton().addActionListener(this);
+		
+		menuController.createAndShowGUI(this);
+		menuController.enableSaving(true);
+		menuController.enableReloading(true);
 	}
 	
 	/**
@@ -59,6 +65,12 @@ public class BuildController extends BuildFrame implements ActionListener {
 	 */
 	private void onPositioningNewWeapon(Player currentPlayer, Coordinate selectedCoord) {
 		if (currentPlayer.checkValidPosition(getActiveBoat(), selectedCoord)){
+			
+			if(currentPlayer.getTurn() == PlayerTurn.first && getSetWeaponsAmount() == 0) {
+				//first weapon positioned by first player: disable reloading game
+				menuController.enableReloading(false);
+			}
+			
 			incrementSetWeaponsAmount();
 			if(getSetWeaponsAmount() == 15) {
 				getTurnButton().setEnabled(true);
@@ -101,6 +113,11 @@ public class BuildController extends BuildFrame implements ActionListener {
 					}
 				}
 			}	
+		}
+		
+		if(currentPlayer.getTurn() == PlayerTurn.first && getSetWeaponsAmount() == 0) {
+			//first weapon positioned by first player: disable reloading game
+			menuController.enableReloading(true);
 		}
 	}
 	

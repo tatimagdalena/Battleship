@@ -4,15 +4,15 @@ public class Weapon {
 	
 	private WeaponType type = WeaponType.generico;
 	
-	private int numPositions = 2;	//Number of positions a boat has. Hidroavaio: 4, submarino: 1, others: 2
-	private int position = 0;   	//Current position a Boat is in
-	private int numSquares;			//Number of squares that draw a Boat
 	private int tag;				//THe tag to identify the Boat
 	private int width;				//Matrix width
 	private int height;				//Matrix height
+	private int numPositions = 2;	//Number of positions a boat has. Hidroavaio: 4, submarino: 1, others: 2
+	private int position = 0;   	//Current position a Boat is in
+	private int numSquares;			//Number of squares that draw a Boat
+	private int numHitSquares = 0;  //Number of squares that has already been hit by opponent
 	
 	private Boolean sunk = false;
-	private int numHitSquares = 0;  //Number of squares that has already been hit by opponent
 	
 	private Coordinate initialCoordinate = new Coordinate(-1,-1); //The initial coordinate of this weapon when positioned on the game board.
 	
@@ -177,4 +177,33 @@ public class Weapon {
 	public void incrementHitSquares() {
 		numHitSquares++;
 	}
+	
+	@Override
+	public String toString() {
+		String s;
+		
+		s = 	tag
+				+ " "
+				+ width
+				+ " "
+				+ height
+				+ " "
+				+numPositions
+				+ " "
+				+ position
+				+ " "
+				+ numSquares
+				+ " "
+				+ numHitSquares
+				+ " ";
+		
+		return s;
+	}
+	
+//	public static Weapon fromString(String s) {
+//		
+//		
+//		
+//	}
+	
 }

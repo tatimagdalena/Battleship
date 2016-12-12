@@ -24,6 +24,11 @@ public class BattleController extends BattleFrame implements ActionListener {
 		setFirstBoardListener();
 		setSecondBoardListener();
 		getTurnButton().addActionListener(this);
+		
+		MenuController menuController = MenuController.getMenuController();
+		menuController.createAndShowGUI(this);
+		menuController.enableSaving(true);
+		menuController.enableReloading(false);
 	}
 	
 	@Override
