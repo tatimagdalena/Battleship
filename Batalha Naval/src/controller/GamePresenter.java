@@ -80,6 +80,9 @@ public class GamePresenter {
 		GameController.getMainGameManager().setActivePlayer(PlayerTurn.first);
 	}
 	
+	public BattleFrame getBattleFrame() {
+		return battleFrame;
+	}
 
 	
 }

@@ -68,7 +68,9 @@ public class BuildController extends BuildFrame implements ActionListener {
 			currentPlayer.addWeapon(getActiveBoat());
 			
 			setActiveBoat(null);
-			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+//			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			WeaponType[][] weaponMatrix = getWeaponMatrix(GameController.getMainGameManager().getActivePlayer()); 
+			getPanel().updatePlayerBoard(weaponMatrix);
 		}
 	}
 	
@@ -92,7 +94,9 @@ public class BuildController extends BuildFrame implements ActionListener {
 						
 						System.out.printf("Removeu peca (tag = %d)\n", weapon.getTag());
 						getWeaponView(weapon.getTag()).setVisible(true);
-						getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+//						getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+						WeaponType[][] weaponMatrix = getWeaponMatrix(GameController.getMainGameManager().getActivePlayer()); 
+						getPanel().updatePlayerBoard(weaponMatrix);
 						break;
 					}
 				}
@@ -175,7 +179,9 @@ public class BuildController extends BuildFrame implements ActionListener {
 			this.setInstruction("<html>Vez de " + gameManager.getPlayer2().getName() +
 					": <br> Botão direito do mouse gira a peça, esquerdo seleciona. <br> Clique no tabuleiro para colocar no local desejado. </html>");
 			
-			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+//			getPanel().updateBoardForPlayer(GameController.getMainGameManager().getActivePlayer());
+			WeaponType[][] weaponMatrix = getWeaponMatrix(GameController.getMainGameManager().getActivePlayer()); 
+			getPanel().updatePlayerBoard(weaponMatrix);
 			drawWeaponsInitialList();
 			BuildController buildController = (BuildController) facade.getPositioningFrame();
 			buildController.setWeaponsListeners();
@@ -202,5 +208,37 @@ public class BuildController extends BuildFrame implements ActionListener {
 				}
 			}
 		});
+	}
+	
+	//TODO: Move to a common place to be used here and in Battle
+	public WeaponType[][] emptyWeaponMatrix() {
+		WeaponType[][] weaponMatrix = new WeaponType[getPanel().getNumLines()][getPanel().getNumColumns()];
+		for (int i = 0; i < getPanel().getNumLines(); i++) {
+			for (int j = 0 ; j < getPanel().getNumColumns(); j++) {
+				weaponMatrix[i][j] = null;
+			}
+		}
+		return weaponMatrix;
+	}
+	
+	//TODO: Move to a common place to be used here and in Battle
+	public WeaponType[][] getWeaponMatrix(Player player) {
+		
+		Weapon[] weapons = player.getWeapons();
+		WeaponType[][] weaponMatrix = emptyWeaponMatrix();
+		
+		for(Weapon weapon: weapons) {
+			if(weapon != null) {
+				Coordinate[] coordinates = weapon.getBoatPositions(weapon.getPosition());
+				Coordinate initialCoord = weapon.getInitialCoordinate();
+				
+				for(Coordinate coord: coordinates) {
+					int relativeX = initialCoord.getX() + coord.getX();
+					int relativeY = initialCoord.getY() - coord.getY();
+					weaponMatrix[relativeX - 1][relativeY - 1] = weapon.getWeaponType();
+				}
+			}
+		}
+		return weaponMatrix;
 	}
 }

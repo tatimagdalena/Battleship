@@ -1,7 +1,8 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.*;
-import view.*;
 
 public class GameController {
 
@@ -102,8 +103,30 @@ public class GameController {
 	 * Check if the game has finished
 	 * @param game instance of the game
 	 */
-	public void checkEndOfGame(Game game) {
+	public Boolean checkEndOfGame() {
 		
+		Player opponentPlayer = getWaitingPlayer();
+		
+		for(Weapon weapon: opponentPlayer.getWeapons()) {
+			if(weapon.isSunk() == false) {
+				return false;
+			}
+		}
+ 		
+		return true;
+	}
+	
+	public void endGame() {
+
+		GamePresenter gamePresenter = GamePresenter.getMainGamePresenter();
+		String dialogMessage = game.getActivePlayer().getName() + " venceu!\n";
+
+		JOptionPane.showMessageDialog(gamePresenter.getBattleFrame(), dialogMessage);
+		
+		JOptionPane.showMessageDialog(gamePresenter.getBattleFrame(), dialogMessage, "Fim de jogo!", 0);
+		
+		game = null;
+		game = new Game();
 	}
 	
 }

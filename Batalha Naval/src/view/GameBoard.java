@@ -2,13 +2,11 @@ package view;
 
 import javax.swing.*;
 
-import model.Coordinate;
-import model.Player;
-import model.Weapon;
+import model.AtackType;
+import model.WeaponType;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
@@ -61,10 +59,6 @@ public class GameBoard extends JPanel {
 		Graphics2D g2d=(Graphics2D) g;
 		int line, column;
 		
-		
-		
-		
-		
 		// board matrix
 		for (line=1; line <= numLines; line++){
 			for (column=1; column <= numColumns; column++){
@@ -75,8 +69,6 @@ public class GameBoard extends JPanel {
 				g2d.draw(rect);
 			}
 		}
-		
-		
 	}
 	
 	public int getSquareSize(){
@@ -95,61 +87,55 @@ public class GameBoard extends JPanel {
 		matrix[i-1][j-1] = color;		
 	}
 	
-	public void updateBoardForPlayer(Player player){
+	public void updatePlayerBoard(WeaponType[][] weaponMatrix) {
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
 				matrix[i][j] = Color.cyan;
 			}
 		}
 		
-		for (int i = 0; i < player.getWeapons().length; i++){
-			if(player.getWeapons()[i] != null){
-				Weapon weapon = player.getWeapons()[i];
-				int tag = weapon.getTag();
+		for (int i = 0; i < this.getNumLines(); i++){
+			for (int j = 0 ; j < this.getNumColumns(); j++ ){
 				Color color;
-				if (tag >= 0 && tag < 5){
-					color = Color.green;
-				} else if (tag > 4 && tag < 8){
-					color = Color.magenta;
-				} else if (tag > 7 && tag < 12){
-					color = Color.blue;
-				} else if (tag > 11 && tag < 14){
-					color = Color.orange;
-				} else {
-					color = Color.pink;
-				}
-				
-				Coordinate[] coords = weapon.getBoatPositions(weapon.getPosition());
-				for(int j = 0; j < coords.length; j++){
-					setCoordColor(weapon.getInitialCoordinate().getX() + coords[j].getX(), 
-							weapon.getInitialCoordinate().getY() - coords[j].getY(), 
-							color);
+				WeaponType type = weaponMatrix[i][j];
+				if(type != null) {
+					switch (type) {
+
+					case couracado: color = Color.pink; break;
+					case cruzador: color = Color.orange; break;
+					case destroyer: color = Color.magenta; break;
+					case submarino: color = Color.gray; break;
+					case hidroaviao: color = Color.green; break;
+
+					default: color = Color.cyan; break;
+					}
+					matrix[i][j] = color;
 				}
 			}
 		}
+		
 		this.repaint();
 	}
 	
-	
-	//TODO: move the checking for a controller, passing here only the coordinates and it's colors.
-	public void updateAtackBoardForPlayer(Player player, Player opponent){
+	public void updateAtackBoard(AtackType[][] atackMatrix){
+
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
 				matrix[i][j] = Color.cyan;
 			}
 		}
 		
-		ArrayList<Coordinate> atacks = player.getAtacks();
-		
-		for(Coordinate atack: atacks) {
-			Weapon hitWeapon = opponent.getHitWeapon(atack);
-			if(hitWeapon != null) {
-				setCoordColor(atack.getX(), atack.getY(), Color.red);
-				//System.out.printf("\nAtingiu um %s\n", hitWeapon.getWeaponType().name());
-			}
-			else {
-				setCoordColor(atack.getX(), atack.getY(), Color.blue);
-				//System.out.printf("\nAgua!\n");
+		for (int i = 0; i < this.getNumLines(); i++) {
+			for (int j = 0 ; j < this.getNumColumns(); j++) {
+				if(atackMatrix[i][j] == AtackType.empty) {
+					matrix[i][j] = Color.cyan;
+				}
+				if(atackMatrix[i][j] == AtackType.hit) {
+					matrix[i][j] = Color.red;
+				}
+				if(atackMatrix[i][j] == AtackType.water) {
+					matrix[i][j] = Color.blue;
+				}
 			}
 		}
 		this.repaint();
