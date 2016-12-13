@@ -98,7 +98,9 @@ public class BattleController extends BattleFrame implements ActionListener, Obs
 			int column = y/25;
 			Coordinate selectedCoord = new Coordinate(line, column);
 			Player currentPlayer = gameManager.getActivePlayer();
-			
+			if(line < 1 || column < 1){
+				return;
+			}
 			onNewAtack(currentPlayer, selectedCoord);
 					
 			if(gameManager.checkEndOfGame() == true) {
