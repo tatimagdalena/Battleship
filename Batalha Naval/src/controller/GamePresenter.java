@@ -105,12 +105,13 @@ public class GamePresenter {
 		GameController gameManager = GameController.getMainGameManager();
 		gameManager.getPlayer1().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
 		gameManager.getPlayer2().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
-		
-		
 	}
 	
 	public BattleFrame getBattleFrame() {
 		return battleFrame;
 	}
 	
+	public void closeBattle() {
+		battleFrame.setVisible(false);
+	}
 }

@@ -50,7 +50,6 @@ public class BuildController extends BuildFrame implements ActionListener {
 		Player currentPlayer = gameManager.getActivePlayer();
 		
 		if(getActiveBoat() != null) {
-			//TODO: TREAT HERE FOR INVALID POSITION****
 			onPositioningNewWeapon(currentPlayer, selectedCoord);
 		}
 		else {
@@ -227,7 +226,6 @@ public class BuildController extends BuildFrame implements ActionListener {
 		});
 	}
 	
-	//TODO: Move to a common place to be used here and in Battle
 	public WeaponType[][] emptyWeaponMatrix() {
 		WeaponType[][] weaponMatrix = new WeaponType[getPanel().getNumLines()][getPanel().getNumColumns()];
 		for (int i = 0; i < getPanel().getNumLines(); i++) {
@@ -238,7 +236,6 @@ public class BuildController extends BuildFrame implements ActionListener {
 		return weaponMatrix;
 	}
 	
-	//TODO: Move to a common place to be used here and in Battle
 	public WeaponType[][] getWeaponMatrix(Player player) {
 		
 		Weapon[] weapons = player.getWeapons();

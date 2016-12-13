@@ -157,7 +157,6 @@ public class BattleController extends BattleFrame implements ActionListener, Obs
 		return atackMatrix;
 	}
 	
-	//TODO: Move to a common place to be used here and in Build
 	public WeaponType[][] emptyWeaponMatrix() {
 		WeaponType[][] weaponMatrix = new WeaponType[getFirstBoardPanel().getNumLines()][getFirstBoardPanel().getNumColumns()];
 		for (int i = 0; i < getFirstBoardPanel().getNumLines(); i++) {
@@ -168,7 +167,6 @@ public class BattleController extends BattleFrame implements ActionListener, Obs
 		return weaponMatrix;
 	}
 	
-	//TODO: Move to a common place to be used here and in Build
 	public WeaponType[][] getWeaponMatrix(Player player) {
 		
 		Weapon[] weapons = player.getWeapons();

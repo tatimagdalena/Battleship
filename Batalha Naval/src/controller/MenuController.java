@@ -4,7 +4,7 @@ package controller;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MenuController implements ActionListener/*, ItemListener*/ {
+public class MenuController implements ActionListener {
 
     private String newline = "\n";
     

@@ -135,10 +135,11 @@ public class GameController {
 
 		JOptionPane.showMessageDialog(gamePresenter.getBattleFrame(), dialogMessage);
 		
-		JOptionPane.showMessageDialog(gamePresenter.getBattleFrame(), dialogMessage, "Fim de jogo!", 0);
-		
 		game = null;
 		game = new Game();
+		
+		gamePresenter.closeBattle();
+		gamePresenter.initiateGame();
 	}
 	
 	public void saveGame() {
@@ -148,7 +149,6 @@ public class GameController {
 		System.out.println(gameString);
 		
 		JFileChooser chooser = new JFileChooser();
-//	    chooser.setCurrentDirectory(new File("/"));
 	    int result = chooser.showSaveDialog(null);
 	    if (result == JFileChooser.APPROVE_OPTION) {
 	        try {
@@ -228,7 +228,7 @@ public class GameController {
 				case destroyer: w = new Destroyer(t); break;
 				case hidroaviao: w = new Hidroaviao(t); break;
 				case submarino: w = new Submarino(t); break;
-				default: w = new Weapon(t, WeaponType.generico); break; //TODO:
+				default: w = new Weapon(t, WeaponType.generico); break;
 				}
 				w.setNumHitSquares(Integer.parseInt(scanner.next()));
 				w.setPosition(Integer.parseInt(scanner.next()));;
