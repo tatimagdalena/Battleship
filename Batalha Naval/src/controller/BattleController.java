@@ -29,6 +29,11 @@ public class BattleController extends BattleFrame implements ActionListener {
 		menuController.createAndShowGUI(this);
 		menuController.enableSaving(true);
 		menuController.enableReloading(false);
+
+		AtackType[][] firstAtackMatrix = getAtackMatrix(GameController.getMainGameManager().getWaitingPlayer(), GameController.getMainGameManager().getActivePlayer());
+		AtackType[][] secondAtackMatrix = getAtackMatrix(GameController.getMainGameManager().getActivePlayer(), GameController.getMainGameManager().getWaitingPlayer());
+		getFirstBoardPanel().updateAtackBoard(firstAtackMatrix);
+		getSecondBoardPanel().updateAtackBoard(secondAtackMatrix);
 	}
 	
 	@Override
@@ -174,7 +179,7 @@ public class BattleController extends BattleFrame implements ActionListener {
 		return atackMatrix;
 	}
 	
-	//TODO: Move to a common place to be used here and in Battle
+	//TODO: Move to a common place to be used here and in Build
 	public WeaponType[][] emptyWeaponMatrix() {
 		WeaponType[][] weaponMatrix = new WeaponType[getFirstBoardPanel().getNumLines()][getFirstBoardPanel().getNumColumns()];
 		for (int i = 0; i < getFirstBoardPanel().getNumLines(); i++) {
@@ -185,7 +190,7 @@ public class BattleController extends BattleFrame implements ActionListener {
 		return weaponMatrix;
 	}
 	
-	//TODO: Move to a common place to be used here and in Battle
+	//TODO: Move to a common place to be used here and in Build
 	public WeaponType[][] getWeaponMatrix(Player player) {
 		
 		Weapon[] weapons = player.getWeapons();

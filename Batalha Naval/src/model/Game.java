@@ -2,6 +2,8 @@ package model;
 
 public class Game {
 
+	private GameStage gameStage;
+	
 	private Player player1;
 	private Player player2;
 	
@@ -77,16 +79,28 @@ public class Game {
 		return activePlayer;
 	}
 	
+	public GameStage getGameStage() {
+		return gameStage;
+	}
+	
+	public void setGameStage(GameStage stage) {
+		this.gameStage = stage;
+	}
+	
 	@Override
 	public String toString() {
 		
 		String s;
 		
-		s = "JOGADOR ATIVO:"
+		s = 	/*"ETAPA ATUAL:"
+				+ gameStage.name()
+				+ "\n"
+				+ */
+				"ATIVO:"
 				+ "\n"
 				+ getActivePlayer().toString()
 				+ "\n" //blank line between players
-				+ "JOGADOR EM ESPERA:"
+				+ "ESPERA:"
 				+ "\n"
 				+ getWaitingPlayer().toString();
 		

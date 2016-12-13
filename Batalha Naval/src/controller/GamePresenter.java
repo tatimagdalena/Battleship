@@ -37,6 +37,7 @@ public class GamePresenter {
 		playersNamingFrame = new NamingFrame();
 		playersNamingFrame.setTitle("Batalha Naval"); 
 		playersNamingFrame.setVisible(true);
+		GameController.getMainGameManager().setGameStage(GameStage.naming);
 	}
 	
 	/**
@@ -53,6 +54,7 @@ public class GamePresenter {
 	public void showPositioning() {
 		GameController.getMainGameManager().setActivePlayer(PlayerTurn.first);
 		positioningFrame = new BuildController();
+		GameController.getMainGameManager().setGameStage(GameStage.positioning);
 	}
 	
 	/**
@@ -78,11 +80,26 @@ public class GamePresenter {
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
 		GameController.getMainGameManager().setActivePlayer(PlayerTurn.first);
+		GameController.getMainGameManager().setGameStage(GameStage.battle);
+	}
+	
+	/**
+	 * Presents battle frame from previously saved game.
+	 */
+	public void showOngoingBattle() {
+		playersNamingFrame.setVisible(false);
+		if(positioningFrame !=  null) {
+			positioningFrame.setVisible(false);
+		}
+		battleFrame = new BattleController();
+		battleFrame.setTitle("Batalha Naval");
+		battleFrame.setVisible(true);
+		
+		
 	}
 	
 	public BattleFrame getBattleFrame() {
 		return battleFrame;
 	}
-
 	
 }

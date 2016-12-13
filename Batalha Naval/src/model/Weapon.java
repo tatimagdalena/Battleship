@@ -95,7 +95,7 @@ public class Weapon {
 	 * @param position the position the boat will be in. Generaly 0 is horizontal and 1 is vertical.
 	 * for hidroplane 0 is basic and each +1 rotates 90 degrees
 	 */
-	private void setPosition(int position){
+	public void setPosition(int position){
 		this.position = position;
 	}
 	
@@ -178,32 +178,59 @@ public class Weapon {
 		numHitSquares++;
 	}
 	
+	public void setNumHitSquares(int n) {
+		numHitSquares = n;
+	}
+	
 	@Override
 	public String toString() {
 		String s;
 		
-		s = 	tag
+		s = 	type.name()
 				+ " "
-				+ width
+				+ tag
 				+ " "
-				+ height
-				+ " "
-				+numPositions
+//				+ width
+//				+ " "
+//				+ height
+//				+ " "
+//				+ numSquares
+//				+ " "
+				+ numHitSquares
 				+ " "
 				+ position
-				+ " "
-				+ numSquares
-				+ " "
-				+ numHitSquares
+				+ "\n"
+				+ sunk.toString()
+				+ "\n"
+//				+ numPositions
+//				+ " "
+				+ initialCoordinate.toString()
 				+ " ";
+				
+				
+//		Coordinate[] absolutePositions = getBoatPositions(position);
+//		
+//		for(Coordinate coord: absolutePositions) {
+//			s = 	s
+//					+ coord.toString()
+//					+ " ";
+//		}
 		
 		return s;
 	}
 	
-//	public static Weapon fromString(String s) {
-//		
-//		
-//		
-//	}
-	
+	public Coordinate[] getRelativePositions() {
+		
+		Coordinate[] absolutePositions = getBoatPositions(position);
+		Coordinate[] relativePositions = new Coordinate[absolutePositions.length];
+		
+		for(int i = 0; i < absolutePositions.length; i++) {
+			Coordinate absPos = absolutePositions[i];
+			Coordinate relPos = new Coordinate(absPos.getX() + initialCoordinate.getX(), absPos.getY() - initialCoordinate.getY());
+			relativePositions[i] = relPos;
+		}
+		
+		return relativePositions;
+	}
+
 }

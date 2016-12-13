@@ -17,7 +17,6 @@ public class BattleFrame extends JFrame {
 	
 	public BattleFrame() {
 		
-		
 		ScreenDimensions screen = ScreenDimensions.getScreenDimensions();
 		setSize(screen.screenIntWidth, screen.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 

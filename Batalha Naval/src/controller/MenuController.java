@@ -67,20 +67,27 @@ public class MenuController implements ActionListener/*, ItemListener*/ {
                    + "    Event source: " + source.getText();
         System.out.println(s);
         
-        if(source.getClass().getName() == "Salvar") {
+        if(source.getText() == "Salvar") {
         	onPressingSave();
         }
-        else if (source.getClass().getName() == "Abrir") {
+        else if (source.getText() == "Abrir") {
         	onPressingOpen();
         }
     }
 
     private void onPressingSave() {
-    	
+    	GameController gameManager = GameController.getMainGameManager();
+    	gameManager.saveGame();
     }
     
     private void onPressingOpen() {
+    	GameController gameManager = GameController.getMainGameManager();
+    	Boolean reloadStatus = gameManager.reloadGame();
     	
+    	if(reloadStatus == true) {
+    		GamePresenter gamePresenter = GamePresenter.getMainGamePresenter();
+    		gamePresenter.showOngoingBattle();
+    	}
     }
 
     /**
@@ -94,16 +101,10 @@ public class MenuController implements ActionListener/*, ItemListener*/ {
     }
     
     public void enableSaving(Boolean b) {
-    	saveItem.setEnabled(b);
-    	parentFrame.getJMenuBar().getMenu(0).removeAll();
-    	parentFrame.getJMenuBar().getMenu(0).add(saveItem);
-    	parentFrame.getJMenuBar().getMenu(0).add(reloadItem);
+    	parentFrame.getJMenuBar().getMenu(0).getItem(0).setEnabled(b);
     }
     
     public void enableReloading(Boolean b) {
-    	reloadItem.setEnabled(b);
-    	parentFrame.getJMenuBar().getMenu(0).removeAll();
-    	parentFrame.getJMenuBar().getMenu(0).add(saveItem);
-    	parentFrame.getJMenuBar().getMenu(0).add(reloadItem);    	
+    	parentFrame.getJMenuBar().getMenu(0).getItem(1).setEnabled(b);
     }
 }

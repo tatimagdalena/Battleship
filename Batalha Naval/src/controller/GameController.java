@@ -1,8 +1,12 @@
 package controller;
 
+import java.io.*;
+import java.util.Scanner;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import model.*;
+import model.weapons.*;
 
 public class GameController {
 
@@ -27,6 +31,14 @@ public class GameController {
 			gameManager = new GameController();
 		}
 		return gameManager;
+	}
+	
+	public GameStage getGameStage() {
+		return game.getGameStage();
+	}
+	
+	public void setGameStage(GameStage stage) {
+		game.setGameStage(stage);
 	}
 	
 	/**
@@ -131,6 +143,114 @@ public class GameController {
 	
 	public void saveGame() {
 		
+		String gameString = game.toString();
+		
+		System.out.println(gameString);
+		
+		JFileChooser chooser = new JFileChooser();
+//	    chooser.setCurrentDirectory(new File("/"));
+	    int result = chooser.showSaveDialog(null);
+	    if (result == JFileChooser.APPROVE_OPTION) {
+	        try {
+	            FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt");
+	            fw.write(gameString);
+	            fw.close();
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+	
+	public Boolean reloadGame() {
+		JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+        	
+        	Scanner scanner = null;
+        	
+        	try {
+        		scanner = new Scanner(new BufferedReader(new FileReader(chooser.getSelectedFile())));
+        		readGameSavedData(scanner);
+
+        	} catch (Exception ex) {
+        		ex.printStackTrace();
+        	} finally {
+        		if (scanner != null) { 
+        			scanner.close();
+        		}
+        	}
+        	return true;
+        }
+        return false;
+	}
+	
+	public void readGameSavedData(Scanner scanner) {
+			
+		game = new Game();
+		
+		for(int j = 0; j < 2; j ++) {
+
+			String marker = scanner.next(); //"ATIVO:" or "ESPERA:"
+
+			PlayerTurn turn = PlayerTurn.valueOf(scanner.next());
+			String trash = scanner.nextLine();
+			String name = scanner.nextLine();
+			Player p = null;
+			if(turn == PlayerTurn.first) {
+				game.setPlayer1(name);
+			}
+			else {
+				game.setPlayer2(name);
+			}
+			if(marker.equals("ATIVO:")) {
+				game.setActiveTurn(turn);
+				p = game.getActivePlayer();
+			}
+			else {
+				p = game.getWaitingPlayer();
+			}
+
+			marker = scanner.next(); //"restam:"
+
+			String remainingShots = scanner.next();
+			p.setShots(Integer.parseInt(remainingShots));
+
+
+			marker = scanner.next(); //"ARMAS:":
+
+			for(int i = 0; i < 15; i++) {
+				WeaponType wt = WeaponType.valueOf(scanner.next());
+				int t = Integer.parseInt(scanner.next());
+				Weapon w = null;
+				switch(wt) {
+				case couracado: w = new Couracado(t); break;
+				case cruzador: w =  new Cruzador(t); break;
+				case destroyer: w = new Destroyer(t); break;
+				case hidroaviao: w = new Hidroaviao(t); break;
+				case submarino: w = new Submarino(t); break;
+				default: w = new Weapon(t, WeaponType.generico); break; //TODO:
+				}
+				w.setNumHitSquares(Integer.parseInt(scanner.next()));
+				w.setPosition(Integer.parseInt(scanner.next()));;
+				w.setSunk(Boolean.valueOf(scanner.next()));
+				int ix = Integer.parseInt(scanner.next());
+				int iy = Integer.parseInt(scanner.next());
+				w.setInitialCoordinate(new Coordinate(ix, iy));
+				p.addWeapon(w);
+			}
+
+
+			marker = scanner.next(); //"ATAQUES:":
+
+			int atackAmount = Integer.parseInt(scanner.next());
+			for(int i = 0; i < atackAmount; i++) {
+				int x = Integer.parseInt(scanner.next());
+				int y = Integer.parseInt(scanner.next());
+				Coordinate atack = new Coordinate(x,y);
+				p.appendToAtacks(atack);
+			}
+		}	
+		System.out.println("fim leitura");
 	}
 	
 }

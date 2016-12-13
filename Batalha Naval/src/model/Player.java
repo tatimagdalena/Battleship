@@ -107,6 +107,10 @@ public class Player {
 		shots--;
 	}
 	
+	public void appendToAtacks(Coordinate atack) {
+		atacks.add(atack);
+	}
+	
 	/**
 	 * Check for the coordinate where the player wants to place the weapon if it can be inserted.
 	 * The boat cannot be placed right next to other boat or on the direct diagonal. 
@@ -217,18 +221,33 @@ public class Player {
 			+ "\n"
 			+ name
 			+ "\n"
+			+ "restam:"
+			+ "\n"
+			+ shots
+			+ "\n"
 			+ "ARMAS:";
 		
 		for(Weapon weapon: weapons) {
-			s = s
-				+ "\n"
-				+ weapon.toString();
+			
+			if(weapon != null) {
+				s = s
+					+ "\n"
+					+ weapon.toString();
+			}
+			else {
+				s = s
+					+ "\n"
+					+ "null";
+			}
 		}
 				
 		s = s
 			+ "\n"
-			+ "ATAQUES"
-			+ "\n";
+			+ "ATAQUES:"
+			+ "\n"
+			+ atacks.size()
+			+ " ";
+			
 			
 		for(Coordinate atack: atacks) {
 			s = s

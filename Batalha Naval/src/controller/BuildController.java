@@ -31,7 +31,7 @@ public class BuildController extends BuildFrame implements ActionListener {
 		getTurnButton().addActionListener(this);
 		
 		menuController.createAndShowGUI(this);
-		menuController.enableSaving(true);
+		menuController.enableSaving(false);
 		menuController.enableReloading(true);
 	}
 	
