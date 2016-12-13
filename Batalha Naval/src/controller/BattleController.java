@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import model.AtackType;
 import model.Coordinate;
@@ -14,7 +16,7 @@ import model.WeaponType;
 import view.BattleFrame;
 
 @SuppressWarnings("serial")
-public class BattleController extends BattleFrame implements ActionListener {
+public class BattleController extends BattleFrame implements ActionListener, Observer {
 
 	BattleController() {
 		super();
@@ -96,9 +98,8 @@ public class BattleController extends BattleFrame implements ActionListener {
 			int column = y/25;
 			Coordinate selectedCoord = new Coordinate(line, column);
 			Player currentPlayer = gameManager.getActivePlayer();
-			Player opponentPlayer = gameManager.getWaitingPlayer();
 			
-			onNewAtack(currentPlayer, opponentPlayer, selectedCoord);
+			onNewAtack(currentPlayer, selectedCoord);
 					
 			if(gameManager.checkEndOfGame() == true) {
 				gameManager.endGame();
@@ -110,45 +111,20 @@ public class BattleController extends BattleFrame implements ActionListener {
 		}		
 	}
 	
-	public void onNewAtack(Player currentPlayer, Player opponentPlayer, Coordinate selectedCoord) {
+	/**
+	 * On Realizing new attack calls the function
+	 * @param currentPlayer Player making attack
+	 * @param opponentPlayer Victim
+	 * @param selectedCoord Selected Attack coordinate
+	 */
+	public void onNewAtack(Player currentPlayer, Coordinate selectedCoord) {
 		
-		ArrayList<Coordinate> atacks = currentPlayer.getAtacks();
 		if(currentPlayer.getAtacks().contains(selectedCoord)) {
 			return;
 		}
 		
 		currentPlayer.setNewAtack(selectedCoord);
-		String hitResult = "";
-		String playerInstruction = "Vez de " + currentPlayer.getName() + ": " + currentPlayer.getShotsLeft() + " tiros restantes";
-		atacks = currentPlayer.getAtacks();
-		AtackType[][] atackMatrix =  emptyAtackMatrix();
 		
-		for(Coordinate atack: atacks) {
-			Weapon hitWeapon = opponentPlayer.getHitWeapon(atack);
-			if(hitWeapon != null) {
-				atackMatrix[atack.getX() - 1][atack.getY() - 1] = AtackType.hit;
-				if(atack.equals(selectedCoord)) {
-					//if it is the current atack, update hit squares and result label.
-					hitWeapon.incrementHitSquares();
-					if(hitWeapon.getNumHitSquares() == hitWeapon.getNumSquares()) {
-						hitResult = "Afundou " + hitWeapon.getWeaponType().name() + "! ";
-						hitWeapon.setSunk(true);
-					}
-					else {
-						hitResult = "Atingiu " + hitWeapon.getWeaponType().name() + " (" + hitWeapon.getNumHitSquares() + "/" + hitWeapon.getNumSquares() + ")" + "! ";
-					}
-				}
-			}
-			else {
-				atackMatrix[atack.getX() - 1][atack.getY() - 1] = AtackType.water;
-				if(atack.equals(selectedCoord)) {
-					hitResult = "Atingiu água :( ";					
-				}
-			}
-		}
-		
-		setInstruction(hitResult + playerInstruction);
-		getSecondBoardPanel().updateAtackBoard(atackMatrix);
 	}
 	
 	public AtackType[][] emptyAtackMatrix() {
@@ -209,5 +185,61 @@ public class BattleController extends BattleFrame implements ActionListener {
 			}
 		}
 		return weaponMatrix;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {		
+		Coordinate selectedCoord;
+		if(arg instanceof Coordinate){
+			selectedCoord = (Coordinate) arg;
+			viewUpdate(selectedCoord);
+		} else {
+			System.out.println("Observer passing wrong variable type...");
+			return;
+		}
+		
+	}
+	
+	/**
+	 * Realizes the view update when the observer calls it.
+	 * @param selectedCoord
+	 */
+	private void viewUpdate(Coordinate selectedCoord){
+		Player currentPlayer = GameController.getMainGameManager().getActivePlayer();
+		Player opponentPlayer = GameController.getMainGameManager().getWaitingPlayer();
+		
+		ArrayList<Coordinate> atacks = currentPlayer.getAtacks();
+		
+		String hitResult = "";
+		String playerInstruction = "Vez de " + currentPlayer.getName() + ": " + currentPlayer.getShotsLeft() + " tiros restantes";
+		atacks = currentPlayer.getAtacks();
+		AtackType[][] atackMatrix =  emptyAtackMatrix();
+		
+		for(Coordinate atack: atacks) {
+			Weapon hitWeapon = opponentPlayer.getHitWeapon(atack);
+			if(hitWeapon != null) {
+				atackMatrix[atack.getX() - 1][atack.getY() - 1] = AtackType.hit;
+				if(atack.equals(selectedCoord)) {
+					//if it is the current atack, update hit squares and result label.
+					hitWeapon.incrementHitSquares();
+					if(hitWeapon.getNumHitSquares() == hitWeapon.getNumSquares()) {
+						hitResult = "Afundou " + hitWeapon.getWeaponType().name() + "! ";
+						hitWeapon.setSunk(true);
+					}
+					else {
+						hitResult = "Atingiu " + hitWeapon.getWeaponType().name() + " (" + hitWeapon.getNumHitSquares() + "/" + hitWeapon.getNumSquares() + ")" + "! ";
+					}
+				}
+			}
+			else {
+				atackMatrix[atack.getX() - 1][atack.getY() - 1] = AtackType.water;
+				if(atack.equals(selectedCoord)) {
+					hitResult = "Atingiu água :( ";					
+				}
+			}
+		}
+		
+		setInstruction(hitResult + playerInstruction);
+		getSecondBoardPanel().updateAtackBoard(atackMatrix);
 	}
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Observer;
+
 import model.*;
 import view.*;
 
@@ -8,8 +10,8 @@ public class GamePresenter {
 	private static GamePresenter gamePresenter = null;
 	
 	private NamingFrame playersNamingFrame;
-	private BuildFrame positioningFrame;
-	private BattleFrame battleFrame;
+	private BuildController positioningFrame;
+	private BattleController battleFrame;
 	
 	/**
 	 * Initializes the facade
@@ -79,6 +81,11 @@ public class GamePresenter {
 		battleFrame = new BattleController();
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
+		GameController gameManager = GameController.getMainGameManager();
+		gameManager.getPlayer1().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
+		gameManager.getPlayer2().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
+
+		
 		GameController.getMainGameManager().setActivePlayer(PlayerTurn.first);
 		GameController.getMainGameManager().setGameStage(GameStage.battle);
 	}

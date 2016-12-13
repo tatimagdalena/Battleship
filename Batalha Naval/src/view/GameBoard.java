@@ -83,10 +83,6 @@ public class GameBoard extends JPanel {
 		return numColumns;
 	}
 	
-//	public void setCoordColor(int i, int j, Color color){
-//		colorMatrix[i-1][j-1] = color;		
-//	}
-	
 	public void updatePlayerBoard(WeaponType[][] weaponMatrix) {
 		for (int i = 0; i < this.getNumLines(); i++){
 			for (int j = 0 ; j < this.getNumColumns(); j++ ){
