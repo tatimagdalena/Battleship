@@ -102,6 +102,10 @@ public class GamePresenter {
 		battleFrame.setTitle("Batalha Naval");
 		battleFrame.setVisible(true);
 		
+		GameController gameManager = GameController.getMainGameManager();
+		gameManager.getPlayer1().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
+		gameManager.getPlayer2().addObserver((Observer) GamePresenter.getMainGamePresenter().getBattleFrame());
+		
 		
 	}
 	
